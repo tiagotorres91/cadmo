@@ -26,4 +26,4 @@ Classify the engagement on three axes — they decide which layers you install:
 
 The instance is "assembled" when it has: an `AGENTS.md` / local map, the value gate on, a declared harness, and demands with a home — plus, where they apply, the operations, governance and collaboration layers.
 
-The radar item: turn this into a CLI that scaffolds a new instance (`cadmo init`).
+This is what `npm create cadmo` does — it scaffolds a new instance (the map, the templates, the drift guard, the slash commands) in one command. Running it *is* step 3 (Context) of the assembly line.

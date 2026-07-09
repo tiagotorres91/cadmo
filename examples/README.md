@@ -24,3 +24,8 @@ The cast: a two-person consultancy maintains the app for a client; the AI pair d
 - The critical criterion in EARS became a test **almost word for word** (see the spec's criterion #2 and imagine the assertion — that's the trick).
 - "Done" included **saying what wasn't tested.** That sentence is the cheapest trust-builder in the method.
 - The spec **didn't live forever as a separate file** — it was absorbed into the system's stable documentation on delivery. One subject, one source.
+
+## More walkthroughs
+
+- **[incident.md](incident.md)** — the Operations pillar: an incident through the four labels (symptom → cause → correction → prevention), and why the prevention must leave the system *more diagnosable*.
+- **[ai-feature.md](ai-feature.md)** — the Measure pillar: an AI feature gated by an eval, where "the demo looked great" is not evidence and a regression doesn't ship.

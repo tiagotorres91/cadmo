@@ -17,6 +17,6 @@ jobs:
           # Excludes: cadmo.dev (not pointed yet — roadmap item) · npmjs.com (403 to non-browser
           # clients) · img.shields.io (decorative badges, generated on-demand, prone to 408 timeouts).
           # All false positives — decorative or bot-hostile, not documentation integrity. Everything else strict.
-          args: --no-progress --include-fragments --exclude 'cadmo\.dev' --exclude 'npmjs\.com' --exclude 'shields\.io' './**/*.md'
+          args: --no-progress --include-fragments --max-retries 4 --retry-wait-time 3 --exclude 'cadmo\.dev' --exclude 'npmjs\.com' --exclude 'shields\.io' './**/*.md'
           fail: true
           token: ${{ secrets.GITHUB_TOKEN }}

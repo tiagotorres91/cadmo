@@ -14,8 +14,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: lycheeverse/lychee-action@v2
         with:
-          # Excludes: cadmo.dev (not pointed yet — roadmap item) · npmjs.com (returns 403 to
-          # non-browser clients — false positive, the package page is live). Everything else strict.
-          args: --no-progress --include-fragments --exclude 'cadmo\.dev' --exclude 'npmjs\.com' './**/*.md'
+          # Excludes: cadmo.dev (not pointed yet — roadmap item) · npmjs.com (403 to non-browser
+          # clients) · img.shields.io (decorative badges, generated on-demand, prone to 408 timeouts).
+          # All false positives — decorative or bot-hostile, not documentation integrity. Everything else strict.
+          args: --no-progress --include-fragments --exclude 'cadmo\.dev' --exclude 'npmjs\.com' --exclude 'shields\.io' './**/*.md'
           fail: true
           token: ${{ secrets.GITHUB_TOKEN }}

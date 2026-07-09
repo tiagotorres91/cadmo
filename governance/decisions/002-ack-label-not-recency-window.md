@@ -1,4 +1,4 @@
-# ADR 004 — Collaboration inbox: ack label, not a recency window
+# ADR 002 — Collaboration inbox: ack label, not a recency window
 
 **Status:** accepted · **Date:** 2026-07-09 · **Deciders:** maintainer + collaborator pairs (from a real failure)
 

@@ -74,7 +74,7 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 
 ## Governance of this repo
 
-Does the framework have the artifacts the framework proposes? **Yes — real ones.** [`governance/`](governance/) holds this project's own value gate, its decision records (the name, the authorship, the npm strategy, a protocol fix born from a real failure — with the alternatives that actually lost), and its validation log (including the adversarial review that found this repo's own gaps). The non-fictional companion to [`examples/`](examples/).
+Does the framework have the artifacts the framework proposes? **Yes — real ones.** [`governance/`](governance/) holds this project's own value gate, its decision records (with the alternatives that actually lost — including a protocol fix born from a real failure), and its validation log (including the adversarial review that found this repo's own gaps). The non-fictional companion to [`examples/`](examples/).
 
 ## Roadmap
 

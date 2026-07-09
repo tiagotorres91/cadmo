@@ -1,4 +1,4 @@
-# ADR 003 — npm name: `create-cadmo` (the bare name is frozen, and that's fine)
+# ADR 001 — npm name: `create-cadmo` (the bare name is frozen, and that's fine)
 
 **Status:** accepted · **Date:** 2026-07-09 · **Deciders:** Tiago Torres
 

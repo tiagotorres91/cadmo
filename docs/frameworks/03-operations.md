@@ -13,3 +13,5 @@
 **Security posture runs through all five pillars:** secrets live in vaults and never in code or transcripts; access is least-privilege and deny-by-default; authorization gates fail closed; sensitive actions leave tamper-evident trails. None of this gets less necessary as AI writes better code — the attack surface is mostly *around* the code (config, permissions, data flows), and that's operated, not generated. The full map — six surfaces, activation rules, and the scars — is the [security surface protocol](../security-surface.md).
 
 An incident doesn't require a spec (it's reactive) — but if the fix changes a business rule, the stable spec updates in the same commit.
+
+**Templates:** a [runbook](../../templates/runbook.md) (trigger → diagnose → act → rollback → escalate) for the Respond pillar, and an [SLO](../../templates/slo.md) (target + error budget + burn policy) for Observe/Improve. For regulated clients, [`docs/compliance-map.md`](../compliance-map.md) maps these artifacts to ISO/IEC 42001, NIST AI RMF and the EU AI Act control families — it *supports* evidence, it never claims certification.

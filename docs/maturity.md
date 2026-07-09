@@ -22,3 +22,7 @@ Most solo work is fine at 2. Client work deserves 3. If your client is a corpora
 > **Two ladders, don't confuse them:** this one rates *how you build software*. There's a second maturity test — rating *the client's business processes* to find what deserves to become a system at all (the golden rule: automation requires a standardized process). That one lives in [Management](frameworks/01-management.md).
 
 **Honest self-assessment beats aspiration:** most AI-assisted teams today are at 0, and the industry's governance pain lives exactly there. The ladder isn't a judgment — it's a map.
+
+## Measure it, don't guess
+
+`node tools/cadmo-score.mjs` runs ~11 local checks against your repo and prints your level, the gaps, and the single next rung — leading with the gaps, never the number. Set a `targetLevel` in [`cadmo.json`](../cadmo.json) and it exits non-zero below target, so CI can hold the line (this repo dogfoods it: it self-checks to Governed on every push). `--json` for tooling.

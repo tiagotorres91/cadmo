@@ -29,3 +29,4 @@ The cast: a two-person consultancy maintains the app for a client; the AI pair d
 
 - **[incident.md](incident.md)** — the Operations pillar: an incident through the four labels (symptom → cause → correction → prevention), and why the prevention must leave the system *more diagnosable*.
 - **[ai-feature.md](ai-feature.md)** — the Measure pillar: an AI feature gated by an eval, where "the demo looked great" is not evidence and a regression doesn't ship.
+- **[eval-kit/](eval-kit/)** — the runnable version of that: a promptfoo config + a CI workflow that fails the PR on a regression. Copy the shape onto your own AI feature.

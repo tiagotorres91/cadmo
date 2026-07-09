@@ -125,10 +125,11 @@ Does the framework have the artifacts the framework proposes? **Yes — real one
 
 ## Roadmap
 
-- ✅ `npm create cadmo` — scaffold the method into a project (now with the drift guard + Claude Code slash commands)
-- ✅ Spec-drift enforcement — [the mechanism](docs/spec-drift.md), dogfooded on this repo
-- ⏳ cadmo.dev — the method as a browsable site
-- ⏳ More worked examples (an AI feature with evals; an incident end to end)
+- ✅ `npm create cadmo` — scaffold the method into a project (drift guard + Claude Code slash commands)
+- ✅ Spec-drift enforcement — [the mechanism](docs/spec-drift.md), with an opt-in reviewed-state (`--stamp` / SUSPECT) layer, dogfooded on this repo
+- ✅ `node tools/cadmo-score.mjs` — [the maturity ladder](docs/maturity.md) as a self-check · `cadmo-validate` — pin a client approval to the exact version
+- ✅ Worked examples across all five pillars, incl. a [runnable eval kit](examples/eval-kit/) and an [incident](examples/incident.md); ops [runbook](templates/runbook.md)/[SLO](templates/slo.md) + a [compliance map](docs/compliance-map.md)
+- ⏳ cadmo.dev — the method as a browsable site · a Claude Code plugin + cross-agent skill pack
 - 💬 Ideas and war stories → [Discussions](https://github.com/tiagotorres91/cadmo/discussions)
 
 ## License & attribution

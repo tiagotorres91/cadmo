@@ -16,6 +16,10 @@ jobs:
         run: bash scripts/check-template-sync.sh
       - name: spec-drift behavioral tests (the moat is tested, not just syntax-checked)
         run: node --test test/spec-drift.test.js
+      - name: cadmo tooling tests (score + validate)
+        run: node --test test/cadmo-score.test.js test/cadmo-validate.test.js
+      - name: maturity self-check (dogfood — fails if this repo drops below its targetLevel)
+        run: node tools/cadmo-score.mjs
       - name: smoke-test the scaffolder
         working-directory: npm
         run: node --test

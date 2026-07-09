@@ -31,11 +31,22 @@ function run(dir) {
     return 0;
   } catch (e) { return e.status ?? 1; }
 }
+function stamp(dir, specRel) {
+  execFileSync('node', [DRIFT, '--stamp', specRel], { cwd: dir, encoding: 'utf8' });
+}
+function read(dir, rel) { return fs.readFileSync(path.join(dir, rel), 'utf8'); }
+function append(dir, rel, body) { fs.appendFileSync(path.join(dir, rel), body); }
+// setup.stampSpec (optional): after the base commit, --stamp that spec and commit
+// the stamp on main, so `reviewed:` is part of the base the feature branches from.
 function repo(setup) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
   git(dir, 'init', '-q', '-b', 'main');
   setup.base(dir);
   git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  if (setup.stampSpec) {
+    stamp(dir, setup.stampSpec);
+    git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'stamp');
+  }
   git(dir, 'checkout', '-qb', 'feature');
   setup.change(dir);
   git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'change');
@@ -104,4 +115,63 @@ test('no specs with watches -> OK', () => {
     change: d => write(d, 'src/a.js', 'v2'),
   });
   assert.strictEqual(run(dir), 0);
+});
+
+// --- v2: reviewed-state / SUSPECT ---
+
+test('--stamp writes a reviewed: sha256 into the spec front matter', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'main');
+  write(dir, 'docs/s.md', spec(['src/**']));
+  write(dir, 'src/a.js', 'v1');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  stamp(dir, 'docs/s.md');
+  const m = read(dir, 'docs/s.md').match(/^reviewed:\s*([0-9a-f]{64})\s*$/m);
+  assert.ok(m, 'spec should carry a reviewed: <64-hex> line after --stamp');
+  // watches list is preserved alongside the new key
+  assert.match(read(dir, 'docs/s.md'), /watches:/);
+});
+
+test('SUSPECT: watched file changed since stamp fires even when the spec was also edited', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    stampSpec: 'docs/s.md',
+    // edit the spec (silences DRIFT) but KEEP its reviewed: hash, and change watched code
+    change: d => { append(d, 'docs/s.md', 'edited\n'); write(d, 'src/a.js', 'v2'); },
+  });
+  assert.strictEqual(run(dir), 1, 'watched code changed since the stamp -> SUSPECT despite the spec edit');
+});
+
+test('a spec WITHOUT reviewed: does NOT get SUSPECT (opt-in)', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    // spec edited together with watched code -> no DRIFT; and no reviewed: -> no SUSPECT
+    change: d => { append(d, 'docs/s.md', 'edited\n'); write(d, 'src/a.js', 'v2'); },
+  });
+  assert.strictEqual(run(dir), 0);
+});
+
+test('--stamp then no watched change -> in sync (exit 0)', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    stampSpec: 'docs/s.md',
+    // only an unwatched file moves; watched hash still matches the stamp
+    change: d => write(d, 'other.txt', 'v2'),
+  });
+  assert.strictEqual(run(dir), 0);
+});
+
+test('CRLF working tree does not cause a false SUSPECT (autocrlf + multi-line watched file)', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'main');
+  git(dir, 'config', 'core.autocrlf', 'true');
+  write(dir, 'docs/s.md', spec(['src/**']));
+  write(dir, 'src/a.js', 'l1\r\nl2\r\nl3\r\n'); // multi-line, CRLF
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  stamp(dir, 'docs/s.md');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'stamp');
+  git(dir, 'checkout', '-qb', 'feature');
+  write(dir, 'other.txt', 'v2'); // watched code untouched
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'unrelated');
+  assert.strictEqual(run(dir), 0, 'stamp (working tree) and check (HEAD blob) must hash equal despite CRLF/LF');
 });

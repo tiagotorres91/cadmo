@@ -1,0 +1,38 @@
+# EXAMPLE — copy to .github/workflows/eval.yml in your project, then RETARGET the two
+# paths marked "<< retarget >>" to where YOUR eval config and AI feature live. Copied
+# verbatim it runs against this example's folder, which won't exist in your repo.
+#
+# Runs the AI-feature eval and FAILS the PR on a regression (a required-check pattern):
+# promptfoo exits non-zero when an assert fails, which fails the job, which blocks merge.
+# "A regression does not ship" becomes a branch-protection rule, not a good intention.
+#
+# promptfoo is an external CLI pulled at run time with npx — it is NOT a repo dependency.
+# The model provider needs a key; store it as an Actions secret, never in the file.
+name: eval
+on:
+  pull_request:
+    # Right-sized: only run when the AI feature or its benchmark actually changed.
+    paths:
+      - "eval/**"          # << retarget >> where your promptfooconfig.yaml lives
+      - "src/ai/**"        # << retarget >> your AI feature's source
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: run the eval (non-zero exit on any failed assert = regression)
+        working-directory: eval          # << retarget >> your eval folder
+        env:
+          # Provide the key your provider needs; this example uses Anthropic.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npx --yes promptfoo@latest eval -c promptfooconfig.yaml --output output.json
+      - name: keep the run as history (visible against every prior version)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: eval/output.json          # << retarget >> match working-directory above
+          if-no-files-found: ignore

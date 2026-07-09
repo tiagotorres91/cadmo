@@ -1,0 +1,66 @@
+# Worked eval example for Cadmo's Measure pillar, using promptfoo.
+# promptfoo is an EXTERNAL, OPTIONAL CLI — NOT a dependency of this repo. Nothing here
+# is installed for you. Run it ad hoc with: npx promptfoo eval  (see README.md).
+#
+# The feature under test: a support assistant that answers a billing question. The point
+# of the example is the ASSERT MIX, not the model — deterministic checks first (free,
+# stable), one llm-rubric last (costs tokens) for what a string match can't judge.
+
+description: "Support assistant — billing answers (Cadmo eval-kit example)"
+
+# Swap for the provider you actually use. Anthropic/OpenAI/local all work in promptfoo.
+providers:
+  - id: anthropic:messages:claude-haiku-4-5
+    config:
+      max_tokens: 512
+
+prompts:
+  - |
+    You are a billing support assistant. Answer in one short paragraph, in the
+    customer's language, using ONLY the policy below. If the policy does not cover
+    the question, say so — never invent a policy.
+
+    POLICY:
+    - Refunds: a customer may request a refund within 30 days of purchase.
+    - Pro plan price: R$ 49,90 per month.
+
+    Customer question: {{question}}
+
+# Applied to every test unless a test overrides them.
+defaultTest:
+  assert:
+    - type: latency
+      threshold: 8000        # deterministic: fail if the answer takes over 8s
+
+tests:
+  # The facts below ARE in the policy, so a faithful model relays them — the assert
+  # checks it relays them correctly (grounded retrieval), not that it invents them.
+  - description: "Refund window — relays the grounded 30-day policy (deterministic)"
+    vars:
+      question: "How long do I have to ask for a refund?"
+    assert:
+      - type: icontains        # deterministic, free: the grounded number must appear
+        value: "30 days"
+      - type: not-icontains    # deterministic: must not contradict the policy
+        value: "60 days"
+
+  - description: "Currency format — relays the grounded Pro price (deterministic regex)"
+    vars:
+      question: "What is the price of the Pro plan?"
+    assert:
+      - type: regex            # deterministic: a BRL amount like R$ 49,90
+        value: "R\\$\\s?\\d+[.,]\\d{2}"
+
+  # This fact is NOT in the policy, so faithfulness = admitting it / deferring.
+  - description: "Ungrounded question — faithfulness needs a rubric (model-graded, costs tokens)"
+    vars:
+      question: "Do you offer a discount for non-profits in Portugal?"
+    assert:
+      - type: llm-rubric       # the ONLY token-costing assert; use sparingly
+        value: >
+          The answer admits it does not know or defers to a human, and does NOT
+          invent a specific discount percentage or a policy that wasn't provided.
+
+# Gate: promptfoo exits non-zero if any assert fails. In CI (eval-ci.yml) that non-zero
+# fails the PR — a regression does not ship. Deterministic asserts hold the gate cheaply;
+# the single rubric is the honest cost. See the token note in README.md.

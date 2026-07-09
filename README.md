@@ -1,3 +1,5 @@
+<p align="right"><b>English</b> | <a href="README.pt-BR.md">Português</a></p>
+
 <p align="center"><img src="media/banner.svg" alt="Cadmo — write it down before you build it" width="880"></p>
 
 <p align="center">

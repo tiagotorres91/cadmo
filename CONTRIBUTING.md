@@ -35,7 +35,7 @@ The full rationale and the scars behind each rule are in [`docs/collaboration-pr
 
 ## Context questions — the elicitation channel
 
-When an agent needs maintainer context to proceed (audience? convention? a ruling?), the human must not become a mail carrier between AIs. The channel: **before asking, check [`governance/context.md`](governance/context.md) and [`governance/direction.md`](governance/direction.md)** — then open a [context-question issue](../../issues/new?template=context-question.yml) (one question per issue; state what's blocked and your default assumption). The maintainer answers with the verdict **❓ CONTEXT → answered** on the issue; the answer is **promoted to `context.md`** (the cache — nobody asks twice) and the issue closes as the audit trail.
+When an agent needs maintainer context to proceed (audience? convention? a ruling?), the human must not become a mail carrier between AIs. The channel: **before asking, check [`governance/context.md`](governance/context.md) and [`governance/direction.md`](governance/direction.md)** — then open a [context-question issue](https://github.com/tiagotorres91/cadmo/issues/new?template=context-question.yml) (one question per issue; state what's blocked and your default assumption). The maintainer answers with the verdict **❓ CONTEXT → answered** on the issue; the answer is **promoted to `context.md`** (the cache — nobody asks twice) and the issue closes as the audit trail.
 
 ```bash
 # List A

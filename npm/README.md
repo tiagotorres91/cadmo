@@ -14,4 +14,4 @@ Drops into the current directory, never overwriting anything:
 - `cadmo/plan.md` — the internal route: tasks, constraints, how to validate
 - `cadmo/decision.md` — architecture decisions with a "when to reconsider" trigger
 
-The method, docs and protocols: **https://github.com/tiagotorres91/cadmo** · **https://cadmo.dev**
+The method, docs and protocols: **https://github.com/tiagotorres91/cadmo**

@@ -73,7 +73,7 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 - ✅ `npm create cadmo` — scaffold the method into a project
 - ⏳ cadmo.dev — the method as a browsable site
 - ⏳ More worked examples (an AI feature with evals; an incident end to end)
-- 💬 Ideas and war stories → [Discussions](../../discussions)
+- 💬 Ideas and war stories → [Discussions](https://github.com/tiagotorres91/cadmo/discussions)
 
 ## License & attribution
 

@@ -14,5 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --include-fragments './**/*.md'
+          # cadmo.dev is excluded until the domain is pointed (roadmap item); everything else is checked strictly.
+          args: --no-progress --include-fragments --exclude 'cadmo\.dev' './**/*.md'
           fail: true

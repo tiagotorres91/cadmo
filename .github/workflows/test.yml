@@ -1,0 +1,17 @@
+name: test
+# The CLI is real code that runs on strangers' machines — it gets a real test.
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  cli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: smoke-test the scaffolder
+        working-directory: npm
+        run: node --test

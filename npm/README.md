@@ -14,6 +14,6 @@ Drops into the current directory, never overwriting anything:
 - `cadmo/plan.md` — the internal route: tasks, constraints, how to validate
 - `cadmo/decision.md` — architecture decisions with a "when to reconsider" trigger
 - `cadmo/spec-drift.mjs` + a ready CI workflow — **specs must change with the code they watch** (the drift guard)
-- `.claude/commands/cadmo-*.md` — `/cadmo-gate`, `/cadmo-spec`, `/cadmo-done` slash commands (when Claude Code is detected, or `--claude`)
+- `.claude/commands/cadmo-*.md` — `/cadmo-gate`, `/cadmo-spec`, `/cadmo-done` slash commands (when Claude Code is detected, or `--claude`). **Pick one source for the commands:** if you install the [Cadmo plugin](https://github.com/tiagotorres91/cadmo) (`/plugin install cadmo@cadmo`, which provides `/cadmo:gate` etc.), run the scaffolder with `--no-claude` — otherwise you'll have both spellings.
 
 The method, docs and protocols: **https://github.com/tiagotorres91/cadmo**

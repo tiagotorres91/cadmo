@@ -6,6 +6,9 @@ The level-4 surface, applied to this repository itself. Append-only.
 |---|---|---|---|---|
 | 2026-07-09 | README @ launch (`5614a36`) | Tiago Torres (author, pt-BR read-through) | ✅ approved | hook-first restructure validated before going public |
 | 2026-07-09 | whole repo @ `864407c` | independent adversarial review (fresh-context AI, no shared bias) | 🔧 changes | 8 findings: no CLI tests, template drift risk, four/three doc bug, missing level-4 surface, missing version tag, overlaps not credited, moat not implemented, no distribution. Fixed in the commits that followed — see `git log` from `v0.1.0` |
+| 2026-07-09 | framework-v2 build @ `v0.3.0` | 5 adversarial reviewers (one per initiative, executed the artifacts) | 🔧 changes | 15 findings incl. a Windows CRLF blocker in the reviewed-state hash, an eval example only a hallucinating model could pass, and a validation row landing in the wrong table. All fixed before commit; behavioral tests added |
+| 2026-07-09 | distribution build @ `v0.4.0` | 4 adversarial reviewers (format-checked against the official docs) | 🔧 changes | 14 findings incl. plugin command names derived from filenames (would ship /cadmo:cadmo-gate) and a first-push edge in the action. All fixed; plugin passes `claude plugin validate --strict` |
+| 2026-07-09 | guides ↔ Cadmo coherence @ `v0.4.0` | 5-area coherence audit (canonical internal method vs public distillation) | ✅ approved | 12 principle-level drifts found and reconciled on both sides (incl. two contradictions: SLO stance, "runbook" naming; and plan.md regaining its acceptance-criteria home) |
 
 **Verdicts:** ✅ approved · 🔧 changes requested · 🔁 re-validate.
 

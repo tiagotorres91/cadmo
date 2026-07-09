@@ -1,22 +1,32 @@
 name: links
 # The method preaches mechanical enforcement — the method's own repo gets it too.
 # A broken link in the docs is a failed promise; CI catches it before a reader does.
+# On push/PR we run OFFLINE (internal links + fragments only) so a flaky external host
+# (github.com 5xx, shields.io 408) can never turn the repo red for a content-clean commit.
+# The full external sweep runs weekly, where transient failures don't block anyone.
 on:
   push:
     branches: [main]
   pull_request:
   schedule:
-    - cron: "0 12 * * 1" # weekly: external links rot on their own
+    - cron: "0 12 * * 1"
 jobs:
   linkcheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: lycheeverse/lychee-action@v2
+      - name: internal links + fragments (offline — immune to external flakiness)
+        if: github.event_name != 'schedule'
+        uses: lycheeverse/lychee-action@v2
         with:
-          # Excludes: cadmo.dev (not pointed yet — roadmap item) · npmjs.com (403 to non-browser
-          # clients) · img.shields.io (decorative badges, generated on-demand, prone to 408 timeouts).
-          # All false positives — decorative or bot-hostile, not documentation integrity. Everything else strict.
+          args: --offline --include-fragments './**/*.md'
+          fail: true
+      - name: full check incl. external links (weekly)
+        if: github.event_name == 'schedule'
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Excludes are false positives: cadmo.dev (not pointed yet), npmjs.com (403 to bots),
+          # shields.io (flaky 408). Retries absorb transient github.com 5xx.
           args: --no-progress --include-fragments --max-retries 4 --retry-wait-time 3 --exclude 'cadmo\.dev' --exclude 'npmjs\.com' --exclude 'shields\.io' './**/*.md'
           fail: true
           token: ${{ secrets.GITHUB_TOKEN }}

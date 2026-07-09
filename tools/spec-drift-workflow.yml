@@ -1,8 +1,8 @@
 # Example workflow — copy to .github/workflows/spec-drift.yml in your project.
 # Fails when a file watched by a spec changes and the spec doesn't change with it.
 # Works on pull_request AND on push (so it fires even if you ship straight to main).
-# Escape hatch (audited, never silent): write "spec-drift: skip -- <reason>" in the
-# PR body (PR flow) or the commit message (push flow).
+# Audited escape hatch (never silent): write "spec-drift: skip -- <reason>" in the
+# latest commit message.
 name: spec-drift
 on:
   pull_request:
@@ -10,7 +10,6 @@ on:
     branches: [main]
 jobs:
   drift:
-    if: ${{ !contains(github.event.pull_request.body, 'spec-drift: skip') && !contains(github.event.head_commit.message, 'spec-drift: skip') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +20,10 @@ jobs:
           node-version: "20"
       - name: specs must change with the code they govern
         run: |
+          if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
+            echo "spec-drift: skip found in commit message — skipping."
+            exit 0
+          fi
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="origin/${{ github.base_ref }}"
           else

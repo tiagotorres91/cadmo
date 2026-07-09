@@ -8,7 +8,6 @@ on:
     branches: [main]
 jobs:
   drift:
-    if: ${{ !contains(github.event.pull_request.body, 'spec-drift: skip') && !contains(github.event.head_commit.message, 'spec-drift: skip') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +18,11 @@ jobs:
           node-version: "20"
       - name: docs must change with the tool they describe
         run: |
+          # audited escape hatch: "spec-drift: skip" in the latest commit message
+          if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
+            echo "spec-drift: skip found in commit message — skipping."
+            exit 0
+          fi
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="origin/${{ github.base_ref }}"
           else

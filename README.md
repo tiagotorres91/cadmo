@@ -1,6 +1,20 @@
+<p align="center"><img src="media/banner.svg" alt="Cadmo — write it down before you build it" width="880"></p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/create-cadmo"><img src="https://img.shields.io/npm/v/create-cadmo?label=create-cadmo&color=0891B2" alt="npm"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/docs-CC%20BY%204.0-0891B2" alt="CC BY 4.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-0891B2" alt="MIT"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-0A7A2F" alt="PRs welcome"></a>
+</p>
+
 # Cadmo
 
 **A right-sized method for building software with AI as your pair — the human specifies and decides; the AI writes and verifies.**
+
+```bash
+npm create cadmo
+```
+*One command drops the method into your project: `AGENTS.md` (the map your AI reads first) + the value-gate, spec and plan templates. Nothing is ever overwritten.*
 
 AI made writing code fast and cheap. The risk moved from *"it takes too long"* to *"it builds the wrong thing, with confidence."* Cadmo is built for the game that actually matters now: not writing faster — **specifying, verifying and documenting at the speed AI writes.**
 
@@ -50,6 +64,13 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 3. [`examples/`](examples/) — one ordinary demand walked end to end: gate → spec → plan → done.
 4. [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md) — two humans, two AIs, one repo: how a collaborator's AI onboards itself.
 5. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
+
+## Roadmap
+
+- ✅ `npm create cadmo` — scaffold the method into a project
+- ⏳ cadmo.dev — the method as a browsable site
+- ⏳ More worked examples (an AI feature with evals; an incident end to end)
+- 💬 Ideas and war stories → [Discussions](../../discussions)
 
 ## License & attribution
 

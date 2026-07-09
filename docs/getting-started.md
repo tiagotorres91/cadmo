@@ -2,9 +2,17 @@
 
 You don't migrate to Cadmo; you **turn it on**. Five steps, smallest-first — each one useful on its own, so you can stop anywhere and still be better off.
 
+## 0. One command (10 seconds)
+
+```bash
+npm create cadmo
+```
+
+Drops `AGENTS.md` + the three templates (`cadmo/value-gate.md`, `cadmo/spec.md`, `cadmo/plan.md`) into your project — never overwriting anything. The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
+
 ## 1. Give your AI the local map (2 min)
 
-Copy [`templates/AGENTS.md.template`](../templates/AGENTS.md.template) to your project root as `AGENTS.md` and fill the blanks: what the project is, where things live, **how to verify** (the commands that prove something works), and the gates. From now on, any AI session starts knowing the project — this file is the single non-negotiable piece of the method.
+Open the `AGENTS.md` it created (or copy [`templates/AGENTS.md.template`](../templates/AGENTS.md.template) yourself) and fill the blanks: what the project is, where things live, **how to verify** (the commands that prove something works), and the gates. From now on, any AI session starts knowing the project — this file is the single non-negotiable piece of the method.
 
 > Using Claude Code? Name it `CLAUDE.md` (or link one to the other). Same idea: the map rides with the repo.
 

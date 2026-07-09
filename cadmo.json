@@ -1,6 +1,6 @@
 {
   "_note": "Machine-readable anchor for Cadmo tooling (e.g. `node tools/cadmo-score.mjs`). Config ONLY — not a second source of truth: prose lives in AGENTS.md, and the files a spec enforces live in that spec's `watches:` front matter. Every key here is read by a tool; nothing is dead. Keep it thin.",
-  "cadmo": "0.2",
+  "cadmo": "0.3",
   "targetLevel": 4,
   "stagingUrl": ""
 }

@@ -16,6 +16,37 @@ npm create cadmo
 ```
 *One command drops the method into your project: `AGENTS.md` (the map your AI reads first) + the value-gate, spec and plan templates. Nothing is ever overwritten.*
 
+## See it in action
+
+The method is lived as a conversation. This is what the slash commands (installed automatically when Claude Code is detected) look like in use:
+
+```text
+You: /cadmo-gate export invoices to CSV
+AI:  Before any spec — what hurts today, in numbers?
+You: finance hand-copies ~200 invoices/month for the accountant. ~40 min, plus errors.
+AI:  Cheaper alternative considered — a report, a shared view, doing nothing?
+You: the accountant's tool imports files; a view won't cut it.
+AI:  Success metric?
+You: hand-copying drops to zero.
+AI:  Gate drafted (5 lines). Data is green, one caveat found while checking:
+     the tool needs SEMICOLONS, not commas — that would have been a returned
+     delivery. Verdict is yours: GO?
+You: GO. /cadmo-spec
+AI:  Spec drafted — criteria first, the delimiter rule in EARS form
+     ("WHEN the user exports, THE SYSTEM SHALL produce a semicolon-separated
+     file..."). Validate it before I build anything.
+
+     ...the build happens, in small verified batches...
+
+You: /cadmo-done
+AI:  Build+tests pass · real download opened in the accountant's tool on
+     staging · criteria checked 4/4 · spec-drift clean.
+     NOT tested: exports over 50k rows (no such volume exists in the data).
+     Verdict: ready to ship — one caveat, said out loud.
+```
+
+The five-line gate caught the real requirement (the delimiter) before any code existed. The spec was validated by a human *before* the build. And "done" included saying what *wasn't* tested. That's the whole method in one exchange — the full walkthrough with the actual artifacts is in [`examples/`](examples/).
+
 AI made writing code fast and cheap. The risk moved from *"it takes too long"* to *"it builds the wrong thing, with confidence."* Cadmo is built for the game that actually matters now: not writing faster — **specifying, verifying and documenting at the speed AI writes.**
 
 > In Greek myth, **Cadmus** brought the alphabet — the written word — to Greece. *Cadmo* is his name in Portuguese — the method was born in Brazil. Its first principle is the same: **write it down before you build it.** The spec before the code, the decision with its reasoning, the documentation as a living artifact your client validates — and the system obeys.
@@ -57,16 +88,18 @@ The three cores (Management, Development, Operations) cover the full lifecycle: 
 
 Early and open. Cadmo was distilled in 2026 from real production use across client and personal projects, pair-programming with [Claude](https://www.anthropic.com/claude). The concepts and templates are open here; it is a living method — expect it to evolve in the open.
 
-## Start here
+## Start here — routed by what you need
 
-1. **[`docs/getting-started.md`](docs/getting-started.md)** — turn Cadmo on in an existing project, in ~10 minutes.
-2. [`docs/method.md`](docs/method.md) — the whole method in one page; the pillars in [`docs/frameworks/`](docs/frameworks/).
-3. [`examples/`](examples/) — one ordinary demand walked end to end: gate → spec → plan → done.
-4. [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md) — two humans, two AIs, one repo: how a collaborator's AI onboards itself.
-5. [`docs/maturity.md`](docs/maturity.md) — the maturity ladder: find where you are (most AI-assisted teams are at level 0) and what the next rung buys.
-6. [`docs/security-surface.md`](docs/security-surface.md) — what AI-generated code doesn't cover: the six surfaces around the code, and when checks activate.
-7. [`docs/multi-agent.md`](docs/multi-agent.md) — agents on demand, never permanent roles: the four uses and why there's no orchestrator.
-8. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message. Questions first? [`docs/faq.md`](docs/faq.md).
+- **Just want it running?** → `npm create cadmo`, then [`docs/getting-started.md`](docs/getting-started.md) (~10 minutes).
+- **Want the whole method first?** → [`docs/method.md`](docs/method.md) (one page); the pillars in [`docs/frameworks/`](docs/frameworks/).
+- **"Show me, don't tell me"** → the transcript above, then [`examples/`](examples/) (a demand end to end) and [`governance/`](governance/) (this repo's own real artifacts).
+- **A second developer is joining (with their own AI)?** → [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md).
+- **Shipping for clients who demand accountability?** → [`docs/maturity.md`](docs/maturity.md) (aim at level 4) + the [validation log template](templates/validation-log.md) + [`docs/spec-drift.md`](docs/spec-drift.md).
+- **Worried about security with AI-written code?** → [`docs/security-surface.md`](docs/security-surface.md).
+- **Tempted to build an agent org-chart?** → [`docs/multi-agent.md`](docs/multi-agent.md) first.
+- **Skeptical?** → [`docs/faq.md`](docs/faq.md) — including "isn't this just Spec Kit?".
+
+And point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
 
 ## Use it with, not against
 

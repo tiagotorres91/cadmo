@@ -7,7 +7,7 @@ way every time, so a change is proven by a number instead of a good demo. It fil
 The feature under test is a billing support assistant. The lesson is the **shape**, not the
 assistant — copy the shape onto your own AI feature.
 
-> **promptfoo is external and optional.** It's an off-the-shelf eval CLI, **not** a
+> **promptfoo is external and optional.** (Note: promptfoo was acquired by OpenAI in March 2026 — the team states it stays MIT and model-agnostic, but if that matters to your stack, [DeepEval](https://github.com/confident-ai/deepeval) is a pytest-native Apache-2.0 alternative; the *shape* of this example — deterministic asserts first, one rubric, CI gate on exit code — ports to either.) It's an off-the-shelf eval CLI, **not** a
 > dependency of this repo — Cadmo installs nothing. We use it here because it already does
 > the boring parts (run cases, score asserts, keep history). Any harness that scores a
 > frozen set before and after works just as well; a 40-line `eval.mjs` would too.

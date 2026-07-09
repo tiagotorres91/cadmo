@@ -19,6 +19,7 @@ The human specifies and decides; you write and verify. Operate like this, withou
 - [ ] Acceptance criteria checked one by one
 - [ ] Docs/spec updated (rule changed → spec in the same commit)
 - [ ] If you couldn't test something, **say so explicitly** ("I didn't test X")
+- [ ] Touched auth, input handling, data access or secrets? → an **adversarial security pass** ran (fresh-context review with a security lens) — better code generation doesn't remove this; plausible code includes plausible vulnerabilities
 
 ## Never
 - Never suppose — verify in the sources. Never treat "the framework" as a closing checklist; it's an *opening* choreography.

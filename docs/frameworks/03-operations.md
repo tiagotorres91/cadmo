@@ -10,4 +10,6 @@
 - **Respond** — incidents get four labels: *symptom → cause → correction → prevention*, and the prevention must leave the system **more diagnosable than before**. Blameless postmortems: the analysis targets process and system, not who erred.
 - **Improve** — repetitive toil becomes automation; gaps get audited; reliability targets stay on the radar.
 
+**Security posture runs through all five pillars:** secrets live in vaults and never in code or transcripts; access is least-privilege and deny-by-default; authorization gates fail closed; sensitive actions leave tamper-evident trails. None of this gets less necessary as AI writes better code — the attack surface is mostly *around* the code (config, permissions, data flows), and that's operated, not generated.
+
 An incident doesn't require a spec (it's reactive) — but if the fix changes a business rule, the stable spec updates in the same commit.

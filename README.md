@@ -18,7 +18,7 @@ npm create cadmo
 
 AI made writing code fast and cheap. The risk moved from *"it takes too long"* to *"it builds the wrong thing, with confidence."* Cadmo is built for the game that actually matters now: not writing faster — **specifying, verifying and documenting at the speed AI writes.**
 
-> In Greek myth, **Cadmus** brought the alphabet — the written word — to Greece. Cadmo's first principle is the same: **write it down before you build it.** The spec before the code, the decision with its reasoning, the documentation as a living artifact your client validates — and the system obeys.
+> In Greek myth, **Cadmus** brought the alphabet — the written word — to Greece. *Cadmo* is his name in Portuguese — the method was born in Brazil. Its first principle is the same: **write it down before you build it.** The spec before the code, the decision with its reasoning, the documentation as a living artifact your client validates — and the system obeys.
 
 <sub>The name is also an acronym of the five pillars: **C**ollaboration · **A**pplication · **D**evelopment · **M**anagement · **O**perations.</sub>
 
@@ -63,7 +63,8 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 2. [`docs/method.md`](docs/method.md) — the whole method in one page; the pillars in [`docs/frameworks/`](docs/frameworks/).
 3. [`examples/`](examples/) — one ordinary demand walked end to end: gate → spec → plan → done.
 4. [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md) — two humans, two AIs, one repo: how a collaborator's AI onboards itself.
-5. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
+5. [`docs/maturity.md`](docs/maturity.md) — the maturity ladder: find where you are (most AI-assisted teams are at level 0) and what the next rung buys.
+6. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
 
 ## Roadmap
 

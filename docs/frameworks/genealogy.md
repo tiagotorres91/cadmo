@@ -15,6 +15,7 @@ No off-the-shelf framework fits a lean operation running AI in production. Cadmo
 | **PMBOK 8 / CPMAI / Standard for AI** (PMI) | value on entry and exit; risk; tailoring; AI go/no-go; data readiness; model cards | *tailoring* is PMI's own thesis — the right-sizing Cadmo always practiced, now with the vocabulary a corporate client respects |
 | **Kanban** | continuous flow, a board, visualization | the daily operating rhythm |
 | **Deming (PDCA)** | plan-do-check-act | runs at two levels — on the demand and on the method itself |
+| **CMMI** (SEI) | staged maturity levels | five heavyweight levels became a [ladder](../maturity.md) a small team can climb — level 0 ("vibe") named on purpose |
 
 **What's Cadmo's own** (not from any tradition): the exposure classification (system-describing = client-facing, operation-describing = internal); the prevention-that-diagnoses rule; spec and code in the same commit with a CI drift warning; the method-travels-in-the-repo collaboration; validation by MVP; and the assembly line (Application).
 

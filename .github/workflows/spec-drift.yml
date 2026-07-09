@@ -1,0 +1,19 @@
+# Dogfood: this repo's own spec-drift guard.
+# Real story: our getting-started.md once said "four templates" while the CLI shipped five —
+# exactly the drift this check exists to catch. Now getting-started.md watches the CLI.
+name: spec-drift
+on:
+  pull_request:
+jobs:
+  drift:
+    if: ${{ !contains(github.event.pull_request.body, 'spec-drift: skip') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: docs must change with the tool they describe
+        run: node tools/spec-drift.mjs --base origin/${{ github.base_ref }}

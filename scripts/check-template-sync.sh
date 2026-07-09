@@ -10,9 +10,14 @@ check templates/spec.md              npm/templates/spec.md
 check templates/plan.md              npm/templates/plan.md
 check templates/decision.md          npm/templates/decision.md
 check templates/AGENTS.md.template   npm/templates/AGENTS.md
+check tools/spec-drift.mjs           npm/templates/spec-drift.mjs
+check tools/spec-drift-workflow.yml  npm/templates/spec-drift-workflow.yml
+check templates/claude-commands/cadmo-gate.md  npm/templates/claude-commands/cadmo-gate.md
+check templates/claude-commands/cadmo-spec.md  npm/templates/claude-commands/cadmo-spec.md
+check templates/claude-commands/cadmo-done.md  npm/templates/claude-commands/cadmo-done.md
 if [ "$fail" -eq 0 ]; then
   echo "templates in sync ✓"
 else
-  echo "Fix: cp templates/*.md npm/templates/ && cp templates/AGENTS.md.template npm/templates/AGENTS.md"
+  echo "Fix: cp templates/*.md npm/templates/ ; cp templates/AGENTS.md.template npm/templates/AGENTS.md ; cp tools/spec-drift.mjs tools/spec-drift-workflow.yml npm/templates/ ; cp templates/claude-commands/*.md npm/templates/claude-commands/"
   exit 1
 fi

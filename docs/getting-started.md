@@ -1,3 +1,8 @@
+---
+watches:
+  - npm/index.js
+  - npm/templates/**
+---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 
 You don't migrate to Cadmo; you **turn it on**. Five steps, smallest-first — each one useful on its own, so you can stop anywhere and still be better off.

@@ -1,6 +1,6 @@
 # A demand, end to end
 
-One worked example of the Cadmo spine, using a deliberately ordinary feature: **CSV export** for a small invoicing app. Ordinary is the point — you'll recognize your own work in it.
+One worked example of the Cadmo spine, using a deliberately ordinary feature: **CSV export** for a small invoicing app. Ordinary is the point — you'll recognize your own work in it. *(This walkthrough is an illustration, not a real client case — names and numbers are invented to show the shape. For the method deciding real things, see [`governance/`](../governance/), this repo's own artifacts.)*
 
 The cast: a two-person consultancy maintains the app for a client; the AI pair does the building.
 

@@ -49,7 +49,7 @@ The three cores (Management, Development, Operations) cover the full lifecycle: 
 ## What's distinctive
 
 - **AI as an engineering pair, not an assistant** — the human specifies and decides; the AI writes and verifies. The bottleneck moved from *writing* to *verifying*, and the method is built around winning that.
-- **Living, client-validated documentation** — specs and decisions aren't a report *about* the system; they're the source the system obeys, published for the client to validate with their signature and the exact version. Documentation that can't drift, because it's the same source the tests enforce.
+- **Documentation that cannot silently lie** — a spec declares which files implement it (`watches:`), and [a 100-line CI check](docs/spec-drift.md) fails any change that touches those files without updating the spec. Client-validated docs with signature + exact version, kept true by a mechanism, not by discipline.
 - **The method travels in the repo** — a collaborator's AI orients itself by opening the repository. No human onboarding required.
 - **Enforcement in layers** — what's critical becomes mechanical (CI, gates that refuse), what's behavioral lives in always-loaded instructions, and a fresh-context reviewer catches the rest.
 
@@ -68,9 +68,18 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 7. [`docs/multi-agent.md`](docs/multi-agent.md) — agents on demand, never permanent roles: the four uses and why there's no orchestrator.
 8. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message. Questions first? [`docs/faq.md`](docs/faq.md).
 
+## Use it with, not against
+
+[Spec Kit](https://github.com/github/spec-kit), [OpenSpec](https://github.com/Fission-AI/OpenSpec) and [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) are excellent at the middle of the lifecycle — turning a spec into code. **Cadmo governs the whole cycle around that**: whether it's worth building (value gate, before), whether the client validated it and the value materialized (after), and keeping it alive (operations). Run your favorite spec-to-code tool as the engine of the Development pillar; Cadmo is the chassis — gates in front, validation and drift-enforcement behind, operations underneath. The [genealogy](docs/frameworks/genealogy.md) credits what each tradition contributed, including where they converged with us.
+
+## Governance of this repo
+
+Does the framework have the artifacts the framework proposes? **Yes — real ones.** [`governance/`](governance/) holds this project's own value gate, its decision records (the name, the authorship, the npm strategy, a protocol fix born from a real failure — with the alternatives that actually lost), and its validation log (including the adversarial review that found this repo's own gaps). The non-fictional companion to [`examples/`](examples/).
+
 ## Roadmap
 
-- ✅ `npm create cadmo` — scaffold the method into a project
+- ✅ `npm create cadmo` — scaffold the method into a project (now with the drift guard + Claude Code slash commands)
+- ✅ Spec-drift enforcement — [the mechanism](docs/spec-drift.md), dogfooded on this repo
 - ⏳ cadmo.dev — the method as a browsable site
 - ⏳ More worked examples (an AI feature with evals; an incident end to end)
 - 💬 Ideas and war stories → [Discussions](https://github.com/tiagotorres91/cadmo/discussions)

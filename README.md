@@ -65,7 +65,8 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 4. [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md) — two humans, two AIs, one repo: how a collaborator's AI onboards itself.
 5. [`docs/maturity.md`](docs/maturity.md) — the maturity ladder: find where you are (most AI-assisted teams are at level 0) and what the next rung buys.
 6. [`docs/security-surface.md`](docs/security-surface.md) — what AI-generated code doesn't cover: the six surfaces around the code, and when checks activate.
-7. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message. Questions first? [`docs/faq.md`](docs/faq.md).
+7. [`docs/multi-agent.md`](docs/multi-agent.md) — agents on demand, never permanent roles: the four uses and why there's no orchestrator.
+8. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message. Questions first? [`docs/faq.md`](docs/faq.md).
 
 ## Roadmap
 

@@ -10,4 +10,6 @@
 - **Verify** — automated tests *derived from the specs* run on every change; if a rule changes in the code but not in the spec, an alarm fires. Staging before production. The definition of done includes *testing the real flow*, not just linting — and saying explicitly "I didn't test X" when true. Security is verification, not ceremony: changes touching auth, input, data access or secrets get an adversarial security review — right-sized like everything else (it activates on attack surface, not on every commit).
 - **Measure** — AI features carry a benchmark that runs before and after every change, with history: regression does not ship.
 
+When to spawn agents beyond the pair — the independent reviewer, the fan-out, the judge panel, the process check — is its own short doc: [multi-agent, without the org chart](../multi-agent.md).
+
 Right-sizing sets the ceremony by size: trivial goes direct · a 3+ step fix gets one plan file · new-and-relevant gets a `spec.md` + `plan.md`. Genealogy: Spec-Driven Development, EARS (Kiro / Rolls-Royce), architecture decision records (Nygard), agent engineering (Anthropic), and XP (pair programming — here the pair is human + AI).

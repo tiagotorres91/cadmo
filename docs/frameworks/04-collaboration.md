@@ -11,3 +11,5 @@
 - **Gate** — merges to the main branch, production deploys and content verification belong to the maintainer only. The collaborator opens a PR and stops.
 
 Billing is an architecture decision: heavy work runs on the collaborator's own AI (their limit) — that's how it scales without cost to the maintainer. Genealogy: GitHub Flow / trunk-based development, asynchronous code review, and the repo-as-context idea made native to AI agents.
+
+**The full operational protocol** — rule zero, the two lists, verdicts, and the scars that became rules — is in [`../collaboration-protocol.md`](../collaboration-protocol.md).

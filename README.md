@@ -45,10 +45,11 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 
 ## Start here
 
-1. Read [`docs/method.md`](docs/method.md) — the whole method in one page.
-2. Browse the pillars in [`docs/frameworks/`](docs/frameworks/).
-3. Copy the [`templates/`](templates/) into your project and adapt them.
-4. Point your AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
+1. **[`docs/getting-started.md`](docs/getting-started.md)** — turn Cadmo on in an existing project, in ~10 minutes.
+2. [`docs/method.md`](docs/method.md) — the whole method in one page; the pillars in [`docs/frameworks/`](docs/frameworks/).
+3. [`examples/`](examples/) — one ordinary demand walked end to end: gate → spec → plan → done.
+4. [`docs/collaboration-protocol.md`](docs/collaboration-protocol.md) — two humans, two AIs, one repo: how a collaborator's AI onboards itself.
+5. Point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
 
 ## License & attribution
 

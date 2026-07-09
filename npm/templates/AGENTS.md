@@ -3,6 +3,11 @@
 > Drop this at the root of your project so any AI pair works the Cadmo way from the first message.
 > This is the *local map*: what this project is, where things live, and how to verify. The method
 > itself is in AGENTS.md at the Cadmo repo; this file is the project-specific instance.
+>
+> **AI pair reading this while it still has `<placeholders>`:** your first job is to fill it —
+> scan the repository (structure, package files, scripts, CI) and propose the map to your human:
+> what the project is, where specs/plans should live, and the actual verify commands. Then remove
+> this paragraph.
 
 ## What this project is
 <one paragraph: the product, the client/owner, the stack>

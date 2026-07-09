@@ -2,13 +2,19 @@
 
 You don't migrate to Cadmo; you **turn it on**. Five steps, smallest-first — each one useful on its own, so you can stop anywhere and still be better off.
 
+**The one-sentence version** — if you work with an AI pair, this is the whole setup:
+
+> *"Run `npm create cadmo`, read the Cadmo method (github.com/tiagotorres91/cadmo — `docs/method.md` and `AGENTS.md`), then fill in this project's `AGENTS.md` with me and work the Cadmo way from now on."*
+
+Your AI does the rest — including proposing the map (the scaffolded `AGENTS.md` instructs it to). The steps below are the same journey, unpacked for humans.
+
 ## 0. One command (10 seconds)
 
 ```bash
 npm create cadmo
 ```
 
-Drops `AGENTS.md` + the three templates (`cadmo/value-gate.md`, `cadmo/spec.md`, `cadmo/plan.md`) into your project — never overwriting anything. The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
+Drops `AGENTS.md` + the four templates (`cadmo/value-gate.md`, `cadmo/spec.md`, `cadmo/plan.md`) into your project — never overwriting anything. The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
 
 ## 1. Give your AI the local map (2 min)
 

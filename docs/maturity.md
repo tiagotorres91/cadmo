@@ -19,4 +19,6 @@ Five levels, from vibe coding to audited governance. Each level is stable on its
 
 Most solo work is fine at 2. Client work deserves 3. If your client is a corporation, a government body, or anyone with an audit department — 4 is what wins and keeps the contract.
 
+> **Two ladders, don't confuse them:** this one rates *how you build software*. There's a second maturity test — rating *the client's business processes* to find what deserves to become a system at all (the golden rule: automation requires a standardized process). That one lives in [Management](frameworks/01-management.md).
+
 **Honest self-assessment beats aspiration:** most AI-assisted teams today are at 0, and the industry's governance pain lives exactly there. The ladder isn't a judgment — it's a map.

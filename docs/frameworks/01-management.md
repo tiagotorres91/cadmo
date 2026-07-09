@@ -10,4 +10,6 @@
 - **Decide** — business decisions and architecture decisions each have their place, recorded with the *why*; approvals are always human.
 - **Close** — three seals: it *works* (definition of done), it *followed the method* (a process check), and it *delivered the value* (revisited weeks after — even to kill what didn't).
 
+**What deserves to become a system — the process maturity test.** Before the value gate even asks "is X worth building?", Capture asks "*which* X deserves to reach the gate?" Rate each of the client's processes: **1 ad-hoc** (done differently every time, lives in people's heads) · **2 defined** (has an owner and known steps, manual) · **3 standardized** (same way every time — a spreadsheet, a form) · **4 measured** (has numbers) · **5 systematized**. The golden rule: **automation requires level 3+** — automating chaos just accelerates the chaos; a level-1 process gets standardized first, systematized second. Strong candidates are repetitive + standardized + high-volume + measurably painful + already producing data. (Every good system we've shipped started life as somebody's overloaded spreadsheet.)
+
 The distinctive move: closing on **value realized**, not just "it works". Informed by PMBOK 8 (value on entry and exit; tailoring), CPMAI (go/no-go for AI work; data readiness) and the Standard for AI (AI-specific risks; model cards).

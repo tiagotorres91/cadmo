@@ -29,6 +29,9 @@ Run before saying "done". CI runs all of these too (`.github/workflows/`).
 - **Links** (no broken doc links): the `links` workflow (lychee). Locally: check any new relative links resolve.
 - After changing anything under `npm/` templates or `tools/spec-drift*`, **mirror to `npm/templates/`** and re-run the sync check.
 
+## Before asking the maintainer anything
+Check `governance/context.md` (answered questions — the cache) and `governance/direction.md` (goal, audience, scope, freeze). Still unanswered? Open a `context-question` issue with your default assumption — never deadlock waiting.
+
 ## Never
 - Never suppose — verify in the sources. Never treat "the framework" as a closing checklist; it's an *opening* choreography.
 - Never ship to production without an explicit human gate.

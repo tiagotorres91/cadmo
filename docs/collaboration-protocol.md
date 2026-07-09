@@ -35,6 +35,16 @@ Billing is an architecture decision: heavy work (implementing, writing content) 
 5. **Two-round ceiling.** If the same point survives two review rounds, it escalates to the human owners — AIs don't loop forever on a disagreement.
 6. **When the maintainer solves it themselves** (urgent, or beyond the collaborator's limits): close the issue with a distinct marker — *"🤖 Resolved by maintainer"* — **not** a verdict. A verdict answers a collaborator's PR; this marker says *"absorb the change, it was never your ball."*
 
+## Context questions — asking without a mail carrier
+
+The protocol's newest piece, distilled from its first real friction: a collaborator's AI needed maintainer context (priority audience? scope appetite?) and there was no structured way to ask — the humans became mail carriers between the AIs. The fix is stigmergic like everything else here:
+
+1. **Before asking, read the cache** — `governance/context.md` (answered questions) and `governance/direction.md` (the maintainer's compass). Most questions die here.
+2. **Ask through an issue** (a `context-question` form): one question per issue, what's blocked without it, the options if enumerable, and — crucially — a **default assumption** the agent will act under if no answer comes. An async channel must never deadlock a session.
+3. **The answer gets promoted**: the maintainer answers on the issue (verdict ❓ CONTEXT), the answer is written into `governance/context.md`, the issue closes as the audit trail. **Nobody asks twice** — elicitation becomes an accumulating asset, the same way the incident rule makes systems more diagnosable.
+
+Rule zero gains a third list: open `context-question` issues — answered ones get incorporated; your own unanswered blocker means *proceed under the documented default assumption*.
+
 ## Sizing what you hand off
 
 Right-size the demand to the handoff: **homogeneous volume scales** (add 10 records, translate 60 names — repeated pattern, low per-item risk: the collaborator parallelizes, the maintainer validates in batch) · **complexity arrives small and with a plan** (logic/architecture changes come as an issue with a phased plan, and the PR opens as a **draft at the risk checkpoint** for an intermediate review before committing the rest) · **new risk gets a spike first** (something with no precedent in the project: an isolated prototype with a measurement, decided before betting the feature on it).

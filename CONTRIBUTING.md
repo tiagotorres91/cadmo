@@ -22,7 +22,7 @@ The full rationale and the scars behind each rule are in [`docs/collaboration-pr
 **The rules.**
 1. **One demand = one issue.** All conversation happens in the issue; the PR carries code + `Closes #N`, nothing else.
 2. **The spec is in the issue body** (goal, acceptance criteria, size). Read the whole issue *including comments* before starting.
-3. **Every maintainer review ends with a verdict:** ✅ APPROVED (merged, done) · 🔧 CHANGES (apply and resubmit) · ❓ DECIDE (answer and wait). A closed issue may instead carry **"🤖 Resolved by maintainer"** — not your work; just absorb the change.
+3. **Every maintainer review ends with a verdict:** ✅ APPROVED (merged, done) · 🔧 CHANGES (apply and resubmit) · ❓ DECIDE (answer and wait) · ❓ CONTEXT (a context-question got its answer — promoted to `governance/context.md`). A closed issue may instead carry **"🤖 Resolved by maintainer"** — not your work; just absorb the change.
 4. **Merge is the full stop.** New topic → new issue. Two rounds on the same point → it escalates to the humans.
 5. **Every branch starts from up-to-date `main`.** Never chain PRs. Verify your change is on `main`, not just that the PR says "merged".
 6. **The gates never move to the collaborator:** merges to `main`, releases, and content verification are the maintainer's, always. Branch protection enforces the merge gate mechanically.
@@ -31,6 +31,11 @@ The full rationale and the scars behind each rule are in [`docs/collaboration-pr
 
 - **A — the ball is with you:** open issues with no comments, or where the maintainer commented last.
 - **B — outcomes to absorb:** closed issues without the `absorbed` label. Read the final verdict (the maintainer may have adjusted things in the merge), then add the label yourself: `gh issue edit <N> --add-label absorbed`.
+- **C — context questions:** open issues labeled `context-question` that got an answer → incorporate it and check it was promoted to [`governance/context.md`](governance/context.md); your own unanswered blocking question → proceed under its documented `default-assumption` (never deadlock waiting).
+
+## Context questions — the elicitation channel
+
+When an agent needs maintainer context to proceed (audience? convention? a ruling?), the human must not become a mail carrier between AIs. The channel: **before asking, check [`governance/context.md`](governance/context.md) and [`governance/direction.md`](governance/direction.md)** — then open a [context-question issue](../../issues/new?template=context-question.yml) (one question per issue; state what's blocked and your default assumption). The maintainer answers with the verdict **❓ CONTEXT → answered** on the issue; the answer is **promoted to `context.md`** (the cache — nobody asks twice) and the issue closes as the audit trail.
 
 ```bash
 # List A

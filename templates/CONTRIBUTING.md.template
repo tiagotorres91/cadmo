@@ -34,6 +34,10 @@ gh issue list --repo <owner>/<repo> --state closed --search '-label:absorbed' \
   --json number,title --jq '.[] | "#\(.number) \(.title)"'
 ```
 
+## Context questions
+
+Need maintainer context to proceed? Check `governance/context.md` (the answered-questions cache) first; still open, file a `context-question` issue with what's blocked and your **default assumption** (act under it if no answer comes — never deadlock). Answers get promoted to the cache: nobody asks twice.
+
 ## Building
 
 Follow the project's `AGENTS.md` (the map + the definition of done). Highlights that bear repeating: acceptance criteria before code · test the real flow · say explicitly what you didn't test · production is never yours to touch.

@@ -45,6 +45,8 @@ The protocol's newest piece, distilled from its first real friction: a collabora
 
 Rule zero gains a third list: open `context-question` issues — answered ones get incorporated; your own unanswered blocker means *proceed under the documented default assumption*.
 
+Convergence note: Google's [A2A protocol](https://a2a-protocol.org) (now under the Linux Foundation) formalizes exactly this state in its task lifecycle as `input-required` — this channel arrived at the same semantics independently, distilled from this repo's own first friction, and implements them repo-natively (an issue form and a label, no protocol dependency).
+
 ## Sizing what you hand off
 
 Right-size the demand to the handoff: **homogeneous volume scales** (add 10 records, translate 60 names — repeated pattern, low per-item risk: the collaborator parallelizes, the maintainer validates in batch) · **complexity arrives small and with a plan** (logic/architecture changes come as an issue with a phased plan, and the PR opens as a **draft at the risk checkpoint** for an intermediate review before committing the rest) · **new risk gets a spike first** (something with no precedent in the project: an isolated prototype with a measurement, decided before betting the feature on it).

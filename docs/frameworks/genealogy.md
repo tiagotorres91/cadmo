@@ -9,6 +9,7 @@ No off-the-shelf framework fits a lean operation running AI in production. Cadmo
 | **Architecture Decision Records** (Nygard) | context → decision → consequences | added a *"when to reconsider"* trigger; retroactive ADRs for live decisions |
 | **Anthropic** (agent engineering) | a verification harness; eval-driven AI features; a direct tool-loop over frameworks | harness declared per project; evals with history — "regression does not ship" |
 | **BMAD** (multi-agent) | independent reviewer, exploratory fan-out, judge panels | on demand, never permanent roles — the agent adds value precisely by *not* inheriting the pair's biases |
+| **Stigmergy / blackboard systems** (distributed AI) | coordination through a shared environment, not direct messages | the repository is the coordination medium — issues, labels and file state carry the collaboration, with no standing orchestrator ([protocol](../collaboration-protocol.md)) |
 | **XP** (Kent Beck) | pair programming; TDD in spirit; continuous integration | the pair is human + AI; "test first" becomes "criteria first" + eval-first for AI |
 | **SRE** (Google) | blameless postmortems; toil elimination; reliability targets | the prevention must make the system *more diagnosable* than before |
 | **ITIL** | severities/SLA, ticket flow, change management | the backbone of the support layer — without the bureaucracy |

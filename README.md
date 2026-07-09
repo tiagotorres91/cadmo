@@ -103,7 +103,19 @@ And point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from
 
 ## Use it with, not against
 
-[Spec Kit](https://github.com/github/spec-kit), [OpenSpec](https://github.com/Fission-AI/OpenSpec) and [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) are excellent at the middle of the lifecycle — turning a spec into code. **Cadmo governs the whole cycle around that**: whether it's worth building (value gate, before), whether the client validated it and the value materialized (after), and keeping it alive (operations). Run your favorite spec-to-code tool as the engine of the Development pillar; Cadmo is the chassis — gates in front, validation and drift-enforcement behind, operations underneath. The [genealogy](docs/frameworks/genealogy.md) credits what each tradition contributed, including where they converged with us.
+[Spec Kit](https://github.com/github/spec-kit), [OpenSpec](https://github.com/Fission-AI/OpenSpec) and [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) are excellent engines for the middle of the lifecycle — turning a spec into code. Cadmo doesn't compete there; it **wraps that middle** with the parts a client engagement needs on either side. Run your favorite as the engine of the Development pillar — Cadmo is the chassis.
+
+| Lifecycle stage | Cadmo | Spec-to-code tools (Spec Kit / OpenSpec / BMAD) |
+|---|---|---|
+| Decide *if it's worth building* (business value gate) | ● | ○ |
+| Turn a spec into code | ◐ *(bring your own engine)* | ● *(their strength)* |
+| Enforce spec↔code drift in CI | ● | ◐ |
+| Keep it live (monitoring, incidents, support) | ● | ○ |
+| Client validates docs (signature + version) & value is checked after | ● | ○ |
+
+<sub>● covers it · ◐ partial · ○ not its focus. This is a map of *layers*, not a scoreboard — those tools are strong precisely where Cadmo deliberately delegates.</sub>
+
+The [genealogy](docs/frameworks/genealogy.md) credits what each tradition contributed, including where they converged with us (OpenSpec's archive ≈ our absorption; BMAD ships an adversarial reviewer; AWS's AI-DLC arrived independently at right-sizing).
 
 ## Governance of this repo
 

@@ -77,7 +77,11 @@ function globToRegex(glob) {
   }
   esc = esc.split('**').join('__DSTAR__');
   esc = esc.split('*').join('[^/]*');
-  esc = esc.split('__DSTAR__').join('.*');
+  // ** matches zero or more path segments (gitignore semantics), so src/**/auth.js matches src/auth.js
+  esc = esc.split('/__DSTAR__/').join('/(?:.*/)?'); // a/**/b -> a/b and a/x/y/b
+  esc = esc.split('__DSTAR__/').join('(?:.*/)?');   // **/b  -> b and x/b
+  esc = esc.split('/__DSTAR__').join('(?:/.*)?');   // a/**  -> a and a/x
+  esc = esc.split('__DSTAR__').join('.*');          // bare **
   return new RegExp('^' + esc + '$');
 }
 

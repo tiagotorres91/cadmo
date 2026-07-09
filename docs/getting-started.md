@@ -19,7 +19,7 @@ Your AI does the rest — including proposing the map (the scaffolded `AGENTS.md
 npm create cadmo
 ```
 
-Drops `AGENTS.md` + four templates (`cadmo/value-gate.md`, `cadmo/spec.md`, `cadmo/plan.md`, `cadmo/decision.md`) into your project — never overwriting anything. The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
+Drops `AGENTS.md`, a `cadmo/` folder (the value-gate, spec, plan and decision templates **plus the spec-drift guard and its workflow**), and — when Claude Code is detected — the `/cadmo-*` slash commands. Nothing is ever overwritten. The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
 
 ## 1. Give your AI the local map (2 min)
 

@@ -21,6 +21,14 @@ The human specifies and decides; you write and verify. Operate like this, withou
 - [ ] If you couldn't test something, **say so explicitly** ("I didn't test X")
 - [ ] Touched auth, input handling, data access or secrets? → an **adversarial security pass** ran (fresh-context review with a security lens) — better code generation doesn't remove this; plausible code includes plausible vulnerabilities
 
+## How to verify (this repo's own harness — the method dogfoods its own rule)
+Run before saying "done". CI runs all of these too (`.github/workflows/`).
+- **CLI + spec-drift tests:** `cd npm && node --test` · `node --test test/spec-drift.test.js`
+- **Templates in sync** (canonical `templates/`+`tools/` vs the bundled `npm/templates/`): `bash scripts/check-template-sync.sh`
+- **Spec-drift** (docs change with the code they watch): `node tools/spec-drift.mjs --base origin/main`
+- **Links** (no broken doc links): the `links` workflow (lychee). Locally: check any new relative links resolve.
+- After changing anything under `npm/` templates or `tools/spec-drift*`, **mirror to `npm/templates/`** and re-run the sync check.
+
 ## Never
 - Never suppose — verify in the sources. Never treat "the framework" as a closing checklist; it's an *opening* choreography.
 - Never ship to production without an explicit human gate.

@@ -1,12 +1,14 @@
-# Dogfood: this repo's own spec-drift guard.
-# Real story: our getting-started.md once said "four templates" while the CLI shipped five —
-# exactly the drift this check exists to catch. Now getting-started.md watches the CLI.
+# Dogfood: this repo's own spec-drift guard — and it runs on PUSH, not only PRs,
+# because this repo ships straight to main. (A guard that never fires is prose;
+# the "four templates" doc bug reappeared once precisely because this didn't run.)
 name: spec-drift
 on:
   pull_request:
+  push:
+    branches: [main]
 jobs:
   drift:
-    if: "${{ !contains(github.event.pull_request.body, 'spec-drift: skip') }}"
+    if: ${{ !contains(github.event.pull_request.body, 'spec-drift: skip') && !contains(github.event.head_commit.message, 'spec-drift: skip') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +18,11 @@ jobs:
         with:
           node-version: "20"
       - name: docs must change with the tool they describe
-        run: node tools/spec-drift.mjs --base origin/${{ github.base_ref }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="${{ github.event.before }}"
+            git cat-file -e "${BASE}^{commit}" 2>/dev/null || BASE="$(git rev-parse HEAD~1)"
+          fi
+          node tools/spec-drift.mjs --base "$BASE"

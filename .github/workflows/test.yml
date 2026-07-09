@@ -14,6 +14,8 @@ jobs:
           node-version: "20"
       - name: templates in sync (no drift between templates/ and npm/templates/)
         run: bash scripts/check-template-sync.sh
+      - name: spec-drift behavioral tests (the moat is tested, not just syntax-checked)
+        run: node --test test/spec-drift.test.js
       - name: smoke-test the scaffolder
         working-directory: npm
         run: node --test

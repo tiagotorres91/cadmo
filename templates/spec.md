@@ -1,3 +1,11 @@
+<!-- To enforce this spec against code, add real YAML front matter as the VERY FIRST lines:
+---
+watches:
+  - src/the-area-this-governs/**
+  - api/the-endpoint.py
+---
+Then spec-drift fails any change to those files that doesn't update this spec. -->
+
 # Spec — <name>
 
 **Status:** draft — awaiting validation (<who>)  ·  **Demand:** <link/id>

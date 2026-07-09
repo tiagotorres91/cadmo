@@ -6,6 +6,10 @@ Cadmo is how you build software when **AI writes and verifies, and a human speci
 
 Every rule below scales to the task. Trivial work goes direct; a real feature earns a spec the client validates first. *Poucos processos = ineffective; too many = waste.* You calibrate — that's the whole game.
 
+## Model economy (tier right-sizing)
+
+Right-sizing applies to *which model runs which work*, too. **Design costs quality; execution costs volume.** Fine judgment — architecture, the spec of something new, curation, content verification — runs on the most capable tier, where getting it right compounds and getting it wrong propagates. Homogeneous execution and orchestration against an already-decided plan run on a cheaper, faster tier, or on right-tiered sub-agents. The honesty rule: **name the tier mismatch** — if new design work landed on an execution tier, say so ("this deserves the top tier; or I proceed with a caveat"), never pretend the smaller tier delivers the same quality.
+
 ## The flow
 
 ```

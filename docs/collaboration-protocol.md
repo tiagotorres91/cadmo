@@ -40,7 +40,7 @@ Billing is an architecture decision: heavy work (implementing, writing content) 
 An AI session doesn't get notified while it's away. So every collaborator session **starts with a sweep of two lists**, using the repository's own state as the marker (never memory):
 
 - **List A — the ball is with you:** open issues where the *last* comment is the maintainer's, **or** which have no comments at all (a fresh demand — the spec is in the body).
-- **List B — absorb the outcome:** recently closed issues — read the final verdict, because the maintainer may have approved *and* adjusted in the merge, or resolved it themselves.
+- **List B — absorb the outcome:** closed issues **not yet acknowledged** — read the final verdict, because the maintainer may have approved *and* adjusted in the merge, or resolved it themselves. Then **the collaborator acks it** (a label like `absorbed`, or a reaction if they lack triage permission). The ack is the "processed" marker — repository state, not memory. Never use a "recent N" window: one productive day of merges overflows it and outcomes die unread.
 
 ## Scars that became rules
 
@@ -51,6 +51,8 @@ Real failures from the first days of operation — each one now a rule:
 - **Every branch starts from up-to-date main.** Chaining branch B on branch A makes the top merge silently miss main. One branch, one PR, base = main. Never stack PRs.
 - **Verify the code is on main, not the PR status.** A PR can show "merged" while its changes never landed on main (wrong base). The maintainer checks the real file state before any deploy.
 - **A draft PR without `Closes #N` won't close its issue.** Add the link when leaving draft, or close manually.
+- **A "recently closed" window loses outcomes.** List B started as "last 5 closed" — then came a 12-merge day, and verdicts fell out of the window unread. The fix is the ack marker above: unacknowledged closures resurface every session, forever, until processed.
+- **The merge closes the issue instantly** (via `Closes #N`) — so the maintainer's order is fixed: **verdict comment first, merge second.** Otherwise the issue closes "mute" and the collaborator finds a closure with no outcome.
 
 ## What this preserves
 

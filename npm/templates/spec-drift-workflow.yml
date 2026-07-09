@@ -6,7 +6,7 @@ on:
   pull_request:
 jobs:
   drift:
-    if: ${{ !contains(github.event.pull_request.body, 'spec-drift: skip') }}
+    if: "${{ !contains(github.event.pull_request.body, 'spec-drift: skip') }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

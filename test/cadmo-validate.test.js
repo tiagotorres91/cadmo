@@ -140,3 +140,21 @@ test('the tool is deterministic — no Date.now / new Date / Math.random in sour
   assert.doesNotMatch(src, /new Date/, 'must not construct a Date');
   assert.doesNotMatch(src, /Math\.random/, 'must not use Math.random()');
 });
+
+// round-4 regression lock: free text in Notes can never masquerade as a validation
+test('a note citing another spec does not poison --verify (hash parsed from the version column only)', () => {
+  const dir = tmp();
+  write(dir, 'spec-billing.md', 'billing rules v1');
+  write(dir, 'other.md', 'other spec');
+  // properly validate spec-billing
+  const r1 = run(dir, 'spec-billing.md', '--by', 'Ana', '--verdict', 'approved', '--date', '2026-01-01');
+  assert.strictEqual(r1.status, 0);
+  // validate other.md with a NOTE that cites spec-billing @ a bogus hash
+  const BT = String.fromCharCode(96);
+  const bogus = 'supersedes ' + BT + 'spec-billing' + BT + ' @ ' + BT + 'aaaaaaaaaaaa' + BT;
+  const r2 = run(dir, 'other.md', '--by', 'Ana', '--verdict', 'approved', '--date', '2026-01-02', '--notes', bogus);
+  assert.strictEqual(r2.status, 0);
+  // spec-billing untouched: --verify must still say VALIDATED (exit 0), not expired
+  const v = run(dir, '--verify', 'spec-billing.md');
+  assert.strictEqual(v.status, 0, 'note text must not become spec-billing latest validation');
+});

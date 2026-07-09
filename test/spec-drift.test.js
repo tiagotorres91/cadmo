@@ -175,3 +175,41 @@ test('CRLF working tree does not cause a false SUSPECT (autocrlf + multi-line wa
   git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'unrelated');
   assert.strictEqual(run(dir), 0, 'stamp (working tree) and check (HEAD blob) must hash equal despite CRLF/LF');
 });
+
+// --- round-4 regression locks ---
+
+test('grammar: inline watches array is accepted by the tool (hook/tool parity)', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', '---' + String.fromCharCode(10) + 'watches: [src/**]' + String.fromCharCode(10) + '---' + String.fromCharCode(10) + 'spec'); write(d, 'src/a.js', 'v1'); },
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  assert.strictEqual(run(dir), 1, 'inline [array] form must be seen by the tool -> DRIFT');
+});
+
+test('grammar: unindented list items are accepted (hook/tool parity)', () => {
+  const NLCH = String.fromCharCode(10);
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', '---' + NLCH + 'watches:' + NLCH + '- src/**' + NLCH + '---' + NLCH + 'spec'); write(d, 'src/a.js', 'v1'); },
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  assert.strictEqual(run(dir), 1, 'unindented - item must be seen -> DRIFT');
+});
+
+test('SUSPECT is diff-scoped: an innocent PR (untouched watched set) passes', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    stampSpec: 'docs/s.md',
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  // merge the watched change to main WITHOUT re-stamping (repo now in unreviewed state)
+  git(dir, 'checkout', '-q', 'main');
+  git(dir, 'merge', '-q', 'feature');
+  // innocent PR: only a README
+  git(dir, 'checkout', '-qb', 'innocent');
+  write(dir, 'README.md', 'docs only');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'readme');
+  assert.strictEqual(run(dir), 0, 'diff does not touch the watched set -> no SUSPECT for this PR');
+  // but the full-state check still catches it
+  const r = (() => { try { execFileSync('node', [DRIFT, '--base', 'main', '--suspect-all'], { cwd: dir, encoding: 'utf8' }); return 0; } catch (e) { return e.status ?? 1; } })();
+  assert.strictEqual(r, 1, '--suspect-all sees the stale stamp');
+});

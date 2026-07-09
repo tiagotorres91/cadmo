@@ -135,8 +135,11 @@ Append-only — never edit a past row; a changed document gets a new row.
 `;
 
 // escape free-text for a markdown table cell (pipes break the table; newlines break the row)
+// Backticks are stripped so a note can never mimic the Document/version cell format
+// and poison --verify (round-4 finding: a note citing another spec became its
+// "latest validation").
 function cell(s) {
-  return String(s).replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').trim();
+  return String(s).replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').split(String.fromCharCode(96)).join('').trim();
 }
 
 // Insert the row into the VALIDATIONS table specifically — identified by a header
@@ -168,20 +171,36 @@ function appendRow(logPath, row) {
 
 // find the hash of the LAST logged validation for a slug, scanning raw lines so
 // it works regardless of the surrounding table's exact column layout.
+// Scan ONLY the Document/version column (2nd cell) of table rows - free text in the
+// Notes column can no longer masquerade as a validation (round-4 fix).
+function loggedHashes(logPath, slug) {
+  if (!fs.existsSync(logPath)) return [];
+  const NLCH = String.fromCharCode(10);
+  const BTCH = String.fromCharCode(96);
+  const out = [];
+  for (const line of fs.readFileSync(logPath, 'utf8').split(NLCH)) {
+    const s = line.trim();
+    if (!s.startsWith('|')) continue;
+    const cells = s.slice(1).split('|').map((c) => c.trim());
+    if (cells.length < 2) continue;
+    const doc = cells[1]; // Document / version column
+    const want = BTCH + slug + BTCH;
+    if (!doc.startsWith(want)) continue;
+    const at = doc.indexOf('@');
+    if (at < 0) continue;
+    const h = doc.slice(at + 1).split(BTCH).join('').trim();
+    if (/^[0-9a-f]{6,64}$/.test(h)) out.push(h);
+  }
+  return out;
+}
+
 function lastLoggedHash(logPath, slug) {
-  if (!fs.existsSync(logPath)) return null;
-  const text = fs.readFileSync(logPath, 'utf8');
-  const re = new RegExp('`' + slug + '`\\s*@\\s*`([0-9a-f]{6,64})`', 'g');
-  let m, last = null;
-  while ((m = re.exec(text))) last = m[1];
-  return last;
+  const all = loggedHashes(logPath, slug);
+  return all.length ? all[all.length - 1] : null;
 }
 
 function countValidations(logPath, slug) {
-  if (!fs.existsSync(logPath)) return 0;
-  const text = fs.readFileSync(logPath, 'utf8');
-  const re = new RegExp('`' + slug + '`\\s*@\\s*`[0-9a-f]{6,64}`', 'g');
-  return (text.match(re) || []).length;
+  return loggedHashes(logPath, slug).length;
 }
 
 // --- verify mode ---

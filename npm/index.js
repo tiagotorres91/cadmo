@@ -29,6 +29,7 @@ if (args.includes('--help') || args.includes('-h')) {
     cadmo/plan.md                   the internal route: tasks, constraints, validation
     cadmo/decision.md               ADR with a "when to reconsider" trigger
     cadmo/spec-drift.mjs            the drift guard: specs must change with the code they watch
+    cadmo/cadmo-grammar.mjs         the shared front-matter/glob grammar the guard imports
     cadmo/spec-drift-workflow.yml   ready CI workflow (move into .github/workflows/)
     .claude/commands/cadmo-*.md     (when Claude Code is detected, or --claude)
 
@@ -46,6 +47,7 @@ const FILES = [
   ['spec.md', path.join('cadmo', 'spec.md')],
   ['plan.md', path.join('cadmo', 'plan.md')],
   ['decision.md', path.join('cadmo', 'decision.md')],
+  ['cadmo-grammar.mjs', path.join('cadmo', 'cadmo-grammar.mjs')],
   ['spec-drift.mjs', path.join('cadmo', 'spec-drift.mjs')],
   ['spec-drift-workflow.yml', path.join('cadmo', 'spec-drift-workflow.yml')],
 ];

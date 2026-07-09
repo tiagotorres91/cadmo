@@ -12,6 +12,7 @@
  * the goal and set the exit code (below target → exit 1, so CI can gate on it).
  */
 import fs from 'node:fs';
+import { parseWatches as grammarWatches } from './cadmo-grammar.mjs';
 import path from 'node:path';
 
 const args = process.argv.slice(2);
@@ -83,18 +84,8 @@ const blanks = mapFile ? unfilledPlaceholders(mapText) : [];
 
 // --- level 3: a spec that actually declares watches: (same rule as spec-drift) ---
 function hasWatches(text) {
-  if (!text.startsWith('---')) return false;
-  const end = text.indexOf('\n---', 3);
-  if (end < 0) return false;
-  let inW = false;
-  for (const line of text.slice(3, end).split('\n')) {
-    if (/^watches:\s*$/.test(line)) { inW = true; continue; }
-    if (inW) {
-      if (/^\s+-\s+\S/.test(line)) return true;
-      if (!/^\s/.test(line)) inW = false;
-    }
-  }
-  return false;
+  const w = grammarWatches(text);
+  return !!(w && w.length);
 }
 
 // --- level 3: a CI workflow that runs a test suite ---
@@ -166,12 +157,35 @@ for (let n = 1; n <= 4; n++) {
 const nextRung = level < 4 ? LEVELS[level + 1] : null;
 const gaps = nextRung ? checksFor(nextRung.n).filter((c) => !c.ok) : [];
 
+// --- practice hints: this tool measures ARTIFACT PRESENCE, not lived practice.
+// Six file-touches can produce level-4 artifacts (round-4 review demo). These cheap
+// signals warn when the artifacts look unexercised - they never gate.
+const practiceHints = [];
+if (!exists('.git')) practiceHints.push('not a git repository - no history, so no practice trail at all');
+{
+  const vlog = ALL.find((f) => f.toLowerCase().includes('validation-log') && f.endsWith('.md'));
+  if (vlog) {
+    const NLCH = String.fromCharCode(10);
+    const rows = read(vlog).split(NLCH).map((l) => l.trim())
+      .filter((l) => l.startsWith('|') && l.endsWith('|'))
+      .filter((l) => {
+        if (l.toLowerCase().includes('| date')) return false; // header row
+        const inner = l.slice(1, -1).split('|').join('').trim();
+        if (inner.length && [...inner].every((ch) => '-: '.includes(ch))) return false; // separator
+        return inner.length > 0;
+      });
+    if (rows.length === 0) practiceHints.push('validation log has no recorded rows - present but never used');
+  }
+}
+
 if (JSON_OUT) {
   console.log(JSON.stringify({
     cadmo: config.cadmo ?? null,
     dir: ROOT,
     level,
     levelName: LEVELS[level].name,
+    measures: 'artifact presence — practice is proven by the trail, not by this tool',
+    practiceHints,
     target,
     targetMet: target === null ? null : level >= target,
     nextRung: nextRung ? { level: nextRung.n, name: nextRung.name, buys: nextRung.buys } : null,
@@ -188,11 +202,12 @@ if (JSON_OUT) {
     lines.push('  Gaps to reach it:');
     for (const c of gaps) lines.push(`    ✗ ${c.id} — ${c.gap}`);
   } else {
-    lines.push('▸ Top rung reached (4 Governed) — no next rung. Keep the trail honest.');
+    lines.push('▸ Top-rung ARTIFACTS present (4 Governed). This ruler measures presence, not practice — the trail (real validation rows, gate verdicts, CI history) is what proves the practice.');
   }
   lines.push('');
   const tgt = target === null ? '' : level >= target ? `   ·   target ${target} met ✓` : `   ·   target ${target}`;
-  lines.push(`Current level: ${L(level)}${tgt}`);
+  lines.push(`Artifact level: ${L(level)}${tgt}   (practice: not verified by this tool)`);
+  for (const h of practiceHints) lines.push(`  ⚠ practice: ${h}`);
   lines.push('');
   for (let n = 1; n <= 4; n++) {
     const rung = checksFor(n);

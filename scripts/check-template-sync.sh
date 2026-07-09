@@ -11,6 +11,8 @@ check templates/plan.md              npm/templates/plan.md
 check templates/decision.md          npm/templates/decision.md
 check templates/AGENTS.md.template   npm/templates/AGENTS.md
 check tools/spec-drift.mjs           npm/templates/spec-drift.mjs
+check tools/cadmo-grammar.mjs        npm/templates/cadmo-grammar.mjs
+check tools/cadmo-grammar.mjs        plugins/cadmo/hooks/cadmo-grammar.mjs
 check tools/spec-drift-workflow.yml  npm/templates/spec-drift-workflow.yml
 check templates/claude-commands/cadmo-gate.md  npm/templates/claude-commands/cadmo-gate.md
 check templates/claude-commands/cadmo-spec.md  npm/templates/claude-commands/cadmo-spec.md

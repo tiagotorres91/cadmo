@@ -3,12 +3,21 @@
 // When a turn ends, if the working tree has changes that a Cadmo spec is
 // watching, nudge the human to run the definition of done and re-check drift.
 // It never blocks — every path exits 0 and only prints a reminder.
+//
+// Grammar (front-matter parsing + glob semantics) comes from ./cadmo-grammar.mjs —
+// a byte-identical copy of the repo's single grammar (tools/cadmo-grammar.mjs),
+// guarded by check-template-sync.sh. Round 4 found this hook had drifted onto its
+// own grammar (with an already-fixed globstar bug); never again.
 
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const EXIT_OK = 0;
+
+const here = dirname(fileURLToPath(import.meta.url));
+const { parseWatches, globToRegex } = await import(pathToFileURL(resolve(here, "cadmo-grammar.mjs")).href);
 
 function readStdin() {
   try {
@@ -22,49 +31,12 @@ function git(cwd, args) {
   return execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
 }
 
-// A watched glob → RegExp. Supports ** (any depth) and * (within a segment).
-function globToRegExp(glob) {
-  let re = "";
-  for (let i = 0; i < glob.length; i++) {
-    const c = glob[i];
-    if (c === "*") {
-      if (glob[i + 1] === "*") { re += ".*"; i++; } else { re += "[^/]*"; }
-    } else if (".^$+?()[]{}|\\".includes(c)) {
-      re += "\\" + c;
-    } else {
-      re += c;
-    }
+// git status --porcelain quotes paths containing spaces/special chars.
+function unquotePath(p) {
+  if (p.startsWith('"') && p.endsWith('"')) {
+    try { return JSON.parse(p); } catch { return p.slice(1, -1); }
   }
-  return new RegExp("^" + re + "$");
-}
-
-// Pull the `watches:` entries out of a markdown file's YAML front matter.
-// Handles both `watches: [a, b]` and a block list of `- glob` lines.
-function parseWatches(text) {
-  const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!fm) return [];
-  const lines = fm[1].split(/\r?\n/);
-  const globs = [];
-  for (let i = 0; i < lines.length; i++) {
-    const m = lines[i].match(/^watches:\s*(.*)$/);
-    if (!m) continue;
-    const inline = m[1].trim();
-    if (inline.startsWith("[")) {
-      inline.replace(/^\[|\]$/g, "").split(",").forEach((g) => {
-        const v = g.trim().replace(/^["']|["']$/g, "");
-        if (v) globs.push(v);
-      });
-    } else if (inline) {
-      globs.push(inline.replace(/^["']|["']$/g, ""));
-    }
-    for (let j = i + 1; j < lines.length; j++) {
-      const item = lines[j].match(/^\s*-\s*(.+)$/);
-      if (!item) break;
-      globs.push(item[1].trim().replace(/^["']|["']$/g, ""));
-    }
-    break;
-  }
-  return globs;
+  return p;
 }
 
 function main() {
@@ -83,7 +55,8 @@ function main() {
       .split(/\r?\n/)
       .map((l) => l.slice(3).trim())
       .filter(Boolean)
-      .map((p) => (p.includes(" -> ") ? p.split(" -> ")[1] : p));
+      .map((p) => (p.includes(" -> ") ? p.split(" -> ")[1] : p))
+      .map(unquotePath);
   } catch {
     return EXIT_OK; // not a git repo, or git unavailable
   }
@@ -104,8 +77,8 @@ function main() {
     } catch {
       continue;
     }
-    if (globs.length === 0) continue;
-    const res = globs.map(globToRegExp);
+    if (!globs || globs.length === 0) continue;
+    const res = globs.map(globToRegex);
     if (changed.some((f) => res.some((r) => r.test(f)))) hits.add(spec);
   }
 

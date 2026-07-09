@@ -47,6 +47,19 @@ Don't build the whole machine on day one. The rule that makes Cadmo self-improvi
 
 ---
 
+## The toolbox, by rung (day 1 is small on purpose)
+
+The repo carries the whole method, but **day 1 needs three things**: the map (`AGENTS.md`), the gate (`cadmo/value-gate.md`), and criteria-first plans (`cadmo/plan.md`). Everything else arrives with the [maturity rung](maturity.md) that earns it:
+
+| Rung | What you add | Tools involved |
+|---|---|---|
+| 1 Mapped | the filled map | `AGENTS.md` |
+| 2 Gated | gates + honest DoD | value-gate, plan, `/cadmo-*` commands |
+| 3 Enforced | CI holds the rules | spec-drift (+`watches:`), tests, `cadmo score` in CI |
+| 4 Governed | client-grade trail | `cadmo-validate`, validation log, compliance map, SLO/runbook |
+
+If you're at rung 1 and something here feels like ceremony — it is, *for you, today*. Skip it; it'll be waiting when the stakes earn it.
+
 **Working with a second developer?** Read [`collaboration-protocol.md`](collaboration-protocol.md) — the method travels in the repo, and their AI onboards itself.
 
 **Want to see it whole?** Walk through a complete demand in [`examples/`](../examples/) — gate → spec → plan → done.

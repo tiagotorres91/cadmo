@@ -57,4 +57,4 @@ The methodology and docs are licensed **[CC BY 4.0](LICENSE)** — free to use a
 
 ---
 
-*Cadmo is authored and maintained by [Tiago Torres](https://github.com/tiagotorres91) (B2B Soluções em TI). Contributions welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*
+*Cadmo is authored and maintained by [Tiago Torres](https://github.com/tiagotorres91). Contributions welcome — see [`CONTRIBUTING.md`](CONTRIBUTING.md).*

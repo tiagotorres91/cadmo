@@ -1,7 +1,7 @@
 # Trademark & name
 
 **"Cadmo"** as the name of this method — and any associated logo or wordmark — is a mark of
-Tiago Torres / B2B Soluções em TI. It is *not* covered by the CC BY 4.0 license that applies to
+Tiago Torres. It is *not* covered by the CC BY 4.0 license that applies to
 the methodology and documentation.
 
 You are welcome to:

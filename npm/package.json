@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/tiagotorres91/cadmo.git"
   },
-  "author": "Tiago Torres (B2B Soluções em TI)",
+  "author": "Tiago Torres",
   "license": "MIT",
   "files": [
     "README.md"

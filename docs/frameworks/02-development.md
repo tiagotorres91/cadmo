@@ -10,4 +10,4 @@
 - **Verify** — automated tests *derived from the specs* run on every change; if a rule changes in the code but not in the spec, an alarm fires. Staging before production. The definition of done includes *testing the real flow*, not just linting — and saying explicitly "I didn't test X" when true.
 - **Measure** — AI features carry a benchmark that runs before and after every change, with history: regression does not ship.
 
-Right-sizing sets the rite by size: trivial goes direct · a 3+ step fix gets one plan file · new-and-relevant gets a `spec.md` + `plan.md`. Genealogy: Spec-Driven Development, EARS (Kiro / Rolls-Royce), architecture decision records (Nygard), agent engineering (Anthropic), and XP (pair programming — here the pair is human + AI).
+Right-sizing sets the ceremony by size: trivial goes direct · a 3+ step fix gets one plan file · new-and-relevant gets a `spec.md` + `plan.md`. Genealogy: Spec-Driven Development, EARS (Kiro / Rolls-Royce), architecture decision records (Nygard), agent engineering (Anthropic), and XP (pair programming — here the pair is human + AI).

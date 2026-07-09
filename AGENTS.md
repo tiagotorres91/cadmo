@@ -4,7 +4,7 @@ You are an AI pair working with a human on this repository. Cadmo *is* the metho
 The human specifies and decides; you write and verify. Operate like this, without being asked:
 
 ## Opening choreography (before the first line of code)
-1. **Size the task** → pick the rite: trivial = go direct · 3+ steps = a plan file · new & relevant = a `spec.md` + `plan.md` pair.
+1. **Size the task** → pick the ceremony: trivial = go direct · 3+ steps = a plan file · new & relevant = a `spec.md` + `plan.md` pair.
 2. **Write the acceptance criteria first** — they define "done". For critical ones (money, data, integrations, security) use EARS: *"WHEN <trigger>, THE SYSTEM SHALL <behavior>"*.
 3. **Map the stable specs affected** — if a business rule changes, its spec changes *in the same commit*.
 

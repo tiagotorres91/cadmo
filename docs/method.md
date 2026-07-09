@@ -4,11 +4,7 @@ Cadmo is how you build software when **AI writes and verifies, and a human speci
 
 ## The meta-principle: right-sizing
 
-Every rule below scales to the task. Trivial work goes direct; a real feature earns a spec the client validates first. *Poucos processos = ineffective; too many = waste.* You calibrate — that's the whole game.
-
-## Model economy (tier right-sizing)
-
-Right-sizing applies to *which model runs which work*, too. **Design costs quality; execution costs volume.** Fine judgment — architecture, the spec of something new, curation, content verification — runs on the most capable tier, where getting it right compounds and getting it wrong propagates. Homogeneous execution and orchestration against an already-decided plan run on a cheaper, faster tier, or on right-tiered sub-agents. The honesty rule: **name the tier mismatch** — if new design work landed on an execution tier, say so ("this deserves the top tier; or I proceed with a caveat"), never pretend the smaller tier delivers the same quality.
+Every rule below scales to the task. Trivial work goes direct; a real feature earns a spec the client validates first. *Too little process is chaos; too much is waste.* You calibrate — that's the whole game.
 
 ## The flow
 
@@ -50,6 +46,10 @@ The rule that makes it self-improving: **a repeated failure isn't re-disciplined
 - **Artifact** — a tangible document (spec, decision record, plan).
 - **Practice** — a recurring ritual (gates, staging-before-production, definition of done).
 - **Mechanism** — automation that runs on its own (CI, deploy scripts, generators).
+
+## Model economy (tier right-sizing)
+
+Right-sizing applies to *which model runs which work*, too. **Design costs quality; execution costs volume.** Fine judgment — architecture, the spec of something new, curation, content verification — runs on the most capable tier, where getting it right compounds and getting it wrong propagates. Homogeneous execution and orchestration against an already-decided plan run on a cheaper, faster tier, or on right-tiered sub-agents. The honesty rule: **name the tier mismatch** — if new design work landed on an execution tier, say so ("this deserves the top tier; or I proceed with a caveat"), never pretend the smaller tier delivers the same quality.
 
 ## The two PDCA loops
 

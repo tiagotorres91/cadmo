@@ -1,22 +1,24 @@
 # Cadmo
 
-**A right-sized method for building software with AI as your pair — spec-first, human-gated, self-documenting.**
+**A right-sized method for building software with AI as your pair — the human specifies and decides; the AI writes and verifies.**
 
-> In Greek myth, **Cadmus** brought the alphabet — the written word — to Greece. Cadmo is a method whose first principle is the same: **write it down before you build it.** The spec before the code, the decision with its reasoning, the documentation as a living artifact your client can validate.
+AI made writing code fast and cheap. The risk moved from *"it takes too long"* to *"it builds the wrong thing, with confidence."* Cadmo is built for the game that actually matters now: not writing faster — **specifying, verifying and documenting at the speed AI writes.**
 
-Cadmo is also an acronym of its five pillars:
+> In Greek myth, **Cadmus** brought the alphabet — the written word — to Greece. Cadmo's first principle is the same: **write it down before you build it.** The spec before the code, the decision with its reasoning, the documentation as a living artifact your client validates — and the system obeys.
 
-**C**ollaboration · **A**pplication · **D**evelopment · **M**anagement · **O**perations
+<sub>The name is also an acronym of the five pillars: **C**ollaboration · **A**pplication · **D**evelopment · **M**anagement · **O**perations.</sub>
 
 ---
 
+## Who it's for
+
+Solo consultants and small teams shipping production software for real clients — operations too lean for enterprise process, too accountable for no process. If you build with AI and someone else depends on what you ship, Cadmo is sized for you.
+
 ## Why
 
-AI made writing code fast and cheap. The risk moved from *"it takes too long"* to *"it builds the wrong thing, with confidence."* Teams end up with black-box systems only their author can explain, governance no client can audit, and knowledge that lives in people's heads and walks out the door.
+Building with AI fails in a specific way: black-box systems only their author can explain, governance no client can audit, knowledge that lives in one person's head and walks out the door. Cadmo answers by **inverting where the care is spent**: rigor *before* the code (specify the rules, get them validated) and *after* it (tests derived from the specs, a definition of done, verification in staging) — so the middle, the execution, can be fast without being reckless.
 
-Cadmo answers that by **inverting where the care is spent**: rigor *before* the code (specify the rules, get them validated) and *after* it (tests derived from the specs, a definition of done, verification in staging) — so the middle, the execution, can be fast without being reckless.
-
-It is **not** bureaucracy (right-sizing is the meta-principle — trivial work stays trivial), **not** blind trust in AI (human gates and a verification harness exist precisely because an unverified agent hallucinates completion), and **not** an off-the-shelf process — it's a pragmatic hybrid of the traditions that actually work, sized for a lean operation that still needs to satisfy clients who demand governance.
+It is **not** bureaucracy (right-sizing is the meta-principle — trivial work stays trivial), **not** blind trust in AI (human gates and a verification harness exist precisely because an unverified agent hallucinates completion), and **not** an off-the-shelf process — it's a pragmatic hybrid of the traditions that actually work, sized for a lean operation that still answers to clients who demand governance.
 
 ## The five pillars
 

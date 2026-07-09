@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use Cadmo, please cite it."
+title: "Cadmo: a right-sized method for building software with AI as your pair"
+authors:
+  - family-names: Torres
+    given-names: Tiago
+repository-code: "https://github.com/tiagotorres91/cadmo"
+url: "https://cadmo.dev"
+license: CC-BY-4.0
+year: 2026

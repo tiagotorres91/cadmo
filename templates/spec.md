@@ -30,3 +30,9 @@ What this delivery does NOT cover (controlled expectations).
 
 ## Impact on stable specs
 Which sections of the system/domain specs will be updated on delivery (the absorption).
+
+## Impact on existing data (only if this touches persisted state)
+Does this change data that already exists — a DB schema/migration, saved user records, files a
+prior version produced? Name what existing data is affected and the migration/backfill plan (or
+"none — new data only"). A rule that changes *how* something is computed does not retroactively
+fix rows already written; say how the old ones are handled.

@@ -54,6 +54,10 @@ Real failures from the first days of operation — each one now a rule:
 - **A "recently closed" window loses outcomes.** List B started as "last 5 closed" — then came a 12-merge day, and verdicts fell out of the window unread. The fix is the ack marker above: unacknowledged closures resurface every session, forever, until processed.
 - **The merge closes the issue instantly** (via `Closes #N`) — so the maintainer's order is fixed: **verdict comment first, merge second.** Otherwise the issue closes "mute" and the collaborator finds a closure with no outcome.
 
+## Two sessions, one working tree
+
+The protocol above scales *developers* — each with their own repo/checkout, coordinating through issues. A different case is not that, and it bites: two AI sessions running against the **same** checkout at the same time. Uncommitted work from one session gets swept into the other's commit; a `git add .` grabs a half-finished file; a `pull` rebases over live edits. If you must run concurrent sessions on one tree, the hygiene is mandatory: **stage explicit paths** (`git add <path>`, never `.`), **review `git diff --cached`** before every commit, and `pull --rebase` on a clean tree only. The structural fix is **one working tree per session** — a git `worktree` per concurrent session gives each an isolated checkout that shares the one history.
+
 ## What this preserves
 
 **Adopting it:** [`templates/CONTRIBUTING.md.template`](../templates/CONTRIBUTING.md.template) is the drop-in instance — roles, rules, and the rule-zero sweep commands, ready to adapt.

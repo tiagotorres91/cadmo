@@ -16,6 +16,7 @@ const FILES = [
   ['value-gate.md', path.join('cadmo', 'value-gate.md')],
   ['spec.md', path.join('cadmo', 'spec.md')],
   ['plan.md', path.join('cadmo', 'plan.md')],
+  ['decision.md', path.join('cadmo', 'decision.md')],
 ];
 
 console.log('\n  Cadmo — write it down before you build it.\n');

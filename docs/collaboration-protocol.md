@@ -56,4 +56,6 @@ Real failures from the first days of operation — each one now a rule:
 
 ## What this preserves
 
+**Adopting it:** [`templates/CONTRIBUTING.md.template`](../templates/CONTRIBUTING.md.template) is the drop-in instance — roles, rules, and the rule-zero sweep commands, ready to adapt.
+
 The gates survive the scaling: plans still get approved before building, production still ships only through the maintainer, content still gets verified by a human. What disappeared is the coordination overhead — the meetings, the onboarding, the "quick sync". The method travels in the repo; the humans steer; the AIs build and review; the repository remembers.

@@ -1,0 +1,18 @@
+name: links
+# The method preaches mechanical enforcement — the method's own repo gets it too.
+# A broken link in the docs is a failed promise; CI catches it before a reader does.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 12 * * 1" # weekly: external links rot on their own
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --include-fragments './**/*.md'
+          fail: true

@@ -12,6 +12,8 @@ Classify the engagement on three axes — they decide which layers you install:
 - **Team**: solo ↔ collaborative (collaborative → the collaboration layer in the repo).
 - **Recurrence**: one-off ↔ continuous support (continuous → the full operations layer).
 
+The axes set the **target maturity level** ([the ladder](../maturity.md)): solo work aims at level 2 (Gated), client work at level 3 (Enforced), a client with an audit function at level 4 (Governed) — the assembly line's job is to take the instance from where it is to that target, and `node tools/cadmo-score.mjs` measures the distance.
+
 ## The layers (in dependency order)
 
 1. **Classify** the engagement (above).

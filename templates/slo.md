@@ -1,5 +1,7 @@
 # SLO — <service or user journey>
 
+> **Right-size it:** start with just the objective + the SLI (a declared target over a real measurement is already 90% of the value). The **error budget + burn policy below are the higher-assurance tier** — add them when the stakes earn the ceremony, not by default.
+
 A declarative service-level objective: state the target, measure it, and decide *in advance* what happens when the budget burns. OpenSLO in spirit, plain markdown in practice. Set targets for what users feel (a journey), not for every internal metric.
 
 **Owner:** <team> · **Status:** proposed / active · **Reviewed:** <YYYY-MM-DD>

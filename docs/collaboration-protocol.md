@@ -35,6 +35,10 @@ Billing is an architecture decision: heavy work (implementing, writing content) 
 5. **Two-round ceiling.** If the same point survives two review rounds, it escalates to the human owners — AIs don't loop forever on a disagreement.
 6. **When the maintainer solves it themselves** (urgent, or beyond the collaborator's limits): close the issue with a distinct marker — *"🤖 Resolved by maintainer"* — **not** a verdict. A verdict answers a collaborator's PR; this marker says *"absorb the change, it was never your ball."*
 
+## Sizing what you hand off
+
+Right-size the demand to the handoff: **homogeneous volume scales** (add 10 records, translate 60 names — repeated pattern, low per-item risk: the collaborator parallelizes, the maintainer validates in batch) · **complexity arrives small and with a plan** (logic/architecture changes come as an issue with a phased plan, and the PR opens as a **draft at the risk checkpoint** for an intermediate review before committing the rest) · **new risk gets a spike first** (something with no precedent in the project: an isolated prototype with a measurement, decided before betting the feature on it).
+
 ## Rule zero — the infallible inbox
 
 An AI session doesn't get notified while it's away. So every collaborator session **starts with a sweep of two lists**, using the repository's own state as the marker (never memory):

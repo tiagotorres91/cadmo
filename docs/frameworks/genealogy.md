@@ -15,8 +15,12 @@ No off-the-shelf framework fits a lean operation running AI in production. Cadmo
 | **PMBOK 8 / CPMAI / Standard for AI** (PMI) | value on entry and exit; risk; tailoring; AI go/no-go; data readiness; model cards | *tailoring* is PMI's own thesis — the right-sizing Cadmo always practiced, now with the vocabulary a corporate client respects |
 | **Kanban** | continuous flow, a board, visualization | the daily operating rhythm |
 | **Deming (PDCA)** | plan-do-check-act | runs at two levels — on the demand and on the method itself |
-| **CMMI** (SEI) | staged maturity levels | five heavyweight levels became a [ladder](../maturity.md) a small team can climb — level 0 ("vibe") named on purpose |
+| **OpenSpec** | source-of-truth specs with a propose → apply → **archive** state machine | Cadmo's *absorption* (demand spec folded into stable specs on delivery) is the same instinct — we credit the convergence |
+| **AWS AI-DLC** | adaptive rigor: decide which stages are worth it per context | this *is* right-sizing, with AWS's weight behind it — independent arrival at the same principle |
+| **CMMI** (SEI) | staged maturity levels | five heavyweight levels became a [ladder](../maturity.md) a small team can climb |
 
-**What's Cadmo's own** (not from any tradition): the exposure classification (system-describing = client-facing, operation-describing = internal); the prevention-that-diagnoses rule; spec and code in the same commit with a CI drift warning; the method-travels-in-the-repo collaboration; validation by MVP; and the assembly line (Application).
+**Honest overlaps** (July 2026): the spec-driven space is crowded and good — [Spec Kit](https://github.com/github/spec-kit), [OpenSpec](https://github.com/Fission-AI/OpenSpec), [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) and AWS's AI-DLC each solve parts of this well, some with far more tooling than Cadmo has today. BMAD ships an adversarial reviewer in its pipeline; OpenSpec archives specs into a source of truth; AI-DLC formalizes adaptive rigor. Cadmo is a *method*, not a tool — and it's designed to sit **above** an execution tool, not replace it (see the README's "use it with, not against").
+
+**What's genuinely Cadmo's own** (not found assembled elsewhere): the exposure classification (system-describing = client-facing, operation-describing = internal); the prevention-that-diagnoses rule; spec and code in the same commit with a CI drift warning; the method-travels-in-the-repo collaboration; validation by MVP; and the assembly line (Application).
 
 > **PMI note:** references to PMBOK, CPMAI and the Standard for AI are nominative (public frameworks). Cadmo's author is not a PMI member; the material was studied with the support of a PMI-affiliated specialist consultancy.

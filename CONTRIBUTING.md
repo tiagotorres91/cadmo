@@ -8,7 +8,7 @@ repo, your AI orients itself from `AGENTS.md`, and the maintainer is the only ga
 
 - **Found a gap, a sharper phrasing, or a real case?** Open an issue.
 - **Proposing a change?** One topic per issue; open a PR from a branch off up-to-date `main` that closes it (`Closes #N`). Keep each PR focused.
-- **New pattern or framework piece?** Explain the *real problem* it solves — Cadmo only adds what solves a problem someone actually has.
+- **New pattern or framework piece?** Read [`governance/direction.md`](governance/direction.md) first (where this is going, the audience, the open-core boundary, current freeze) — then explain the *real problem* it solves, ideally as a 5-line value gate. Cadmo only adds what solves a problem someone actually has.
 - Right-sizing is the meta-principle: prefer the smallest change that does the job. Docs are the product — write the *why*, not just the *what*.
 
 By contributing, you agree your contributions are licensed under CC BY 4.0 (docs) / MIT (code).

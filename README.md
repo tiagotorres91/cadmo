@@ -100,6 +100,7 @@ Early and open. Cadmo was distilled in 2026 from real production use across clie
 - **Worried about security with AI-written code?** → [`docs/security-surface.md`](docs/security-surface.md).
 - **Tempted to build an agent org-chart?** → [`docs/multi-agent.md`](docs/multi-agent.md) first.
 - **Skeptical?** → [`docs/faq.md`](docs/faq.md) — including "isn't this just Spec Kit?".
+- **Want to contribute or propose?** → [`governance/direction.md`](governance/direction.md) (where this is going) then [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 And point your own AI at [`AGENTS.md`](AGENTS.md) so it works the Cadmo way from the first message.
 

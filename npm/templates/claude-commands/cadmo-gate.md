@@ -1,3 +1,6 @@
+---
+description: Open a value gate — is this worth building? (a 5-line business case before any spec)
+---
 # /cadmo-gate — open a value gate
 
 Open a value gate for: **$ARGUMENTS**

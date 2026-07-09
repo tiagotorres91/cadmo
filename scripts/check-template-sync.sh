@@ -15,6 +15,11 @@ check tools/spec-drift-workflow.yml  npm/templates/spec-drift-workflow.yml
 check templates/claude-commands/cadmo-gate.md  npm/templates/claude-commands/cadmo-gate.md
 check templates/claude-commands/cadmo-spec.md  npm/templates/claude-commands/cadmo-spec.md
 check templates/claude-commands/cadmo-done.md  npm/templates/claude-commands/cadmo-done.md
+# the Claude Code plugin bundles byte-identical copies of the commands (renamed) + the skill
+check templates/claude-commands/cadmo-gate.md  plugins/cadmo/commands/gate.md
+check templates/claude-commands/cadmo-spec.md  plugins/cadmo/commands/spec.md
+check templates/claude-commands/cadmo-done.md  plugins/cadmo/commands/done.md
+check skills/cadmo-method/SKILL.md             plugins/cadmo/skills/cadmo-method/SKILL.md
 if [ "$fail" -eq 0 ]; then
   echo "templates in sync ✓"
 else

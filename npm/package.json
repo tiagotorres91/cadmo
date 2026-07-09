@@ -1,6 +1,6 @@
 {
   "name": "create-cadmo",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Scaffold the Cadmo method into your project \u2014 a right-sized method for building software with AI as your pair.",
   "keywords": [
     "cadmo",

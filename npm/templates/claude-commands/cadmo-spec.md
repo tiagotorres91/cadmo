@@ -1,3 +1,6 @@
+---
+description: Write the spec — acceptance criteria first, for the client to validate before any code
+---
 # /cadmo-spec — write the spec, criteria first
 
 Write the spec for: **$ARGUMENTS**

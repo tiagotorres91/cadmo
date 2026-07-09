@@ -1,3 +1,6 @@
+---
+description: Run the definition of done honestly — checked against evidence (run the commands), not memory
+---
 # /cadmo-done — the definition of done, checked honestly
 
 Run the definition of done for: **$ARGUMENTS** (or the work we just finished).

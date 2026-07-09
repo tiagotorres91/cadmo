@@ -1,0 +1,20 @@
+{
+  "name": "cadmo",
+  "owner": {
+    "name": "Tiago Torres"
+  },
+  "description": "Cadmo — write it down before you build it. The method as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "cadmo",
+      "source": "./plugins/cadmo",
+      "description": "Cadmo slash commands (/cadmo:gate, /cadmo:spec, /cadmo:done) plus a Stop hook that reminds you to run the definition of done and re-check spec drift.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Tiago Torres"
+      },
+      "license": "MIT",
+      "keywords": ["cadmo", "spec", "definition-of-done", "value-gate", "spec-drift"]
+    }
+  ]
+}

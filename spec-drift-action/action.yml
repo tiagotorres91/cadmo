@@ -1,0 +1,70 @@
+name: 'Cadmo spec-drift'
+description: 'Fail or warn when code changes but the spec that documents it does not — Cadmo''s zero-dependency drift guard.'
+author: 'Cadmo'
+branding:
+  icon: 'git-commit'
+  color: 'purple'
+inputs:
+  base:
+    description: 'Git ref to diff against. Leave empty to derive it like Cadmo''s own workflow: origin/<base_ref> on pull_request, the push before-sha (falling back to HEAD~1) on push.'
+    required: false
+    default: ''
+  fail-level:
+    description: 'warn = log an annotation but keep the job green (default, for a client''s continuous flow); fail = exit non-zero when a spec drifts. Operational errors (bad base ref, etc.) always fail regardless of this setting.'
+    required: false
+    default: 'warn'
+  node-version:
+    description: 'Node.js version used to run the drift check.'
+    required: false
+    default: '20'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+    - name: Run spec-drift
+      shell: bash
+      env:
+        INPUT_BASE: ${{ inputs.base }}
+        FAIL_LEVEL: ${{ inputs.fail-level }}
+        EVENT_NAME: ${{ github.event_name }}
+        BASE_REF: ${{ github.base_ref }}
+        EVENT_BEFORE: ${{ github.event.before }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -u
+        BASE="$INPUT_BASE"
+        if [ -z "$BASE" ]; then
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            BASE="origin/${BASE_REF}"
+          else
+            BASE="$EVENT_BEFORE"
+            if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
+              BASE="$(git rev-parse HEAD~1 2>/dev/null || true)"
+            fi
+          fi
+        fi
+        if [ -z "$BASE" ]; then
+          echo "spec-drift: no base commit to diff against (first commit / shallow) — nothing to check."
+          exit 0
+        fi
+        echo "spec-drift: diffing against ${BASE} (fail-level=${FAIL_LEVEL})"
+        set +e
+        node "${ACTION_PATH}/../tools/spec-drift.mjs" --base "$BASE"
+        status=$?
+        set -e
+        if [ "$status" -eq 0 ]; then
+          exit 0
+        fi
+        if [ "$status" -gt 1 ]; then
+          echo "::error::spec-drift: operational error (exit ${status}) — check the base ref and that the consumer checked out with fetch-depth: 0."
+          exit "$status"
+        fi
+        if [ "$FAIL_LEVEL" = "fail" ]; then
+          echo "::error::spec-drift: a spec drifted and fail-level=fail — failing the job."
+          exit "$status"
+        fi
+        echo "::warning::spec-drift found drifting/suspect specs (fail-level=warn — job stays green). Review the log above and update the spec, or set fail-level: fail to enforce."
+        exit 0

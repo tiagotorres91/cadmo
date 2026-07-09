@@ -1,20 +1,22 @@
 {
-  "name": "cadmo",
+  "name": "create-cadmo",
   "version": "0.0.1",
-  "description": "A right-sized method for building software with AI as your pair — spec-first, human-gated, self-documenting.",
+  "description": "Scaffold the Cadmo method into your project — a right-sized method for building software with AI as your pair.",
   "keywords": [
     "cadmo",
+    "create-cadmo",
     "spec-driven-development",
     "ai",
     "methodology",
     "framework",
     "agents",
-    "claude"
+    "claude",
+    "scaffold"
   ],
   "homepage": "https://cadmo.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tiagotorres91/cadmo.git"
+    "url": "git+https://github.com/tiagotorres91/cadmo.git"
   },
   "author": "Tiago Torres (B2B Soluções em TI)",
   "license": "MIT",

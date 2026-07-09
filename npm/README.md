@@ -1,7 +1,11 @@
-# cadmo
+# create-cadmo
 
-Placeholder for the **Cadmo** method — a right-sized method for building software with AI as your pair.
+Scaffold the **Cadmo** method into your project — a right-sized method for building software with AI as your pair.
 
-The method, docs and templates live at **https://github.com/tiagotorres91/cadmo** · **https://cadmo.dev**
+```bash
+npm create cadmo
+```
 
-A CLI (`cadmo init`, to scaffold the method into a project) is planned. This package reserves the name.
+The method, docs and templates: **https://github.com/tiagotorres91/cadmo** · **https://cadmo.dev**
+
+> This is an early placeholder reserving the name. The scaffolder (`cadmo init` — drops `AGENTS.md`, the value gate, spec/plan templates into your project) is on the roadmap.

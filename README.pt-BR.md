@@ -8,9 +8,13 @@
 npm create cadmo
 ```
 
+*Um comando instala o método no teu projeto: `AGENTS.md` (o mapa que tua IA lê primeiro), os templates de gate de valor, spec, plano e decisão, e o guard de spec-drift com workflow de CI pronto. Nada é sobrescrito. Tem também o **plugin de Claude Code** (`/plugin marketplace add tiagotorres91/cadmo` → `/plugin install cadmo@cadmo`) com os comandos `/cadmo:gate`, `/cadmo:spec` e `/cadmo:done`.*
+
 A IA tornou escrever código rápido e barato. O risco mudou de *"demora demais"* para *"constrói a coisa errada, com confiança"*. O Cadmo é feito para o jogo que importa agora: não escrever mais rápido — **especificar, verificar e documentar na velocidade em que a IA escreve.**
 
 > No mito grego, **Cadmo** trouxe o alfabeto — a palavra escrita — à Grécia. O primeiro princípio do método é o mesmo: **escreva antes de construir.** A spec antes do código; a decisão com seu porquê; a documentação como artefato vivo que o cliente valida — e que o sistema obedece.
+
+<sub>O nome também é acrônimo dos cinco pilares: **C**ollaboration · **A**pplication · **D**evelopment · **M**anagement · **O**perations.</sub>
 
 ## Os cinco pilares
 

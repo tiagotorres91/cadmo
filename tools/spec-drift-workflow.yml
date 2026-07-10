@@ -1,8 +1,8 @@
 # Example workflow — copy to .github/workflows/spec-drift.yml in your project.
 # Fails when a file watched by a spec changes and the spec doesn't change with it.
 # Works on pull_request AND on push (so it fires even if you ship straight to main).
-# Audited escape hatch (never silent): write "spec-drift: skip -- <reason>" in the
-# latest commit message.
+# Audited escape hatch (never silent): "spec-drift: skip -- <reason>" in the PR body
+# (pull_request runs) or in the latest commit message (push runs).
 name: spec-drift
 on:
   pull_request:
@@ -19,15 +19,24 @@ jobs:
         with:
           node-version: "20"
       - name: specs must change with the code they govern
+        env:
+          # env var, never inline interpolation — a PR body is attacker-controlled text
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
-            echo "spec-drift: skip found in commit message — skipping."
-            exit 0
-          fi
           if [ "${{ github.event_name }}" = "pull_request" ]; then
+            if printf '%s' "$PR_BODY" | grep -qi 'spec-drift: skip'; then
+              echo "spec-drift: skip found in the PR body — skipping."
+              exit 0
+            fi
             BASE="origin/${{ github.base_ref }}"
           else
+            if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
+              echo "spec-drift: skip found in commit message — skipping."
+              exit 0
+            fi
             BASE="${{ github.event.before }}"
-            git cat-file -e "${BASE}^{commit}" 2>/dev/null || BASE="$(git rev-parse HEAD~1)"
+            # first push of a branch/repo: event.before is all-zeros -> last commit -> empty tree
+            git cat-file -e "${BASE}^{commit}" 2>/dev/null \
+              || BASE="$(git rev-parse HEAD~1 2>/dev/null || echo 4b825dc642cb6eb9a060e54bf8d69288fbee4904)"
           fi
           node cadmo/spec-drift.mjs --base "$BASE"

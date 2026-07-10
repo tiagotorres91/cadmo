@@ -85,7 +85,7 @@ for (const [src, dest] of plan) {
 
 console.log(`\n  ${placed} file(s) ${DRY ? 'would be created' : 'created'}, ${skipped} kept.\n`);
 if (!hasClaude && !NO_CLAUDE) {
-  console.log('  (No CLAUDE.md/.claude detected — run with --claude to also install /cadmo-* slash commands.)');
+  console.log('  (No CLAUDE.md/.claude folder detected — run: npm create cadmo -- --claude   (the -- matters: npm swallows flags without it) to also install the /cadmo-* slash commands.)');
 }
 console.log('  Next steps:');
 console.log('  1. Fill in AGENTS.md — the local map your AI pair reads first');

@@ -16,11 +16,11 @@
 ```bash
 npm create cadmo
 ```
-*One command drops the method into your project: `AGENTS.md` (the map your AI reads first) + the value-gate, spec and plan templates. Nothing is ever overwritten.*
+*One command drops the method into your project: `AGENTS.md` (the map your AI reads first), the value-gate, spec, plan and decision templates, plus the spec-drift guard and its ready CI workflow. Nothing is ever overwritten.*
 
 ## See it in action
 
-The method is lived as a conversation. This is what the slash commands (installed automatically when Claude Code is detected) look like in use:
+The method is lived as a conversation. This is what the slash commands (installed automatically when a `CLAUDE.md`/`.claude` folder is present — or via `npm create cadmo -- --claude`) look like in use:
 
 ```text
 You: /cadmo-gate export invoices to CSV
@@ -82,7 +82,7 @@ The three cores (Management, Development, Operations) cover the full lifecycle: 
 ## What's distinctive
 
 - **AI as an engineering pair, not an assistant** — the human specifies and decides; the AI writes and verifies. The bottleneck moved from *writing* to *verifying*, and the method is built around winning that.
-- **Documentation that cannot silently lie** — a spec declares which files implement it (`watches:`), and [a 100-line CI check](docs/spec-drift.md) fails any change that touches those files without updating the spec. Client-validated docs with signature + exact version, kept true by a mechanism, not by discipline.
+- **Documentation that cannot silently lie** — a spec declares which files implement it (`watches:`), and [a small dependency-free CI check](docs/spec-drift.md) fails any change that touches those files without updating the spec. Client-validated docs with signature + exact version, kept true by a mechanism, not by discipline.
 - **The method travels in the repo** — a collaborator's AI orients itself by opening the repository. No human onboarding required.
 - **Enforcement in layers** — what's critical becomes mechanical (CI, gates that refuse), what's behavioral lives in always-loaded instructions, and a fresh-context reviewer catches the rest.
 
@@ -130,7 +130,7 @@ Does the framework have the artifacts the framework proposes? **Yes — real one
 - ✅ Spec-drift enforcement — [the mechanism](docs/spec-drift.md), with an opt-in reviewed-state (`--stamp` / SUSPECT) layer, dogfooded on this repo
 - ✅ `node tools/cadmo-score.mjs` — [the maturity ladder](docs/maturity.md) as a self-check · `cadmo-validate` — pin a client approval to the exact version
 - ✅ Worked examples across all five pillars, incl. a [runnable eval kit](examples/eval-kit/) and an [incident](examples/incident.md); ops [runbook](templates/runbook.md)/[SLO](templates/slo.md) + a [compliance map](docs/compliance-map.md)
-- ✅ **Claude Code plugin** — `/plugin marketplace add tiagotorres91/cadmo` then `/plugin install cadmo@cadmo` (the `/cadmo:gate` · `/cadmo:spec` · `/cadmo:done` commands + a Stop hook + the `cadmo-method` skill) · a cross-agent [`cadmo-method` skill](skills/cadmo-method/SKILL.md) (Claude Code / Codex / Copilot) · a reusable [`spec-drift-action`](spec-drift-action/) (`uses: tiagotorres91/cadmo/spec-drift-action@v0.4.0`)
+- ✅ **Claude Code plugin** — `/plugin marketplace add tiagotorres91/cadmo` then `/plugin install cadmo@cadmo` (the `/cadmo:gate` · `/cadmo:spec` · `/cadmo:done` commands + a Stop hook + the `cadmo-method` skill) · a cross-agent [`cadmo-method` skill](skills/cadmo-method/SKILL.md) (Claude Code / Codex / Copilot) · a reusable [`spec-drift-action`](spec-drift-action/) (`uses: tiagotorres91/cadmo/spec-drift-action@v0.4.1`)
 - ⏳ cadmo.dev — the method as a browsable site · publishing to the plugin/action marketplaces
 - 💬 Ideas and war stories → [Discussions](https://github.com/tiagotorres91/cadmo/discussions)
 

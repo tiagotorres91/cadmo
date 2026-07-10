@@ -48,8 +48,8 @@ lean on deterministic asserts.
 ## History via CI
 
 [`eval-ci.yml`](eval-ci.yml) is an **example GitHub workflow — copy it to
-`.github/workflows/eval.yml`** in your project **and retarget the two paths marked
-`<< retarget >>`** to where your eval config and AI feature actually live (copied verbatim
+`.github/workflows/eval.yml`** in your project **and retarget every line marked
+`<< retarget >>`** — two distinct paths (your eval folder, which appears three times, and your AI feature source) — to where they actually live (copied verbatim
 it points at this example's folder, which won't exist in your repo). It runs the eval on
 every PR that touches the feature or the benchmark, fails the check on a regression (make
 it a required check to enforce "does not ship"), and uploads the run as an artifact. Those

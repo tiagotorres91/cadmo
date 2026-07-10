@@ -2,6 +2,7 @@
 watches:
   - npm/index.js
   - npm/templates/**
+reviewed: 61edbe236ab3504cd1d913376d5ae34123526691790d3c06a52461b0aed92fba
 ---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 
@@ -19,7 +20,7 @@ Your AI does the rest — including proposing the map (the scaffolded `AGENTS.md
 npm create cadmo
 ```
 
-Drops `AGENTS.md`, a `cadmo/` folder (the value-gate, spec, plan and decision templates **plus the spec-drift guard and its workflow**), and — when Claude Code is detected — the `/cadmo-*` slash commands. Nothing is ever overwritten. *(Prefer the [Cadmo plugin](../README.md#roadmap) for the commands? Install it and pass `--no-claude` here — one source, no duplicate spellings.)* The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
+Drops `AGENTS.md`, a `cadmo/` folder (the value-gate, spec, plan and decision templates **plus the spec-drift guard and its workflow**), and — when Claude Code is detected — the `/cadmo-*` slash commands. Nothing is ever overwritten. *(Prefer the [Cadmo plugin](../README.md#roadmap) for the commands? Install it and run `npm create cadmo -- --no-claude` here (the `--` matters: npm swallows flags without it) — one source, no duplicate spellings.)* The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
 
 ## 1. Give your AI the local map (2 min)
 

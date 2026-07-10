@@ -15,17 +15,18 @@
 ## Where things live
 - Specs / decisions: <path>
 - Plans: <path>
-- Demands / task board: <where>
+- Demands / task board: <where — GitHub issues works; "none yet" is honest>
 
 ## How to verify (the harness — run before saying "done")
 - Build/type-check: `<command>`
 - Tests: `<command>`
 - End-to-end / smoke: `<command>`
-- Staging URL: <url>  ·  Production: <url>
+- Staging URL: <url — or "none: ships as a package / binary / store build">  ·  Production: <url or delivery channel>
 
 ## Gates
 - Plan approved before building; production ships only with explicit human approval.
 - <any project-specific rule or gotcha>
 
 ## The method
-Opening choreography, definition of done, the layers — see the Cadmo method (link).
+Opening choreography, definition of done, the layers — see the Cadmo method:
+https://github.com/tiagotorres91/cadmo/blob/main/docs/method.md

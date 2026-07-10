@@ -1,6 +1,8 @@
 # Dogfood: this repo's own spec-drift guard — and it runs on PUSH, not only PRs,
 # because this repo ships straight to main. (A guard that never fires is prose;
 # the "four templates" doc bug reappeared once precisely because this didn't run.)
+# Audited escape hatch (never silent): "spec-drift: skip -- <reason>" in the PR body
+# (pull_request runs) or in the latest commit message (push runs).
 name: spec-drift
 on:
   pull_request:
@@ -17,16 +19,24 @@ jobs:
         with:
           node-version: "20"
       - name: docs must change with the tool they describe
+        env:
+          # env var, never inline interpolation — a PR body is attacker-controlled text
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          # audited escape hatch: "spec-drift: skip" in the latest commit message
-          if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
-            echo "spec-drift: skip found in commit message — skipping."
-            exit 0
-          fi
           if [ "${{ github.event_name }}" = "pull_request" ]; then
+            if printf '%s' "$PR_BODY" | grep -qi 'spec-drift: skip'; then
+              echo "spec-drift: skip found in the PR body — skipping."
+              exit 0
+            fi
             BASE="origin/${{ github.base_ref }}"
           else
+            if git log -1 --format=%B | grep -qi 'spec-drift: skip'; then
+              echo "spec-drift: skip found in commit message — skipping."
+              exit 0
+            fi
             BASE="${{ github.event.before }}"
-            git cat-file -e "${BASE}^{commit}" 2>/dev/null || BASE="$(git rev-parse HEAD~1)"
+            # first push of a branch/repo: event.before is all-zeros -> last commit -> empty tree
+            git cat-file -e "${BASE}^{commit}" 2>/dev/null \
+              || BASE="$(git rev-parse HEAD~1 2>/dev/null || echo 4b825dc642cb6eb9a060e54bf8d69288fbee4904)"
           fi
           node tools/spec-drift.mjs --base "$BASE"

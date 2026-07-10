@@ -30,12 +30,17 @@
  * the SINGLE grammar shared by spec-drift, cadmo-score and the plugin hook.
  *
  * Usage:
- *   node spec-drift.mjs [--base origin/main] [--dir .] [--suspect-all]
+ *   node spec-drift.mjs [--base <ref>] [--dir .] [--suspect-all]
  *   node spec-drift.mjs --stamp <spec.md> [--dir .]
  *
+ * With no --base, the first existing ref wins: origin/main → main (when you're
+ * on a different branch) → HEAD~1 → the empty tree (single-commit repo: the
+ * whole initial commit is the diff). A solo repo with no remote just works.
+ *
  * Escape hatch (audited, not silent): if a change genuinely doesn't alter any
- * documented rule, say so where reviewers can see it — e.g. run the CI step
- * only when the commit message does NOT contain "spec-drift: skip — <reason>".
+ * documented rule, say so where reviewers can see it — the shipped workflow
+ * honors "spec-drift: skip — <reason>" in the PR body (pull_request runs) or
+ * in the latest commit message (push runs).
  */
 import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
@@ -49,8 +54,27 @@ function opt(name, fallback) {
   const i = args.indexOf(name);
   return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
 }
-const BASE = opt('--base', 'origin/main');
 const ROOT = path.resolve(opt('--dir', '.'));
+// sha of git's empty tree — diffing against it means "everything is new"
+const EMPTY_TREE = '4b825dc642cb6eb9a060e54bf8d69288fbee4904';
+function refExists(ref) {
+  try {
+    execFileSync('git', ['rev-parse', '--verify', '--quiet', `${ref}^{commit}`], { cwd: ROOT, stdio: ['ignore', 'ignore', 'ignore'] });
+    return true;
+  } catch { return false; }
+}
+function resolveBase() {
+  if (refExists('origin/main')) return 'origin/main';
+  let branch = '';
+  try {
+    branch = execFileSync('git', ['symbolic-ref', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch { /* detached HEAD */ }
+  if (branch !== 'main' && refExists('main')) return 'main';
+  if (refExists('HEAD~1')) return 'HEAD~1';
+  return EMPTY_TREE;
+}
+const BASE_GIVEN = opt('--base', null);
+const BASE = BASE_GIVEN || resolveBase();
 const STAMP = opt('--stamp', null);
 const SUSPECT_ALL = args.includes('--suspect-all');
 if (args.includes('--stamp') && !STAMP) {
@@ -147,12 +171,19 @@ if (STAMP) {
 }
 
 // --- changed files vs base ---
+// The empty tree has no merge base, so it gets a two-dot diff; refs get three-dot.
+const RANGE = BASE === EMPTY_TREE ? [BASE, 'HEAD'] : [`${BASE}...HEAD`];
 let changed;
 try {
-  changed = execFileSync('git', ['diff', '--name-only', `${BASE}...HEAD`], { cwd: ROOT, encoding: 'utf8' })
+  changed = execFileSync('git', ['diff', '--name-only', ...RANGE], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
     .split('\n').filter(Boolean);
+  if (!BASE_GIVEN) {
+    console.log(`spec-drift: no --base given — diffing against ${BASE === EMPTY_TREE ? 'the empty tree (single-commit repo: the whole initial commit)' : BASE}.`);
+  }
 } catch (e) {
-  console.error(`spec-drift: cannot diff against ${BASE} — ${e.message}`);
+  const detail = (e.stderr ? e.stderr.toString() : e.message).split(/\r?\n/).find(Boolean) || '';
+  console.error(`spec-drift: cannot diff against ${BASE} — ${detail}`);
+  console.error('spec-drift: is this a git repository with at least one commit? Pass --base <ref> to pick the comparison point explicitly.');
   process.exit(2);
 }
 
@@ -160,7 +191,14 @@ const specs = [];
 for (const f of mdFiles(ROOT)) {
   const text = readSpec(f);
   const watches = watchesOf(text);
-  if (watches) specs.push({ spec: path.relative(ROOT, f).split(BS).join('/'), watches, reviewed: reviewedOf(text) });
+  const rel = path.relative(ROOT, f).split(BS).join('/');
+  if (watches) {
+    specs.push({ spec: rel, watches, reviewed: reviewedOf(text) });
+  } else if (text.startsWith('<!--') && /^watches:/m.test(text)) {
+    // the template ships with a leading HTML comment; front matter placed after
+    // it is invisible to the grammar — a spec that LOOKS guarded but isn't.
+    console.error(`WARNING: ${rel} has a watches: line but does not start with --- (front matter must be the very first bytes — delete the leading comment). This spec is NOT being checked.`);
+  }
 }
 
 if (!specs.length) {

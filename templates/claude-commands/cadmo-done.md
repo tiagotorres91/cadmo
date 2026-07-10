@@ -11,7 +11,7 @@ Check each item **against evidence, not memory** — run the commands, don't ass
 - [ ] **Tested functionally** — the real flow (browser, curl, CLI run), not just linters
 - [ ] Validated in staging before production (when there is one)
 - [ ] Acceptance criteria from the spec/plan — checked one by one, quoted
-- [ ] Spec updated if a rule changed (same commit) — run `node cadmo/spec-drift.mjs --base origin/main` if present
+- [ ] Spec updated if a rule changed (same commit) — run `node cadmo/spec-drift.mjs` if present (no --base needed: it auto-resolves, remote or not)
 - [ ] Anything untested? Say it explicitly: "I didn't test X"
 - [ ] Touched auth/input/data/secrets? → flag that an adversarial security pass is due before shipping
 

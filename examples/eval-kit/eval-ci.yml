@@ -1,5 +1,5 @@
 # EXAMPLE — copy to .github/workflows/eval.yml in your project, then RETARGET the two
-# paths marked "<< retarget >>" to where YOUR eval config and AI feature live. Copied
+# EVERY line marked "<< retarget >>" (the eval folder appears three times) to where YOUR eval config and AI feature live. Copied
 # verbatim it runs against this example's folder, which won't exist in your repo.
 #
 # Runs the AI-feature eval and FAILS the PR on a regression (a required-check pattern):

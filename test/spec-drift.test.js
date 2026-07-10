@@ -195,6 +195,63 @@ test('grammar: unindented list items are accepted (hook/tool parity)', () => {
   assert.strictEqual(run(dir), 1, 'unindented - item must be seen -> DRIFT');
 });
 
+// --- round-5: first-day adopter fixes ---
+
+// run WITHOUT --base: exercises the auto-resolution chain
+function runAuto(dir) {
+  try {
+    const out = execFileSync('node', [DRIFT], { cwd: dir, encoding: 'utf8' });
+    return { code: 0, out };
+  } catch (e) { return { code: e.status ?? 1, out: (e.stdout || '') + (e.stderr || '') }; }
+}
+
+test('no --base, local repo with no remote: feature branch resolves against main -> DRIFT', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  const r = runAuto(dir);
+  assert.strictEqual(r.code, 1, 'watched change without spec must DRIFT with auto-resolved base');
+});
+
+test('no --base, single-commit repo with no remote: empty-tree diff, co-committed spec+code -> OK', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'main');
+  write(dir, 'docs/s.md', spec(['src/**']));
+  write(dir, 'src/a.js', 'v1');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'first and only');
+  const r = runAuto(dir);
+  assert.strictEqual(r.code, 0, 'single-commit repo must not crash (was: fatal on origin/main)');
+  assert.match(r.out, /empty tree/, 'should say it resolved to the empty tree');
+});
+
+test('no --base, on main with prior commits and no remote: resolves to HEAD~1 -> DRIFT caught', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'main');
+  write(dir, 'docs/s.md', spec(['src/**']));
+  write(dir, 'src/a.js', 'v1');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  write(dir, 'src/a.js', 'v2');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'watched change, no spec');
+  const r = runAuto(dir);
+  assert.strictEqual(r.code, 1, 'on main with no remote the last commit must still be checked');
+});
+
+test('watches: after a leading HTML comment -> loud WARNING naming the file, not a silent miss', () => {
+  const NLCH = String.fromCharCode(10);
+  const dir = repo({
+    base: d => {
+      write(d, 'docs/s.md', '<!-- template intro -->' + NLCH + '---' + NLCH + 'watches:' + NLCH + '  - src/**' + NLCH + '---' + NLCH + 'spec');
+      write(d, 'src/a.js', 'v1');
+    },
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  // exits 0 (no valid specs) but must shout about the invisible one on stderr
+  const res = require('node:child_process').spawnSync('node', [DRIFT, '--base', 'main'], { cwd: dir, encoding: 'utf8' });
+  assert.strictEqual(res.status, 0);
+  assert.match(res.stdout + res.stderr, /WARNING: docs\/s\.md has a watches: line/, 'must name the unguarded file');
+});
+
 test('SUSPECT is diff-scoped: an innocent PR (untouched watched set) passes', () => {
   const dir = repo({
     base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },

@@ -25,14 +25,14 @@ Billing is an architecture decision: heavy work (implementing, writing content) 
 
 ## The channel rules
 
-1. **One demand = one issue.** The issue is the *only* conversation channel. The PR carries code and a `Closes #N` — never discussion. (Splitting conversation across PR comments and issue threads is how context gets lost between AI sessions.)
+1. **One demand = one issue.** The issue is the *only* conversation channel. The PR carries code and a `Closes #N` — never discussion. (Splitting conversation across PR comments and issue threads is how context gets lost between AI sessions.) Opening the PR posts exactly **one comment on the issue** ("PR #N open — with the maintainer") — not discussion, a state marker: without it the issue still reads as an untouched demand, and the next memory-less session picks it up and builds it again.
 2. **Spec in the issue body.** The demand arrives specified: goal, acceptance criteria, size guidance. The collaborator's AI reads the issue and starts — no clarification call.
 3. **Every review ends with a verdict.** The maintainer closes every round with exactly one of:
    - ✅ **APPROVED** — merged; the round is over.
    - 🔧 **CHANGES** — concrete list; the ball returns to the collaborator.
    - ❓ **DECIDE** — a genuine fork the maintainer wants the collaborator's input on.
 4. **Merge is the full stop.** New idea after merge? New issue. Never reopen a merged thread.
-5. **Two-round ceiling.** If the same point survives two review rounds, it escalates to the human owners — AIs don't loop forever on a disagreement.
+5. **Two-round ceiling.** If the same point survives two review rounds, it escalates to the human owners — AIs don't loop forever on a disagreement. Escalation must be *visible in repo state*: the maintainer applies an `escalated` label (rule zero skips it — the ball is with the humans, and without the marker the next session reads the last verdict as "ball with you" and starts round 3); the humans' decision re-enters as a verdict comment that removes the label.
 6. **When the maintainer solves it themselves** (urgent, or beyond the collaborator's limits): close the issue with a distinct marker — *"🤖 Resolved by maintainer"* — **not** a verdict. A verdict answers a collaborator's PR; this marker says *"absorb the change, it was never your ball."*
 
 ## Context questions — asking without a mail carrier
@@ -55,8 +55,8 @@ Right-size the demand to the handoff: **homogeneous volume scales** (add 10 reco
 
 An AI session doesn't get notified while it's away. So every collaborator session **starts with a sweep of two lists**, using the repository's own state as the marker (never memory):
 
-- **List A — the ball is with you:** open issues where the *last* comment is the maintainer's, **or** which have no comments at all (a fresh demand — the spec is in the body).
-- **List B — absorb the outcome:** closed issues **not yet acknowledged** — read the final verdict, because the maintainer may have approved *and* adjusted in the merge, or resolved it themselves. Then **the collaborator acks it** (a label like `absorbed`, or a reaction if they lack triage permission). The ack is the "processed" marker — repository state, not memory. Never use a "recent N" window: one productive day of merges overflows it and outcomes die unread.
+- **List A — the ball is with you:** open issues where the *last* comment is the maintainer's, **or** which have no comments at all (a fresh demand — the spec is in the body) — **skipping issues assigned to someone else.** The assignee is the *claim*: assign yourself before starting, and nothing you see unassigned is anyone's work-in-progress.
+- **List B — absorb the outcome:** closed issues **not yet acknowledged** — read the final verdict, because the maintainer may have approved *and* adjusted in the merge, or resolved it themselves. Then **the collaborator acks it** with the `absorbed` label — the *only* marker the sweep reads. A collaborator without triage permission reacts on the closing comment instead, and **the maintainer mirrors reactions into the label** on their own next sweep: the reaction is an ack-*request*, the label stays the single queryable truth. Never use a "recent N" window: one productive day of merges overflows it and outcomes die unread.
 
 ## Scars that became rules
 
@@ -69,6 +69,7 @@ Real failures from the first days of operation — each one now a rule:
 - **A draft PR without `Closes #N` won't close its issue.** Add the link when leaving draft, or close manually.
 - **A "recently closed" window loses outcomes.** List B started as "last 5 closed" — then came a 12-merge day, and verdicts fell out of the window unread. The fix is the ack marker above: unacknowledged closures resurface every session, forever, until processed.
 - **The merge closes the issue instantly** (via `Closes #N`) — so the maintainer's order is fixed: **verdict comment first, merge second.** Otherwise the issue closes "mute" and the collaborator finds a closure with no outcome.
+- **Between sessions, both sides can draft the same work.** Nothing marked a batch of issues as taken, so the maintainer swept the backlog while the collaborator drafted the same deliverable offline — hours duplicated. The claim is GitHub's own **assignee** field (assign yourself before starting; rule zero skips issues assigned to someone else), and it doubles as the recovery handle for a vanished collaborator: the maintainer unassigns, comments, and the demand is claimable again.
 
 ## Two sessions, one working tree
 

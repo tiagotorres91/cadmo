@@ -10,7 +10,7 @@ An explicit **acknowledgment marker**: the collaborator adds a label (e.g. `abso
 
 ## Alternatives considered
 - **Bigger window (top-20)** — why not: same failure, later; any N loses a busy-enough day.
-- **Reactions as the marker** — why not: viable when the collaborator lacks triage permission (documented as fallback), but querying "which issues lack MY reaction" is expensive/awkward; a label is one `--search '-label:absorbed'`.
+- **Reactions as the marker** — why not: querying "which issues lack MY reaction" is expensive/awkward; a label is one `--search '-label:absorbed'`. Reactions survive only as an **ack-request** for a collaborator without triage permission: the maintainer mirrors them into the label on their own sweep, so the label remains the single queryable truth (a fallback the sweep can't read would resurface acked issues forever — the same failure this ADR kills).
 - **Timestamps ("closed since my last session")** — why not: "my last session" is exactly the memory the protocol forbids relying on.
 
 ## Consequences

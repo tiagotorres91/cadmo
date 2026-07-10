@@ -3,6 +3,8 @@
 > Drop this in your repo (adapted) when a second developer joins. It instantiates the
 > [Cadmo collaboration protocol](https://github.com/tiagotorres91/cadmo/blob/main/docs/collaboration-protocol.md)
 > — the full rationale and scars live there; this file is the operational instance.
+> Maintainer, day 0: create the `absorbed`, `context-question` and `escalated` labels and grant the
+> collaborator **triage or better** — rule zero depends on these facilities existing.
 
 ## Roles
 
@@ -11,26 +13,35 @@
 
 ## The rules
 
-1. **One demand = one issue.** All conversation happens in the issue; the PR carries code + `Closes #N`, nothing else.
+1. **One demand = one issue.** All conversation happens in the issue; the PR carries code + `Closes #N`, nothing else — except **one state-marker comment on the issue when the PR opens** ("PR #N open — with the maintainer"), so no later session re-picks the demand.
 2. **The spec is in the issue body** (goal, acceptance criteria, size guidance). Read the WHOLE issue including comments before starting.
-3. **Every maintainer review ends with a verdict:** ✅ APPROVED (merged, done) · 🔧 CHANGES (apply and resubmit) · ❓ DECIDE (answer and wait). A closed issue may instead carry **"🤖 Resolved by maintainer"** — not your work; just absorb the change.
-4. **Merge is the full stop.** New topic → new issue. Two rounds on the same point → it escalates to the humans.
+3. **Every maintainer review ends with a verdict:** ✅ APPROVED (merged, done) · 🔧 CHANGES (apply and resubmit) · ❓ DECIDE (answer and wait) · ❓ CONTEXT (a context-question answered — promoted to the context cache). A closed issue may instead carry **"🤖 Resolved by maintainer"** — not your work; just absorb the change.
+4. **Merge is the full stop.** New topic → new issue. Two rounds on the same point → it escalates to the humans; the maintainer marks it `escalated` (rule zero skips it) and the human decision re-enters as a verdict that removes the label.
 5. **Every branch starts from up-to-date `main`.** Never chain PRs.
 
 ## Rule zero — run this at the START of every session
 
-Sweep two lists (repository state is the marker, never memory):
+Sweep three lists (repository state is the marker, never memory):
 
-- **A — the ball is with you:** open issues with no comments, or where the maintainer commented last.
+- **A — the ball is with you:** open issues with no comments, or where the maintainer commented last — **skipping issues assigned to someone else, and skipping `escalated`**. Before you start one: **assign yourself** (`gh issue edit <N> --add-assignee @me`) — the assignee is the claim.
 - **B — outcomes to absorb:** closed issues without the `absorbed` label. Read the final verdict (the maintainer may have adjusted things in the merge), then add the label yourself:
   `gh issue edit <N> --add-label absorbed`
+  (No triage permission? React 👍 on the closing comment — the maintainer mirrors reactions into the label on their next sweep.)
+- **C — context questions:** open `context-question` issues that got an answer → incorporate it; your own unanswered blocking question → proceed under its documented **default assumption** (never deadlock waiting).
 
 ```bash
-# List A
-gh issue list --repo <owner>/<repo> --state open --json number,title,comments \
+# List A — two native queries: unclaimed + claimed by you (skip escalated in both)
+gh issue list --repo <owner>/<repo> --state open --search 'no:assignee -label:escalated' \
+  --json number,title,comments \
+  --jq '.[] | select((.comments|length)==0 or .comments[-1].author.login=="<maintainer>") | "#\(.number) \(.title)"'
+gh issue list --repo <owner>/<repo> --state open --assignee "@me" --search '-label:escalated' \
+  --json number,title,comments \
   --jq '.[] | select((.comments|length)==0 or .comments[-1].author.login=="<maintainer>") | "#\(.number) \(.title)"'
 # List B
 gh issue list --repo <owner>/<repo> --state closed --search '-label:absorbed' \
+  --json number,title --jq '.[] | "#\(.number) \(.title)"'
+# List C
+gh issue list --repo <owner>/<repo> --state open --label context-question \
   --json number,title --jq '.[] | "#\(.number) \(.title)"'
 ```
 
@@ -40,4 +51,4 @@ Need maintainer context to proceed? Check `governance/context.md` (the answered-
 
 ## Building
 
-Follow the project's `AGENTS.md` (the map + the definition of done). Highlights that bear repeating: acceptance criteria before code · test the real flow · say explicitly what you didn't test · production is never yours to touch.
+Follow the project's `AGENTS.md` (the map + the definition of done). Highlights that bear repeating: acceptance criteria before code · test the real flow · say explicitly what you didn't test · a change touching a spec's watched files updates (or re-`--stamp`s) that spec in the same PR · production is never yours to touch.

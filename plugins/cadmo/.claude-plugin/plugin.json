@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "cadmo",
   "displayName": "Cadmo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Write it down before you build it — the Cadmo method as slash commands (/cadmo:gate, /cadmo:spec, /cadmo:done) plus a Stop hook that reminds you to run the definition of done and re-check spec drift.",
   "author": {
     "name": "Tiago Torres"

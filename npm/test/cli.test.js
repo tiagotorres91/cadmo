@@ -12,6 +12,7 @@ const BASE = [
   'AGENTS.md',
   'cadmo/value-gate.md', 'cadmo/spec.md', 'cadmo/plan.md', 'cadmo/decision.md',
   'cadmo/cadmo-grammar.mjs', 'cadmo/spec-drift.mjs', 'cadmo/spec-drift-workflow.yml',
+  'cadmo/context-question.yml',
 ];
 const CLAUDE = [
   '.claude/commands/cadmo-gate.md', '.claude/commands/cadmo-spec.md', '.claude/commands/cadmo-done.md',
@@ -24,7 +25,7 @@ function tmp() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'cadmo-test-'));
 }
 
-test('scaffolds the eight base files into an empty project', () => {
+test('scaffolds the nine base files into an empty project', () => {
   const dir = tmp();
   runIn(dir);
   for (const f of BASE) assert.ok(fs.existsSync(path.join(dir, f)), `expected ${f}`);

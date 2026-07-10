@@ -29,3 +29,7 @@ The axes set the **target maturity level** ([the ladder](../maturity.md)): solo 
 The instance is "assembled" when it has: an `AGENTS.md` / local map, the value gate on, a declared harness, and demands with a home — plus, where they apply, the operations, governance and collaboration layers.
 
 This is what `npm create cadmo` does — it scaffolds a new instance (the map, the templates, the drift guard, the slash commands) in one command. Running it *is* step 3 (Context) of the assembly line.
+
+## The return lane
+
+The assembly line runs both ways. Instances feed the method (every scar here came from one) — but when the *method* gains a new mechanism or practice, close that round by asking explicitly: **"which instance does this reach?"** Per instance, right-sized — "none" is a valid answer, but it gets *recorded*, never defaulted into. Two small mechanisms keep this honest: every tool copied into an instance carries a **sync marker** (source commit + date — "which version does this instance run?" is answerable without diffing), and the sweep question runs at round close. Without them, artifacts stay aligned (they're enumerable — they have an inventory and a diff) while mechanisms silently lag: that's how a method's own founding instance can end up several rounds behind the method it created.

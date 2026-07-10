@@ -3,8 +3,10 @@
 > Drop this in your repo (adapted) when a second developer joins. It instantiates the
 > [Cadmo collaboration protocol](https://github.com/tiagotorres91/cadmo/blob/main/docs/collaboration-protocol.md)
 > — the full rationale and scars live there; this file is the operational instance.
-> Maintainer, day 0: create the `absorbed`, `context-question` and `escalated` labels and grant the
-> collaborator **triage or better** — rule zero depends on these facilities existing.
+> Maintainer, day 0: run [`collab-bootstrap.sh`](https://github.com/tiagotorres91/cadmo/blob/main/scripts/collab-bootstrap.sh) `<collaborator>`
+> — it creates the `absorbed` / `context-question` / `escalated` labels and the context-question
+> issue form, and checks the collaborator has **triage or better** (catching an invitation sent but
+> never accepted) and that the default branch is protected — the facilities rule zero depends on.
 
 ## Roles
 

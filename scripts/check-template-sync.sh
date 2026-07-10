@@ -22,9 +22,17 @@ check templates/claude-commands/cadmo-gate.md  plugins/cadmo/commands/gate.md
 check templates/claude-commands/cadmo-spec.md  plugins/cadmo/commands/spec.md
 check templates/claude-commands/cadmo-done.md  plugins/cadmo/commands/done.md
 check skills/cadmo-method/SKILL.md             plugins/cadmo/skills/cadmo-method/SKILL.md
+# the context-question form ships four ways — canonical templates/, the CLI copy,
+# this repo's live form, and the heredoc collab-bootstrap embeds for adopter repos
+check templates/context-question.yml npm/templates/context-question.yml
+check templates/context-question.yml .github/ISSUE_TEMPLATE/context-question.yml
+tmpform="$(mktemp)"
+sed -n "/<<'CADMO_FORM_EOF'/,/^CADMO_FORM_EOF[[:space:]]*\$/p" scripts/collab-bootstrap.sh | sed '1d;$d' | tr -d '\r' > "$tmpform"
+if ! tr -d '\r' < templates/context-question.yml | diff -q "$tmpform" - >/dev/null; then echo "DRIFT: collab-bootstrap.sh heredoc != templates/context-question.yml"; fail=1; fi
+rm -f "$tmpform"
 if [ "$fail" -eq 0 ]; then
   echo "templates in sync ✓"
 else
-  echo "Fix: cp templates/*.md npm/templates/ ; cp templates/AGENTS.md.template npm/templates/AGENTS.md ; cp tools/spec-drift.mjs tools/spec-drift-workflow.yml npm/templates/ ; cp templates/claude-commands/*.md npm/templates/claude-commands/"
+  echo "Fix: cp templates/*.md npm/templates/ ; cp templates/AGENTS.md.template npm/templates/AGENTS.md ; cp tools/spec-drift.mjs tools/spec-drift-workflow.yml npm/templates/ ; cp templates/claude-commands/*.md npm/templates/claude-commands/ ; cp templates/context-question.yml npm/templates/ ; cp templates/context-question.yml .github/ISSUE_TEMPLATE/"
   exit 1
 fi

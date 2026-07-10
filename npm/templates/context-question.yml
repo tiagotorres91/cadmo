@@ -1,0 +1,46 @@
+name: Context question
+description: An agent (or human) needs maintainer context to proceed — the structured elicitation channel.
+title: "[context] "
+labels: ["context-question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before asking:** check [`governance/context.md`](../blob/main/governance/context.md) (answered questions live there — nobody asks twice) and [`governance/direction.md`](../blob/main/governance/direction.md) (goal, audience, scope). If the answer is in neither, ask away.
+  - type: textarea
+    id: question
+    attributes:
+      label: The question
+      description: One question per issue. Specific beats broad.
+      placeholder: e.g. "Should verdicts on public issues be written in English or pt-BR?"
+    validations:
+      required: true
+  - type: textarea
+    id: why-blocking
+    attributes:
+      label: What is blocked without the answer
+      description: The work that waits on this — so the maintainer can gauge urgency.
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options (if multiple-choice)
+      description: When the question has enumerable answers, list them — mirrors how agents ask humans best.
+      placeholder: |
+        A) …
+        B) …
+  - type: textarea
+    id: default-assumption
+    attributes:
+      label: Default assumption
+      description: What you will assume (and document) if there's no answer in time — an async channel must never deadlock a session.
+    validations:
+      required: true
+  - type: input
+    id: asked-by
+    attributes:
+      label: Asked by
+      description: Which agent/human is asking (e.g. "Matheus's AI pair", "maintainer's AI").
+    validations:
+      required: true

@@ -2,7 +2,7 @@
 watches:
   - npm/index.js
   - npm/templates/**
-reviewed: 078bb9109edb1b7a817cbd9635a027ea456216c652191b29523dff1f54b6aaaa
+reviewed: a28c2b1ea32d7fcc80978acb3a76584d4e57a32c2054fc2ab28634c20d556ccf
 ---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 
@@ -20,7 +20,7 @@ Your AI does the rest — including proposing the map (the scaffolded `AGENTS.md
 npm create cadmo
 ```
 
-Drops `AGENTS.md`, a `cadmo/` folder (the value-gate, spec, plan and decision templates **plus the spec-drift guard and its workflow**), and — when Claude Code is detected — the `/cadmo-*` slash commands. Nothing is ever overwritten. *(Prefer the [Cadmo plugin](../README.md#roadmap) for the commands? Install it and run `npm create cadmo -- --no-claude` here (the `--` matters: npm swallows flags without it) — one source, no duplicate spellings.)* The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
+Drops `AGENTS.md`, a `cadmo/` folder (the value-gate, spec, plan and decision templates **plus the spec-drift guard and its workflow**, and the context-question issue form for when a second dev joins), and — when Claude Code is detected — the `/cadmo-*` slash commands. Nothing is ever overwritten. *(Prefer the [Cadmo plugin](../README.md#roadmap) for the commands? Install it and run `npm create cadmo -- --no-claude` here (the `--` matters: npm swallows flags without it) — one source, no duplicate spellings.)* The steps below explain what each piece is for; prefer manual? Copy from [`templates/`](../templates/) instead.
 
 ## 1. Give your AI the local map (2 min)
 
@@ -61,6 +61,6 @@ The repo carries the whole method, but **day 1 needs three things**: the map (`A
 
 If you're at rung 1 and something here feels like ceremony — it is, *for you, today*. Skip it; it'll be waiting when the stakes earn it.
 
-**Working with a second developer?** Read [`collaboration-protocol.md`](collaboration-protocol.md) — the method travels in the repo, and their AI onboards itself.
+**Working with a second developer?** Read [`collaboration-protocol.md`](collaboration-protocol.md) — the method travels in the repo, and their AI onboards itself. The maintainer's day 0 is one command: [`scripts/collab-bootstrap.sh <collaborator>`](../scripts/collab-bootstrap.sh) creates the labels + issue form rule zero depends on and checks permission and branch protection.
 
 **Want to see it whole?** Walk through a complete demand in [`examples/`](../examples/) — gate → spec → plan → done.

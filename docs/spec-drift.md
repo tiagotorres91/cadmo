@@ -23,7 +23,7 @@ watches:
 ...
 ```
 
-The front matter must be the **very first bytes** of the file — a `watches:` block placed after a leading comment is invisible, and the guard prints a loud WARNING naming the file rather than silently skipping it.
+The front matter must be the **very first bytes** of the file — a `watches:` block placed after a leading comment is invisible, and the guard prints a loud WARNING naming the file rather than silently skipping it. (The example `watches:` still *inside* the scaffolded template's leading comment stays silent — only the real mistake warns.)
 
 **2. A small dependency-free script checks the diff** — [`spec-drift.mjs`](../tools/spec-drift.mjs) (dropped into your project by `npm create cadmo` as `cadmo/spec-drift.mjs`):
 

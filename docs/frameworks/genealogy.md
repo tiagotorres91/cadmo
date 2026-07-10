@@ -5,12 +5,14 @@ No off-the-shelf framework fits a lean operation running AI in production. Cadmo
 | Tradition | What Cadmo took | How it was adapted |
 |---|---|---|
 | **Spec-Driven Development** (GitHub Spec Kit) | spec → plan → verify; the spec is the source | steps by size (never a rigid three-file dance); the task board is richer than files in the repo |
-| **AWS Kiro** | EARS acceptance criteria; a validation status on the spec | EARS only on critical criteria; steering became the project's context file |
+| **AWS Kiro** | EARS acceptance criteria; a validation status on the spec; event hooks | EARS only on critical criteria; steering became the project's context file; hooks became dev-environment guard-rails |
 | **Architecture Decision Records** (Nygard) | context → decision → consequences | added a *"when to reconsider"* trigger; retroactive ADRs for live decisions |
 | **Anthropic** (agent engineering) | a verification harness; eval-driven AI features; a direct tool-loop over frameworks | harness declared per project; evals with history — "regression does not ship" |
-| **BMAD** (multi-agent) | independent reviewer, exploratory fan-out, judge panels | on demand, never permanent roles — the agent adds value precisely by *not* inheriting the pair's biases |
+| **BMAD** (multi-agent) | independent reviewer, exploratory fan-out, judge panels, the process check at close | on demand, never permanent roles — the agent adds value precisely by *not* inheriting the pair's biases |
 | **Stigmergy / blackboard systems** (distributed AI) | coordination through a shared environment, not direct messages | the repository is the coordination medium — issues, labels and file state carry the collaboration, with no standing orchestrator ([protocol](../collaboration-protocol.md)) |
 | **XP** (Kent Beck) | pair programming; TDD in spirit; continuous integration | the pair is human + AI; "test first" becomes "criteria first" + eval-first for AI |
+| **Agile / Scrum** | the definition of done; the retrospective | the DoD gained AI-specific items (say what you did NOT test; functional testing beyond green CI); the retro became an on-demand gap audit — no fixed ceremony |
+| **Consumer-driven contracts / API-first** | integration contracts between systems | the endpoint's response returns the schema diff (ignored/missing columns) — the partner self-diagnoses instead of opening a ticket |
 | **SRE** (Google) | blameless postmortems; toil elimination; reliability targets | the prevention must make the system *more diagnosable* than before |
 | **ITIL** | severities/SLA, ticket flow, change management | the backbone of the support layer — without the bureaucracy |
 | **PMBOK 8 / CPMAI / Standard for AI** (PMI) | value on entry and exit; risk; tailoring; AI go/no-go; data readiness; model cards | *tailoring* is PMI's own thesis — the right-sizing Cadmo always practiced, now with the vocabulary a corporate client respects |

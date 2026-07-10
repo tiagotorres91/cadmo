@@ -1,24 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="880" height="200" viewBox="0 0 880 200" role="img" aria-label="Cadmo — write it down before you build it">
   <rect width="880" height="200" fill="#0C1B21"/>
-  <!-- greek key (meander) top border -->
+  <!-- greek key (meander) — top-left / bottom-right, diagonal balance -->
   <g stroke="#2E4A54" stroke-width="2" fill="none">
-    <path d="M20 24 h18 v-8 h-10 v-4 h14 v16 h-22 z" transform="translate(0,0)"/>
+    <path d="M20 24 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
     <path d="M62 24 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
     <path d="M104 24 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
     <path d="M146 24 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
   </g>
   <g stroke="#2E4A54" stroke-width="2" fill="none">
-    <path d="M716 184 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
-    <path d="M758 184 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
-    <path d="M800 184 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
-    <path d="M842 184 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
+    <path d="M716 186 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
+    <path d="M758 186 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
+    <path d="M800 186 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
+    <path d="M842 186 h18 v-8 h-10 v-4 h14 v16 h-22 z"/>
   </g>
-  <!-- wordmark -->
-  <text x="60" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="bold" letter-spacing="14" fill="#FAFCFC">C<tspan fill="#67C6DC">·</tspan>A<tspan fill="#67C6DC">·</tspan>D<tspan fill="#67C6DC">·</tspan>M<tspan fill="#67C6DC">·</tspan>O</text>
-  <!-- tagline -->
-  <text x="62" y="150" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="19" fill="#9FBAC3">write it down before you build it</text>
-  <!-- pillars, right side -->
-  <text x="818" y="70" text-anchor="end" font-family="Segoe UI, system-ui, sans-serif" font-size="12" letter-spacing="2" fill="#5B7078">COLLABORATION · APPLICATION</text>
-  <text x="818" y="90" text-anchor="end" font-family="Segoe UI, system-ui, sans-serif" font-size="12" letter-spacing="2" fill="#5B7078">DEVELOPMENT · MANAGEMENT · OPERATIONS</text>
-  <text x="818" y="122" text-anchor="end" font-family="Segoe UI, system-ui, sans-serif" font-size="13" fill="#67C6DC">the human decides · the AI writes and verifies</text>
+  <!-- left column: wordmark · tagline · thesis -->
+  <text x="60" y="104" font-family="Georgia, 'Times New Roman', serif" font-size="64" font-weight="bold" letter-spacing="14" fill="#FAFCFC">C<tspan fill="#67C6DC">·</tspan>A<tspan fill="#67C6DC">·</tspan>D<tspan fill="#67C6DC">·</tspan>M<tspan fill="#67C6DC">·</tspan>O</text>
+  <text x="62" y="146" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="19" fill="#9FBAC3">write it down before you build it</text>
+  <text x="62" y="176" font-family="Segoe UI, system-ui, sans-serif" font-size="13" fill="#67C6DC">the human decides · the AI writes and verifies</text>
+  <!-- divider -->
+  <line x1="600" y1="48" x2="600" y2="166" stroke="#24404B" stroke-width="1.5"/>
+  <!-- right column: the five pillars, initials spelling the acronym -->
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="15" letter-spacing="3" fill="#7C97A1">
+    <text x="634" y="66"><tspan fill="#67C6DC" font-weight="700">C</tspan>OLLABORATION</text>
+    <text x="634" y="90"><tspan fill="#67C6DC" font-weight="700">A</tspan>PPLICATION</text>
+    <text x="634" y="114"><tspan fill="#67C6DC" font-weight="700">D</tspan>EVELOPMENT</text>
+    <text x="634" y="138"><tspan fill="#67C6DC" font-weight="700">M</tspan>ANAGEMENT</text>
+    <text x="634" y="162"><tspan fill="#67C6DC" font-weight="700">O</tspan>PERATIONS</text>
+  </g>
 </svg>

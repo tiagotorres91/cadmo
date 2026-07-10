@@ -41,6 +41,8 @@ Experience gives assertiveness about what the client wants. So the normal flow i
 
 The rule that makes it self-improving: **a repeated failure isn't re-disciplined, it's mechanized.**
 
+And its companion, the **rule of being-in-force**: an artifact being present ≠ the practice being lived ≠ the mechanism being *in force* — a written rule nothing exercises is theory. Every mechanism is installed (and re-synced) with a **known-bad selftest**: provoke the failure it must catch, and watch it catch it. A guard never seen firing is prose.
+
 ## The vocabulary
 
 - **Artifact** — a tangible document (spec, decision record, plan).

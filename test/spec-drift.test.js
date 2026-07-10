@@ -252,6 +252,20 @@ test('watches: after a leading HTML comment -> loud WARNING naming the file, not
   assert.match(res.stdout + res.stderr, /WARNING: docs\/s\.md has a watches: line/, 'must name the unguarded file');
 });
 
+test('watches: example still INSIDE the leading comment (untouched template) stays silent', () => {
+  const NLCH = String.fromCharCode(10);
+  const dir = repo({
+    base: d => {
+      write(d, 'docs/s.md', '<!-- add front matter like:' + NLCH + '---' + NLCH + 'watches:' + NLCH + '  - src/**' + NLCH + '---' + NLCH + 'then it is enforced. -->' + NLCH + '# Spec template');
+      write(d, 'src/a.js', 'v1');
+    },
+    change: d => write(d, 'src/a.js', 'v2'),
+  });
+  const res = require('node:child_process').spawnSync('node', [DRIFT, '--base', 'main'], { cwd: dir, encoding: 'utf8' });
+  assert.strictEqual(res.status, 0);
+  assert.doesNotMatch(res.stdout + res.stderr, /WARNING/, 'the scaffolded template must not spam the first run');
+});
+
 test('SUSPECT is diff-scoped: an innocent PR (untouched watched set) passes', () => {
   const dir = repo({
     base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },

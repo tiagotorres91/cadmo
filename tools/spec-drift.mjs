@@ -194,9 +194,10 @@ for (const f of mdFiles(ROOT)) {
   const rel = path.relative(ROOT, f).split(BS).join('/');
   if (watches) {
     specs.push({ spec: rel, watches, reviewed: reviewedOf(text) });
-  } else if (text.startsWith('<!--') && /^watches:/m.test(text)) {
-    // the template ships with a leading HTML comment; front matter placed after
-    // it is invisible to the grammar — a spec that LOOKS guarded but isn't.
+  } else if (text.startsWith('<!--') && /^watches:/m.test(text.replace(/^<!--[^]*?-->/, ''))) {
+    // front matter placed AFTER a leading HTML comment is invisible to the
+    // grammar — a spec that LOOKS guarded but isn't. (A watches: example still
+    // INSIDE the comment — the untouched template — stays silent.)
     console.error(`WARNING: ${rel} has a watches: line but does not start with --- (front matter must be the very first bytes — delete the leading comment). This spec is NOT being checked.`);
   }
 }

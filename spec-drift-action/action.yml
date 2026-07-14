@@ -35,6 +35,11 @@ runs:
         ACTION_PATH: ${{ github.action_path }}
       run: |
         set -u
+        # an invalid fail-level must never silently degrade to warn (round-6 finding)
+        if [ "$FAIL_LEVEL" != "warn" ] && [ "$FAIL_LEVEL" != "fail" ]; then
+          echo "::error::spec-drift: invalid fail-level '${FAIL_LEVEL}' — use 'warn' or 'fail'."
+          exit 2
+        fi
         BASE="$INPUT_BASE"
         if [ -z "$BASE" ]; then
           if [ "$EVENT_NAME" = "pull_request" ]; then
@@ -42,13 +47,12 @@ runs:
           else
             BASE="$EVENT_BEFORE"
             if ! git cat-file -e "${BASE}^{commit}" 2>/dev/null; then
-              BASE="$(git rev-parse HEAD~1 2>/dev/null || true)"
+              # first push of a branch/repo: last commit, else the empty tree — the
+              # whole initial commit is checked (parity with the scaffolded workflow;
+              # skipping it entirely was a round-6 finding)
+              BASE="$(git rev-parse HEAD~1 2>/dev/null || echo 4b825dc642cb6eb9a060e54bf8d69288fbee4904)"
             fi
           fi
-        fi
-        if [ -z "$BASE" ]; then
-          echo "spec-drift: no base commit to diff against (first commit / shallow) — nothing to check."
-          exit 0
         fi
         echo "spec-drift: diffing against ${BASE} (fail-level=${FAIL_LEVEL})"
         set +e

@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0            # REQUIRED — the check diffs against a base ref
-      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.2
+      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.3
 ```
 
 That's the whole thing. The action derives the base ref the same way Cadmo's own workflow does
@@ -47,7 +47,7 @@ operational error. Always check out with `fetch-depth: 0` **before** this step.
 ### Enforcing instead of warning
 
 ```yaml
-      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.2
+      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.3
         with:
           fail-level: fail
 ```
@@ -55,7 +55,7 @@ operational error. Always check out with `fetch-depth: 0` **before** this step.
 ### Pinning a base ref
 
 ```yaml
-      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.2
+      - uses: tiagotorres91/cadmo/spec-drift-action@v0.4.3
         with:
           base: origin/main
 ```

@@ -1,7 +1,7 @@
 {
   "name": "create-cadmo",
-  "version": "0.4.1",
-  "description": "Scaffold the Cadmo method into your project \u2014 a right-sized method for building software with AI as your pair.",
+  "version": "0.4.2",
+  "description": "Scaffold the Cadmo method into your project — a right-sized method for building software with AI as your pair.",
   "keywords": [
     "cadmo",
     "create-cadmo",
@@ -19,7 +19,7 @@
     "url": "git+https://github.com/tiagotorres91/cadmo.git"
   },
   "author": "Tiago Torres",
-  "license": "MIT",
+  "license": "(MIT AND CC-BY-4.0)",
   "files": [
     "index.js",
     "templates/",

@@ -33,7 +33,12 @@ node cadmo/spec-drift.mjs
 #        (which watches src/billing/**) did not change in this diff.
 ```
 
-No `--base` needed: it resolves `origin/main` → `main` (when you're on another branch) → `HEAD~1` → the empty tree, in that order — a solo repo with no remote just works, including on its very first commit.
+No `--base` needed: it resolves the remote's declared default branch (`origin/HEAD`) → `origin/main` → `origin/master` → `main`/`master` (when you're on another branch) → `HEAD~1` → the empty tree, in that order — a solo repo with no remote just works, including on its very first commit, and a `master`/`trunk` repo is not silently under-checked.
+
+Three honesty properties of the diff (each one a real escape someone found):
+- **Uncommitted work counts** — `/cadmo:done` runs the guard *before* the commit, so a working-tree-only change to a watched file already reports DRIFT (in CI the checkout is clean; this adds nothing there);
+- **Renames surface both sides** — `git mv src/a.js other/` is a change to the watched surface, not an exit from it;
+- **The whole branch is checked**, not just the last commit.
 
 **3. CI runs it on every PR and push** — the scaffolder also drops a ready workflow (`cadmo/spec-drift-workflow.yml`; move it to `.github/workflows/`). A watched change without its spec fails the build.
 

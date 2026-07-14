@@ -112,9 +112,11 @@ function specSlug(specPath) {
     .replace(/^-+|-+$/g, '') || 'spec';
 }
 
-function shortHash(specPath) {
+function fullHash(specPath) {
   const bytes = fs.readFileSync(specPath); // exact bytes = the version being validated
-  return crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 12);
+  // FULL sha256 in the log: this is an audit surface — 48 bits was enough against
+  // accident, not against a surface presented as governance (round-6 finding).
+  return crypto.createHash('sha256').update(bytes).digest('hex');
 }
 
 function resolveLog() {
@@ -169,11 +171,13 @@ function appendRow(logPath, row) {
   fs.writeFileSync(logPath, lines.join('\n'));
 }
 
-// find the hash of the LAST logged validation for a slug, scanning raw lines so
-// it works regardless of the surrounding table's exact column layout.
-// Scan ONLY the Document/version column (2nd cell) of table rows - free text in the
+// scan the log for every entry of a slug — hash AND verdict, because an entry is
+// only an APPROVAL if its Verdict column says so: a logged "changes requested"
+// must never verify as an approval (round-6 finding — the previous code collected
+// hashes from every verdict and treated the last one as the approved content).
+// Scan ONLY the Document/version column (2nd cell) for the hash - free text in the
 // Notes column can no longer masquerade as a validation (round-4 fix).
-function loggedHashes(logPath, slug) {
+function loggedEntries(logPath, slug) {
   if (!fs.existsSync(logPath)) return [];
   const NLCH = String.fromCharCode(10);
   const BTCH = String.fromCharCode(96);
@@ -189,18 +193,20 @@ function loggedHashes(logPath, slug) {
     const at = doc.indexOf('@');
     if (at < 0) continue;
     const h = doc.slice(at + 1).split(BTCH).join('').trim();
-    if (/^[0-9a-f]{6,64}$/.test(h)) out.push(h);
+    if (!/^[0-9a-f]{6,64}$/.test(h)) continue;
+    const verdict = cells.length > 3 ? cells[3] : '';
+    out.push({ hash: h, approved: /approved/i.test(verdict) && !/changes/i.test(verdict) });
   }
   return out;
 }
 
-function lastLoggedHash(logPath, slug) {
-  const all = loggedHashes(logPath, slug);
-  return all.length ? all[all.length - 1] : null;
+// older rows logged 12-char hashes; new rows log the full sha256 — compare by prefix
+function hashesMatch(a, b) {
+  return a.length <= b.length ? b.startsWith(a) : a.startsWith(b);
 }
 
-function countValidations(logPath, slug) {
-  return loggedHashes(logPath, slug).length;
+function countApprovals(logPath, slug) {
+  return loggedEntries(logPath, slug).filter((e) => e.approved).length;
 }
 
 // --- verify mode ---
@@ -210,19 +216,26 @@ if (has('--verify')) {
   if (!fs.existsSync(specPath)) die(`cadmo-validate: spec not found: ${specPath}`);
 
   const slug = specSlug(specPath);
-  const current = shortHash(specPath);
+  const current = fullHash(specPath);
   const logPath = resolveLog();
-  const logged = lastLoggedHash(logPath, slug);
+  const entries = loggedEntries(logPath, slug);
 
-  if (!logged) {
+  if (!entries.length) {
     console.log(`unvalidated: no approval on record for \`${slug}\` in ${path.relative(process.cwd(), logPath)}`);
     process.exit(2);
   }
-  if (logged === current) {
-    console.log(`validated: \`${slug}\` still matches the approved content (\`${current}\`).`);
+  // the LATEST entry decides the standing state: a "changes requested" logged after
+  // an approval means there is no approval in force right now.
+  const latest = entries[entries.length - 1];
+  if (!latest.approved) {
+    console.log(`unvalidated: the latest logged verdict for \`${slug}\` is not an approval — the spec has no standing approval. Re-validate.`);
+    process.exit(2);
+  }
+  if (hashesMatch(latest.hash, current)) {
+    console.log(`validated: \`${slug}\` still matches the approved content (\`${current.slice(0, 12)}…\`).`);
     process.exit(0);
   }
-  console.log(`expired: content changed since approval — \`${slug}\` is now \`${current}\`, last approved \`${logged}\`. Re-validate.`);
+  console.log(`expired: content changed since approval — \`${slug}\` is now \`${current.slice(0, 12)}…\`, last approved \`${latest.hash.slice(0, 12)}…\`. Re-validate.`);
   process.exit(1);
 }
 
@@ -240,11 +253,16 @@ if (!verdictLabel) die(`cadmo-validate: unknown --verdict "${verdictKey}". Use: 
 
 const notes = opt('--notes') || '—';
 const slug = specSlug(specPath);
-const hash = shortHash(specPath);
+const hash = fullHash(specPath);
 const version = '`' + slug + '` @ `' + hash + '`';
 
 // Determinism: the date is an INPUT, never the system clock.
 const date = opt('--date') || process.env.CADMO_DATE;
+
+// a malformed date (e.g. with pipes) would silently corrupt the markdown table
+if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+  die(`cadmo-validate: invalid date "${date}" — the format is YYYY-MM-DD, nothing else enters the log.`);
+}
 
 if (!date) {
   const row = `| <YYYY-MM-DD> | ${version} | ${cell(by)} | ${verdictLabel} | ${cell(notes)} |`;
@@ -261,7 +279,7 @@ console.log(`recorded: ${row}`);
 console.log(`         → ${path.relative(process.cwd(), logPath)}`);
 
 if (has('--tag')) {
-  const n = countValidations(logPath, slug); // this validation is the nth for the slug
+  const n = countApprovals(logPath, slug); // this approval is the nth for the slug
   let commit = '<commit>';
   try {
     commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();

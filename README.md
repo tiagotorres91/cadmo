@@ -130,7 +130,7 @@ Does the framework have the artifacts the framework proposes? **Yes — real one
 - ✅ Spec-drift enforcement — [the mechanism](docs/spec-drift.md), with an opt-in reviewed-state (`--stamp` / SUSPECT) layer, dogfooded on this repo
 - ✅ `node tools/cadmo-score.mjs` — [the maturity ladder](docs/maturity.md) as a self-check · `cadmo-validate` — pin a client approval to the exact version
 - ✅ Worked examples across all five pillars, incl. a [runnable eval kit](examples/eval-kit/) and an [incident](examples/incident.md); ops [runbook](templates/runbook.md)/[SLO](templates/slo.md) + a [compliance map](docs/compliance-map.md)
-- ✅ **Claude Code plugin** — `/plugin marketplace add tiagotorres91/cadmo` then `/plugin install cadmo@cadmo` (the `/cadmo:gate` · `/cadmo:spec` · `/cadmo:done` commands + a Stop hook + the `cadmo-method` skill) · a cross-agent [`cadmo-method` skill](skills/cadmo-method/SKILL.md) (Claude Code / Codex / Copilot) · a reusable [`spec-drift-action`](spec-drift-action/) (`uses: tiagotorres91/cadmo/spec-drift-action@v0.4.2`)
+- ✅ **Claude Code plugin** — `/plugin marketplace add tiagotorres91/cadmo` then `/plugin install cadmo@cadmo` (the `/cadmo:gate` · `/cadmo:spec` · `/cadmo:done` commands + a Stop hook + the `cadmo-method` skill) · a cross-agent [`cadmo-method` skill](skills/cadmo-method/SKILL.md) (Claude Code / Codex / Copilot) · a reusable [`spec-drift-action`](spec-drift-action/) (`uses: tiagotorres91/cadmo/spec-drift-action@v0.4.3`)
 - ⏳ cadmo.dev — the method as a browsable site · publishing to the plugin/action marketplaces
 - 💬 Ideas and war stories → [Discussions](https://github.com/tiagotorres91/cadmo/discussions)
 

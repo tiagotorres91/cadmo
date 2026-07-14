@@ -30,7 +30,7 @@ function run(dir, ...argv) {
   }
 }
 function shortHash(body) {
-  return crypto.createHash('sha256').update(body).digest('hex').slice(0, 12);
+  return crypto.createHash('sha256').update(body).digest('hex'); // full sha256 since round-6
 }
 
 test('append with --date writes the right hash and all five columns', () => {
@@ -157,4 +157,48 @@ test('a note citing another spec does not poison --verify (hash parsed from the 
   // spec-billing untouched: --verify must still say VALIDATED (exit 0), not expired
   const v = run(dir, '--verify', 'spec-billing.md');
   assert.strictEqual(v.status, 0, 'note text must not become spec-billing latest validation');
+});
+
+// --- round-6 regression locks (external audit findings) ---
+
+test('a rejected verdict is NOT an approval: verify exits 2 after changes-requested', () => {
+  const dir = tmp();
+  write(dir, 'cadmo/spec.md', '# spec\nrule v1\n');
+  const r1 = run(dir, 'cadmo/spec.md', '--by', 'Client', '--verdict', 'approved', '--date', '2026-07-01');
+  assert.strictEqual(r1.status, 0);
+  // client later rejects the SAME content
+  const r2 = run(dir, 'cadmo/spec.md', '--by', 'Client', '--verdict', 'changes', '--date', '2026-07-02');
+  assert.strictEqual(r2.status, 0);
+  const v = run(dir, '--verify', 'cadmo/spec.md');
+  assert.strictEqual(v.status, 2, 'latest verdict is changes-requested — there is no standing approval');
+  assert.match(v.stdout, /not an approval/);
+});
+
+test('changes-requested with NO prior approval never verifies (the original round-6 repro)', () => {
+  const dir = tmp();
+  write(dir, 'cadmo/spec.md', '# spec\nrule v1\n');
+  run(dir, 'cadmo/spec.md', '--by', 'Client', '--verdict', 'changes', '--date', '2026-07-01');
+  const v = run(dir, '--verify', 'cadmo/spec.md');
+  assert.strictEqual(v.status, 2, 'a rejected spec must not read as validated');
+});
+
+test('an invalid date is refused and writes nothing', () => {
+  const dir = tmp();
+  write(dir, 'cadmo/spec.md', '# spec\n');
+  const r = run(dir, 'cadmo/spec.md', '--by', 'C', '--verdict', 'approved', '--date', '2026|07|10');
+  assert.notStrictEqual(r.status, 0);
+  assert.ok(!fs.existsSync(path.join(dir, 'validation-log.md')), 'malformed date must not corrupt the table');
+});
+
+test('legacy 12-char hashes in old logs still verify (prefix compatibility)', () => {
+  const dir = tmp();
+  const body = '# spec\nrule v1\n';
+  write(dir, 'cadmo/spec.md', body);
+  const full = shortHash(body);
+  const legacy = full.slice(0, 12);
+  write(dir, 'validation-log.md',
+    '| Date | Document / version | Validated by | Verdict | Notes |\n|---|---|---|---|---|\n' +
+    '| 2026-07-01 | `cadmo-spec` @ `' + legacy + '` | Client | ✅ approved | — |\n');
+  const v = run(dir, '--verify', 'cadmo/spec.md');
+  assert.strictEqual(v.status, 0, 'a pre-round-6 12-char row must still count as the approval');
 });

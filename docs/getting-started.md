@@ -2,7 +2,7 @@
 watches:
   - npm/index.js
   - npm/templates/**
-reviewed: 349fa12413e7efe3ffb01b1795d26877e3384043260a0ad9a9be9bf167aa673f
+reviewed: 143060923a1a499e0a8d523168b7bd822a20fb5de1544abb7a18f194b6466051
 ---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 

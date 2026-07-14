@@ -284,3 +284,67 @@ test('SUSPECT is diff-scoped: an innocent PR (untouched watched set) passes', ()
   const r = (() => { try { execFileSync('node', [DRIFT, '--base', 'main', '--suspect-all'], { cwd: dir, encoding: 'utf8' }); return 0; } catch (e) { return e.status ?? 1; } })();
   assert.strictEqual(r, 1, '--suspect-all sees the stale stamp');
 });
+
+// --- round-6 regression locks (external audit findings) ---
+
+test('an UNCOMMITTED change to a watched file drifts — /cadmo:done runs before the commit', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'v1'); },
+    change: d => write(d, 'other.txt', 'noise'),
+  });
+  // now edit the watched file WITHOUT committing
+  write(dir, 'src/a.js', 'v2 uncommitted');
+  assert.strictEqual(run(dir), 1, 'working-tree-only change must not report in sync');
+});
+
+test('a rename OUT of the watched glob still drifts (both sides of the rename count)', () => {
+  const dir = repo({
+    base: d => { write(d, 'docs/s.md', spec(['src/**'])); write(d, 'src/a.js', 'const x = 1; // meaningful content so git detects the rename'); },
+    change: d => {
+      const fs2 = require('node:fs'), path2 = require('node:path');
+      fs2.mkdirSync(path2.join(d, 'other'), { recursive: true });
+      fs2.renameSync(path2.join(d, 'src', 'a.js'), path2.join(d, 'other', 'a.js'));
+    },
+  });
+  assert.strictEqual(run(dir), 1, 'moving a watched file out of the glob is a change to the watched surface');
+});
+
+test('feature branch over a MASTER default branch resolves against master (multi-commit drift caught)', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'master');
+  write(dir, 'docs/s.md', spec(['src/**']));
+  write(dir, 'src/a.js', 'v1');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  git(dir, 'checkout', '-qb', 'feature');
+  write(dir, 'src/a.js', 'v2');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'watched change, no spec');
+  write(dir, 'unrelated.txt', 'x');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'unrelated tail commit');
+  const r = runAuto(dir);
+  assert.strictEqual(r.code, 1, 'HEAD~1 fallback would only see the tail commit and miss the drift');
+});
+
+test('--stamp preserves a fully-CRLF spec byte-for-byte in its line endings', () => {
+  const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
+  const EOLW = CR + LF;
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drift-'));
+  git(dir, 'init', '-q', '-b', 'main');
+  const specBody = ['---', 'watches:', '  - src/**', '---', '# spec', 'rule v1', ''].join(EOLW);
+  write(dir, 'docs/s.md', specBody);
+  write(dir, 'src/a.js', 'v1');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-qm', 'base');
+  stamp(dir, 'docs/s.md');
+  const out = read(dir, 'docs/s.md');
+  const crlf = (out.match(new RegExp(EOLW, 'g')) || []).length;
+  const loneLF = (out.replace(new RegExp(EOLW, 'g'), '').match(new RegExp(LF, 'g')) || []).length;
+  const loneCR = (out.replace(new RegExp(EOLW, 'g'), '').match(new RegExp(CR, 'g')) || []).length;
+  assert.strictEqual(loneLF, 0, 'no lone LF may leak into a CRLF spec');
+  assert.strictEqual(loneCR, 0, 'no lone CR may leak into a CRLF spec');
+  assert.ok(crlf >= 7, 'CRLF endings preserved');
+  assert.match(out, /reviewed: [0-9a-f]{64}/);
+  // and re-stamping is idempotent on the endings
+  stamp(dir, 'docs/s.md');
+  const out2 = read(dir, 'docs/s.md');
+  const lone2 = out2.replace(new RegExp(EOLW, 'g'), '');
+  assert.ok(!lone2.includes(LF) && !lone2.includes(CR), 're-stamp keeps endings clean');
+});

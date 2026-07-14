@@ -13,8 +13,14 @@
       "author": {
         "name": "Tiago Torres"
       },
-      "license": "MIT",
-      "keywords": ["cadmo", "spec", "definition-of-done", "value-gate", "spec-drift"]
+      "license": "(MIT AND CC-BY-4.0)",
+      "keywords": [
+        "cadmo",
+        "spec",
+        "definition-of-done",
+        "value-gate",
+        "spec-drift"
+      ]
     }
   ]
 }

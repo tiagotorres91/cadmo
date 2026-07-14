@@ -9,6 +9,13 @@
   },
   "homepage": "https://github.com/tiagotorres91/cadmo",
   "repository": "https://github.com/tiagotorres91/cadmo",
-  "license": "MIT",
-  "keywords": ["cadmo", "spec", "definition-of-done", "value-gate", "spec-drift", "workflow"]
+  "license": "(MIT AND CC-BY-4.0)",
+  "keywords": [
+    "cadmo",
+    "spec",
+    "definition-of-done",
+    "value-gate",
+    "spec-drift",
+    "workflow"
+  ]
 }

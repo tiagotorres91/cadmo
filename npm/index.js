@@ -40,6 +40,24 @@ if (args.includes('--help') || args.includes('-h')) {
 
 const here = (...p) => path.join(__dirname, 'templates', ...p);
 const cwd = process.cwd();
+const VERSION = require('./package.json').version;
+
+// Every copied MECHANISM carries a sync marker (origin + version) — "which version
+// does this instance run?" must be answerable without diffing (the method's own
+// return-lane rule, applied to its own scaffolder).
+const MARKED = {
+  '.mjs': `// synced from create-cadmo@${VERSION} — files are never overwritten; for fixes, re-run \`npm create cadmo\` in a fresh dir and diff\n`,
+  '.yml': `# synced from create-cadmo@${VERSION} — files are never overwritten; for fixes, re-run \`npm create cadmo\` in a fresh dir and diff\n`,
+};
+function withSyncMarker(src, body) {
+  const marker = MARKED[path.extname(src)];
+  if (!marker) return body;
+  if (body.startsWith('#!')) {
+    const nl = body.indexOf('\n') + 1;
+    return body.slice(0, nl) + marker + body.slice(nl);
+  }
+  return marker + body;
+}
 
 const FILES = [
   ['AGENTS.md', 'AGENTS.md'],
@@ -77,7 +95,7 @@ for (const [src, dest] of plan) {
     console.log(`  ~ would create ${dest}`);
   } else {
     fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.copyFileSync(here(src), target);
+    fs.writeFileSync(target, withSyncMarker(src, fs.readFileSync(here(src), 'utf8')));
     console.log(`  + created   ${dest}`);
   }
   placed++;

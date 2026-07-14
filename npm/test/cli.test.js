@@ -76,3 +76,16 @@ test('--help prints usage and exits zero', () => {
 test('the shipped spec-drift.mjs parses (node --check)', () => {
   execFileSync('node', ['--check', path.join(__dirname, '..', 'templates', 'spec-drift.mjs')]);
 });
+
+// --- round-6: provenance travels with the copied mechanisms ---
+test('scaffolded .mjs and .yml carry a sync marker with the package version', () => {
+  const dir = tmp();
+  runIn(dir);
+  const ver = require('../package.json').version;
+  for (const f of ['cadmo/spec-drift.mjs', 'cadmo/cadmo-grammar.mjs', 'cadmo/spec-drift-workflow.yml']) {
+    const body = fs.readFileSync(path.join(dir, f), 'utf8');
+    assert.ok(body.includes(`synced from create-cadmo@${ver}`), `${f} must carry its origin`);
+  }
+  // the marked script still parses
+  execFileSync('node', ['--check', path.join(dir, 'cadmo', 'spec-drift.mjs')]);
+});

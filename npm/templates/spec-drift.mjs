@@ -46,7 +46,7 @@ import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { frontMatter, parseWatches as watchesOf, parseReviewed as reviewedOf, globToRegex } from './cadmo-grammar.mjs';
+import { parseWatches as watchesOf, parseReviewed as reviewedOf, globToRegex } from './cadmo-grammar.mjs';
 
 const BS = String.fromCharCode(92);
 const args = process.argv.slice(2);
@@ -64,12 +64,21 @@ function refExists(ref) {
   } catch { return false; }
 }
 function resolveBase() {
+  // the remote's declared default branch beats any name guess (main-only was a
+  // round-6 finding: a master/trunk repo silently fell through to HEAD~1)
+  try {
+    const ref = execFileSync('git', ['symbolic-ref', '--quiet', 'refs/remotes/origin/HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    const name = ref.replace('refs/remotes/', '');
+    if (name && refExists(name)) return name;
+  } catch { /* origin/HEAD not set */ }
   if (refExists('origin/main')) return 'origin/main';
+  if (refExists('origin/master')) return 'origin/master';
   let branch = '';
   try {
     branch = execFileSync('git', ['symbolic-ref', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   } catch { /* detached HEAD */ }
   if (branch !== 'main' && refExists('main')) return 'main';
+  if (branch !== 'master' && refExists('master')) return 'master';
   if (refExists('HEAD~1')) return 'HEAD~1';
   return EMPTY_TREE;
 }
@@ -94,23 +103,24 @@ function* mdFiles(dir) {
 
 const readSpec = (file) => fs.readFileSync(file, 'utf8');
 
-// Add or update a top-level `reviewed:` key, preserving everything else
-// (including the file's EOL style — a CRLF file must not gain a lone LF line).
+// Add or update a top-level `reviewed:` key, preserving everything else —
+// including the file's EOL style. This edits the raw front-matter block in place
+// instead of splitting/re-joining lines: the join approach leaked lone LF/CR into
+// CRLF files (round-6 finding — the round-4 test covered CRLF in the WATCHED
+// files, not in the spec file receiving the stamp).
 function setReviewed(text, hash) {
   const eol = text.includes('\r\n') ? '\r\n' : '\n';
-  const parsed = frontMatter(text);
-  const rest = text.slice(parsed.end); // '\n---' … onwards
-  let lines = parsed.fm.split(/\r?\n/);
-  let found = false;
-  lines = lines.map((l) => {
-    if (/^reviewed:\s*/.test(l)) { found = true; return `reviewed: ${hash}`; }
-    return l;
-  });
-  if (!found) {
-    if (lines.length && lines[lines.length - 1] === '') lines[lines.length - 1] = `reviewed: ${hash}`;
-    else lines.push(`reviewed: ${hash}`);
+  const m = text.match(/^---\r?\n[\s\S]*?\r?\n---/);
+  if (!m) return text; // no front matter — caller already guards this
+  const block = m[0];
+  let newBlock;
+  if (/^reviewed:[^\r\n]*/m.test(block)) {
+    newBlock = block.replace(/^reviewed:[^\r\n]*/m, 'reviewed: ' + hash);
+  } else {
+    const close = block.match(/\r?\n---$/)[0];
+    newBlock = block.slice(0, block.length - close.length) + eol + 'reviewed: ' + hash + eol + '---';
   }
-  return '---' + lines.join(eol) + rest;
+  return newBlock + text.slice(block.length);
 }
 
 // --- reviewed-state hashing ---
@@ -172,10 +182,12 @@ if (STAMP) {
 
 // --- changed files vs base ---
 // The empty tree has no merge base, so it gets a two-dot diff; refs get three-dot.
+// --no-renames: a rename must surface BOTH sides — reporting only the destination
+// let `git mv src/a.js other/` escape a spec watching src/** (round-6 finding).
 const RANGE = BASE === EMPTY_TREE ? [BASE, 'HEAD'] : [`${BASE}...HEAD`];
 let changed;
 try {
-  changed = execFileSync('git', ['diff', '--name-only', ...RANGE], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+  changed = execFileSync('git', ['diff', '--name-only', '--no-renames', ...RANGE], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
     .split('\n').filter(Boolean);
   if (!BASE_GIVEN) {
     console.log(`spec-drift: no --base given — diffing against ${BASE === EMPTY_TREE ? 'the empty tree (single-commit repo: the whole initial commit)' : BASE}.`);
@@ -186,6 +198,17 @@ try {
   console.error('spec-drift: is this a git repository with at least one commit? Pass --base <ref> to pick the comparison point explicitly.');
   process.exit(2);
 }
+
+// Uncommitted work counts too: /cadmo:done runs this guard BEFORE the commit —
+// a working-tree-only change reporting "in sync" was false safety (round-6 finding).
+// In CI the checkout is clean, so this adds nothing there.
+try {
+  const wt = execFileSync('git', ['status', '--porcelain', '--no-renames'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+    .split('\n').filter(Boolean)
+    .map((l) => l.slice(3).trim())
+    .map((p) => (p.startsWith('"') && p.endsWith('"') ? p.slice(1, -1) : p));
+  for (const p of wt) if (p && !changed.includes(p)) changed.push(p);
+} catch { /* status unavailable — commit-range diff already covers CI */ }
 
 const specs = [];
 for (const f of mdFiles(ROOT)) {

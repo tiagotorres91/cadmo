@@ -2,7 +2,7 @@
 watches:
   - npm/index.js
   - npm/templates/**
-reviewed: 143060923a1a499e0a8d523168b7bd822a20fb5de1544abb7a18f194b6466051
+reviewed: 078bb9109edb1b7a817cbd9635a027ea456216c652191b29523dff1f54b6aaaa
 ---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 
@@ -34,7 +34,7 @@ Copy [`templates/value-gate.md`](../templates/value-gate.md) somewhere visible. 
 
 ## 3. Write criteria before code (per task, ~5 min each)
 
-For any task with 3+ steps, open a plan file from [`templates/plan.md`](../templates/plan.md) — objective, **acceptance criteria first**, tasks, how to validate. For something genuinely new and relevant, pair it with a [`spec.md`](../templates/spec.md) written in the client's language, and have the client (or their proxy) validate it before you build.
+For any task with 3+ steps, open a plan file from [`templates/plan.md`](../templates/plan.md) — objective, **acceptance criteria first**, tasks, how to validate. For something genuinely new and relevant, pair it with a [`spec.md`](../templates/spec.md) written in the client's language, and have the client (or their proxy) validate it before you build. Two conventions travel inside the spec and ADR templates: open points are `[NEEDS CLARIFICATION: question — who answers]` markers (greppable — a spec with one open is not ready for validation), and each template ends with an **embedded review checklist** that `/cadmo:done` runs before the document is called ready.
 
 Critical criteria (money, data, integrations, security) go in EARS form — *"WHEN <trigger>, THE SYSTEM SHALL <behavior>"* — because they turn into tests almost word for word.
 

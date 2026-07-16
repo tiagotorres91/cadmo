@@ -4,7 +4,7 @@ No off-the-shelf framework fits a lean operation running AI in production. Cadmo
 
 | Tradition | What Cadmo took | How it was adapted |
 |---|---|---|
-| **Spec-Driven Development** (GitHub Spec Kit) | spec → plan → verify; the spec is the source | steps by size (never a rigid three-file dance); the task board is richer than files in the repo |
+| **Spec-Driven Development** (GitHub Spec Kit) | spec → plan → verify; the spec is the source; `[NEEDS CLARIFICATION]` pending markers; a review checklist for the artifact | steps by size (never a rigid three-file dance); the task board is richer than files in the repo; the marker gains an owner ("who answers") and the checklist is embedded in the template and checked at done-time, not a separate doc |
 | **AWS Kiro** | EARS acceptance criteria; a validation status on the spec; event hooks | EARS only on critical criteria; steering became the project's context file; hooks became dev-environment guard-rails |
 | **Architecture Decision Records** (Nygard) | context → decision → consequences | added a *"when to reconsider"* trigger; retroactive ADRs for live decisions |
 | **Anthropic** (agent engineering) | a verification harness; eval-driven AI features; a direct tool-loop over frameworks | harness declared per project; evals with history — "regression does not ship" |

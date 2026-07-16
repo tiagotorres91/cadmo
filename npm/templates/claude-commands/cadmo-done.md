@@ -12,6 +12,7 @@ Check each item **against evidence, not memory** — run the commands, don't ass
 - [ ] Validated in staging before production (when there is one)
 - [ ] Acceptance criteria from the spec/plan — checked one by one, quoted
 - [ ] Spec updated if a rule changed (same commit) — run `node cadmo/spec-drift.mjs` if present (no --base needed: it auto-resolves, remote or not)
+- [ ] No open `[NEEDS CLARIFICATION: …]` markers in the specs/ADRs this work touched — grep for them; and the review checklist embedded in each template passes (zero process narrative, self-contained references, terms defined at first use)
 - [ ] Anything untested? Say it explicitly: "I didn't test X"
 - [ ] Touched auth/input/data/secrets? → flag that an adversarial security pass is due before shipping
 

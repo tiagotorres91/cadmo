@@ -4,7 +4,10 @@ watches:
   - src/the-area-this-governs/**
   - api/the-endpoint.py
 ---
-Then spec-drift fails any change to those files that doesn't update this spec. -->
+Then spec-drift fails any change to those files that doesn't update this spec.
+
+Pending questions: every real open point is a [NEEDS CLARIFICATION: objective question — who answers]
+marker in the text — greppable and countable; a spec with an open marker is not ready for validation. -->
 
 # Spec — <name>
 
@@ -36,3 +39,13 @@ Does this change data that already exists — a DB schema/migration, saved user 
 prior version produced? Name what existing data is affected and the migration/backfill plan (or
 "none — new data only"). A rule that changes *how* something is computed does not retroactively
 fix rows already written; say how the old ones are handled.
+
+<!-- REVIEW CHECKLIST — run before calling this spec ready for validation (/cadmo:done checks it;
+     this comment never renders and never ships to the client):
+  [ ] Describes only the SYSTEM — zero process narrative ("validated/implemented/discovered on <date>", sessions, agents)
+  [ ] No team log, no meeting dates — the technical fact stands on its own
+  [ ] Self-contained for handover: references are files IN this repo (path from root) or the imported essence (2-6 lines); public citations carry a URL
+  [ ] Every open point is a [NEEDS CLARIFICATION: ...] marker — never a loose phrase
+  [ ] Internal terms defined at first use
+  [ ] Status changes only with the CLIENT's validation; before the first validation, edit clean — revision history protects what was approved, not drafts
+-->

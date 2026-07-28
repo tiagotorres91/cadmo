@@ -6,7 +6,7 @@ reviewed: 078bb9109edb1b7a817cbd9635a027ea456216c652191b29523dff1f54b6aaaa
 ---
 # Getting started — adopt Cadmo in an existing project, in ~10 minutes
 
-You don't migrate to Cadmo; you **turn it on**. Five steps, smallest-first — each one useful on its own, so you can stop anywhere and still be better off.
+You don't migrate to Cadmo; you **turn it on**. Five steps, smallest-first — each one useful on its own, so you can stop anywhere and still be better off. One honest caveat: the *mechanism* turns on instantly, but the *map* only turns on truthfully — if this project already carries documents that might lie about it, reconcile them first ([`brownfield.md`](brownfield.md)).
 
 **The one-sentence version** — if you work with an AI pair, this is the whole setup:
 

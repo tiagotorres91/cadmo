@@ -21,7 +21,7 @@
 - Build/type-check: `<command>`
 - Tests: `<command>`
 - End-to-end / smoke: `<command>`
-- Staging URL: <url — or "none: ships as a package / binary / store build">  ·  Production: <url or delivery channel>
+- Delivery ladder: <the rungs from merge to live — web: "staging URL → production"; mobile: "dev client → internal → TestFlight → review → store"; a package/binary: "release tag → registry">  ·  Production: <url or delivery channel>
 
 ## Gates
 - Plan approved before building; production ships only with explicit human approval.

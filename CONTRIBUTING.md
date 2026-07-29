@@ -19,6 +19,8 @@ The full rationale and the scars behind each rule are in [`docs/collaboration-pr
 
 **Roles.** The **maintainer** ([@tiagotorres91](https://github.com/tiagotorres91)) owns `main`, releases, and content verification — reviews everything, merges everything. A **collaborator** picks up issues, builds on branches from up-to-date `main`, opens PRs — **and stops.** Never merges, never tags a release.
 
+**Day 0 (maintainer):** run [`scripts/collab-bootstrap.sh <collaborator>`](scripts/collab-bootstrap.sh) — it creates the labels and issue form rule zero depends on, and checks the collaborator's permission (catching an invitation sent but never accepted) and branch protection.
+
 **The rules.**
 1. **One demand = one issue.** All conversation happens in the issue; the PR carries code + `Closes #N`, nothing else — except **one state-marker comment on the issue when the PR opens** ("PR #N open — with the maintainer"), so no later session re-picks the demand.
 2. **The spec is in the issue body** (goal, acceptance criteria, size). Read the whole issue *including comments* before starting.

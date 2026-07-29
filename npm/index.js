@@ -31,6 +31,7 @@ if (args.includes('--help') || args.includes('-h')) {
     cadmo/spec-drift.mjs            the drift guard: specs must change with the code they watch
     cadmo/cadmo-grammar.mjs         the shared front-matter/glob grammar the guard imports
     cadmo/spec-drift-workflow.yml   ready CI workflow (move into .github/workflows/)
+    cadmo/context-question.yml      issue form for the context channel (move into .github/ISSUE_TEMPLATE/ when a second dev joins)
     .claude/commands/cadmo-*.md     (when Claude Code is detected, or --claude)
 
   The method in one page: https://github.com/tiagotorres91/cadmo
@@ -68,6 +69,7 @@ const FILES = [
   ['cadmo-grammar.mjs', path.join('cadmo', 'cadmo-grammar.mjs')],
   ['spec-drift.mjs', path.join('cadmo', 'spec-drift.mjs')],
   ['spec-drift-workflow.yml', path.join('cadmo', 'spec-drift-workflow.yml')],
+  ['context-question.yml', path.join('cadmo', 'context-question.yml')],
 ];
 
 const hasClaude = FORCE_CLAUDE || (!NO_CLAUDE &&

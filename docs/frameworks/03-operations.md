@@ -4,7 +4,7 @@
 
 **Pillars:** Provision → Observe → Attend → Respond → Improve.
 
-- **Provision** — staging mirrors production; deploys carry the verification harness (tests → build → publish → smoke) and refuse uncommitted work. Production is the client's environment — the provider operates underneath (scripts, gated deploys), never as an admin role in the client's UI.
+- **Provision** — staging mirrors production; deploys carry the verification harness (tests → build → publish → smoke) and refuse uncommitted work. Production is the client's environment — the provider operates underneath (scripts, gated deploys), never as an admin role in the client's UI. *Staging mirrors production* and *a deploy is something you run* are web-ish physics: where production is **granted** by an external gatekeeper instead, a ladder replaces the staging URL — see [mobile delivery](../mobile-delivery.md).
 - **Observe** — external uptime, error tracking, and every external data load recorded (when, which list, volume, diagnosis). What you can't see, you can't operate.
 - **Attend** — a structured channel for corrections and requests, with status the author can follow — not a spreadsheet.
 - **Respond** — incidents get four labels: *symptom → cause → correction → prevention*, and the prevention must leave the system **more diagnosable than before**. Blameless postmortems: the analysis targets process and system, not who erred.
